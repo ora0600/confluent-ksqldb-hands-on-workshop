@@ -1,6 +1,7 @@
-# Create datagen connector for Stocktrades
-We have an avro schema in datagen/ for stocks. In this lab we will create datagen conenctor for this. You can use datagen connector to generate your own data.
-check the schema script first
+# Create datagen connector for Stocktrades data
+We have an avro schema describtion in datagen/ for stocks. In this lab we will create datagen connector which should generate stcoktrade data. You can use datagen connector to generate your own data, whatever you need.
+
+Check the schema script first
 ```bash
 cd confluent-ksqldb-hands-on-workshop/docker/
 cat datagen/stocks_service.avro

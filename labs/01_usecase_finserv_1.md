@@ -1,7 +1,8 @@
 # Finacial services case: Payment Status check
 Data for this use case is loaded via 3 Connectors. Please check.
-We will create a CDC Conenctor and doing event stream processing, enrichment and more...
-Start implementing: Login to ksqlcli
+We will create a CDC Connector and doing event stream processing, enrichment and more...
+
+Start implementing: Login to ksqlDB-cli
 ```bash
 docker exec -it workshop-ksqldb-cli ksql http://ksqldb-server:8088
 ksql> show topics;
@@ -36,6 +37,8 @@ ksql> create stream funds_status(PAYMENT_ID INTEGER KEY, REASON_CODE VARCHAR, ST
 ksql> list streams;
 ksql> exit
 ```
+toDo: Replace mySQL with oracle DB and Confluent CDC Connector.
+
 Inspect mysql database content:
 ```bash
 docker exec -it workshop-mysql mysql -uroot -pconfluent
@@ -92,7 +95,7 @@ curl http://localhost:8081/subjects | jq
 Now check in Control Center:
 1) that the connector "source_dbz_mysql" is created and running,
 2) created a couple of topics (3) and 2 subjects
-2) check in the ksqldb area the ksqldb flow before you create next streams as running queries. We have a couple of streams running.
+2) check in the ksqlDB cluster `workshop` the `ksqldb`flow before you create next streams as running queries. We have a couple of streams running.
 
 Reformat and filter out only relevant data from "customers_cdc" stream into a new stream "customers_flat"
 ```bash
@@ -165,8 +168,8 @@ ksql> describe ENRICHED_PAYMENTS;
 ksql> select * from enriched_payments emit changes;
 ```
 Now check in Control Center:
-1) check in the ksqldb area - the running queries. Take a look in the details (SINK: and SOURCE:) of the running queries.
-2) check in the ksqldb area the ksqldb flow to follow the expansion easier. If it is not visible refresh the webpage in browser.
+1) check in ksqlDB cluster `workshop` - the running queries. Take a look in the details (SINK: and SOURCE:) of the running queries.
+2) check in ksqlDB cluster `workshop` the flow to follow the expansion easier. If it is not visible refresh the webpage in browser.
 
 Combining the status streams
 ```bash
@@ -212,6 +215,8 @@ Pull queries, check value for a specific payment (snapshot lookup). Pull Query i
 ksql> select * from payments_final where payment_id=825241649;
 ksql> exit;
 ```
+toDo: Do one multi-Join.
+
 Query by REST Call
 ```bash
 curl -X "POST" "http://localhost:8088/query" \

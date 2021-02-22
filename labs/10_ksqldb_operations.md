@@ -16,7 +16,7 @@ docker-compose down -v
 vi docker-compose.yml
 # add new cluster
   ksqldb-server1:
-    image: confluentinc/cp-ksqldb-server:6.0.1
+    image: confluentinc/cp-ksqldb-server:6.1.0
     container_name: workshop-ksqldb-server1
     depends_on:
       - kafka
@@ -52,7 +52,7 @@ vi docker-compose.yml
  ```bash 
  vi docker-compose.yml
 control-center:
-    image: confluentinc/cp-enterprise-control-center:6.0.1
+    image: confluentinc/cp-enterprise-control-center:6.1.0
     hostname: control-center
     container_name: workshop-control-center
     depends_on:

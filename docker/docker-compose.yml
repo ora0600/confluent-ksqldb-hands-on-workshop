@@ -3,7 +3,7 @@ version: '2.3'
 services:
   zookeeper:
     container_name: workshop-zookeeper
-    image: confluentinc/cp-zookeeper:6.0.1
+    image: confluentinc/cp-zookeeper:6.1.0
     cpus: 0.5
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
@@ -11,7 +11,7 @@ services:
 
   kafka:
     container_name: workshop-kafka
-    image: confluentinc/cp-enterprise-kafka:6.0.1
+    image: confluentinc/cp-enterprise-kafka:6.1.0
     depends_on:
       - zookeeper
     ports:
@@ -50,7 +50,7 @@ services:
       - ./produce-data:/produce-data
 
   schema-registry:
-    image: confluentinc/cp-schema-registry:6.0.1
+    image: confluentinc/cp-schema-registry:6.1.0
     container_name: workshop-schema-registry
     cpus: 0.4
     ports:
@@ -67,7 +67,7 @@ services:
 
 
   connect-ext:
-    image: confluentinc/cp-kafka-connect:6.0.1
+    image: confluentinc/cp-kafka-connect:6.1.0
     container_name: workshop-connect-ext
     depends_on:
       - zookeeper
@@ -154,7 +154,7 @@ services:
 
 
   ksqldb-server:
-    image: confluentinc/cp-ksqldb-server:6.0.1
+    image: confluentinc/cp-ksqldb-server:6.1.0
     container_name: workshop-ksqldb-server
     depends_on:
       - kafka
@@ -193,7 +193,7 @@ services:
     #   docker exec -it ksql-cli ksql http://ksqldb-server:8088
     # *-----------------------------*
     container_name: workshop-ksqldb-cli
-    image: confluentinc/cp-ksqldb-cli:6.0.1
+    image: confluentinc/cp-ksqldb-cli:6.1.0
     cpus: 0.8
     depends_on:
       - ksqldb-server
@@ -223,7 +223,7 @@ services:
 
 
   control-center:
-    image: confluentinc/cp-enterprise-control-center:6.0.1
+    image: confluentinc/cp-enterprise-control-center:6.1.0
     hostname: control-center
     container_name: workshop-control-center
     depends_on:

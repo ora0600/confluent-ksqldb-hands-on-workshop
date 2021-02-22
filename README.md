@@ -1,9 +1,9 @@
-# Confluent Platform 6.0.1 KSQLDB Hands-on Workshop
-This github project describes a Hands-on Workshop around Confluent KSQLDB. The structure of the Hands-on is as followed
-  * Explaining and Introduce KSQLDB
+# Confluent Platform 6.1.0 ksqlDB Hands-on Workshop
+This github project describes a Hands-on Workshop around Confluent ksqlDB. The structure of the Hands-on is as followed
+  * Explaining and Introduce ksqlDB
   * Labs: Get to know the environment
-  * Advanced explanation of KSQLDB
-  * Advanced KSQLDB Labs to setup real use cases
+  * Advanced explanation of ksqlDB
+  * Advanced ksqlDB Labs to setup real use cases
 
 In general, the hands-on will take 4 hours.
 
@@ -16,8 +16,9 @@ In general, the hands-on will take 4 hours.
 The Hands-on environment can be deployed in three ways
 
   1. run Docker-Compose on your own hardware/laptop use docker-locally
-  2. create the demo environment in Cloud Provider infrastructure, deploy cloud environment
-  3. Confluent will deploy a cloud environment for you, and will send you during the workshop all credentials
+  2. create the demo environment in Cloud Provider infrastructure, deploy cloud environment (AWS is prepared here)
+  3. Confluent will deploy a cloud infrastructure environment for you, and will send you during the workshop all credentials
+  4. Run the workshop in Confluent Cloud, register yourself, start the cluster creation script (coming soon)
 
 # Prerequisites for running environment in Cloud
 For an environment in cloud you need to run following components on your machine:
@@ -40,7 +41,7 @@ For Windows Users
   * Gitbash (Git for windows) installed.
   * don't use jq (do not know if this available on Windows)
 
-In general we will work mostly on the prompt, with KSQLDB cli. But you can also use Confluent Control Center KSQLDB GUI is most cases.
+In general we will work mostly on the prompt, with ksqlDB cli. But you can also use Confluent Control Center ksqlDB GUI is most cases.
 
 # Hands-on Workshop
 Before the workshop you will get informed by Confluent with additional information: Access, Webconference dial-in, etc.
@@ -48,6 +49,7 @@ Before the workshop you will get informed by Confluent with additional informati
   * Please prepare yourself
      * Please check the documentation and get an rough overview: [ksqldb](https://www.confluent.io/product/ksql/)
      * your hardware should be able to run docker-compose. Docker needs at least 8GB of your RAM
+     * or if you are using AWs infrastructure, your hardware should allow ssh access to aws compute.
 
 Note:
 We will ask you before the workshop, if you would like to run on your own environment or if you would like to have an environment provisioned by Confluent in the cloud.
@@ -58,8 +60,8 @@ We will ask you before the workshop, if you would like to run on your own enviro
     * Is everything up and running: local, cloud or environment giving by confluent.
     * [Setup the environment](labs/00_Setup-Env.md)
     * We expect a 20 MIN time-slot for this exercise
-1. Intro KSQLDB (PPT) - 30 Min
-    * RECAP KSQLDB - short presentation by presenter (10 minutes)
+1. Intro ksqlDB (PPT) - 30 Min
+    * RECAP ksqlDB - short presentation by presenter (10 minutes)
     * What is the structure for today? (20 minutes)
 2. Labs Financial service - Lab 1 - 4
     * [Payment Status Check](labs/01_usecase_finserv_1.md)
@@ -71,13 +73,17 @@ We will ask you before the workshop, if you would like to run on your own enviro
     * [Track & Trace / Shipments](labs/06_usecase_track-and-trace.md)
     * [Distance calculation](labs/07_usecase_distance.md)
 4. Lab Customer Object - Lab 8
-    * [De-Normalize a customer object sourced from a simluated DB](labs/08_ksqldb_customerobject.md)
+    * [De-Normalize a customer object sourced from a simluated DB](labs/08_customer_object.md)
 5. Lab Geo Fencing - Lab 9
     * [Doing GEO Fencing with ksqlDB](labs/09_geofencing.md)
 6. Labs Operations - Lab 10
-    * [Add a KSQLDB App into your environment](labs/09_ksqldb_operations.md)
+    * [Add a ksqlDB App into your environment](labs/09_ksqldb_operations.md)
 
 We will have a LUNCH Break for 60 Minutes (around 12am) and the workshop will finish around 3pm.
+
+If you have implemented all use cases, then your ksqlDB flow will look this this:
+
+![all ksqlDB use cases as flow](labs/img/ksqldb_flow.png)
 
 # Stop everything
 Note: By Confluent provisioned Compute VMs will be destroyed latest at 5pm latest on Workshop day automatically. Outside of cloud compute, please use terraform, to really destroy the environment in the cloud:

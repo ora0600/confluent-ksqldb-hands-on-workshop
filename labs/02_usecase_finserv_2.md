@@ -1,9 +1,9 @@
 # Stock pricing with UDF
 Consider a topic of stock price events that you want to calculate the volume-weighted average price (VWAP) for each event, publishing the result to a new topic.
-There is no built-in function for VWAP, so we'll write a custom KSQL UDF that performs the calculation.
+There is no built-in function for VWAP, so we'll write a custom ksqlDB UDF that performs the calculation.
 see [official tutorial](https://kafka-tutorials.confluent.io/udf/ksql.html?_ga=2.223343775.583678155.1587977444-275217082.1587977444)
 
-In our workshop the UDF is already prepared for you and linked into KSQLDB. Please see the tutorial description and check proceedings.
+In our workshop the UDF is already prepared for you and linked into ksqlDB. Please see the tutorial description and check proceedings.
 Start this lab:
 ```bash
 docker exec -it workshop-ksqldb-cli ksql http://ksqldb-server:8088

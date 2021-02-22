@@ -136,8 +136,8 @@ ksql> CREATE STREAM enriched_orders AS
     LEFT JOIN customers_by_key c
     ON o.customer_id = c.id
     EMIT CHANGES;
-ksql> CREATE STREAM shipped_orders WITH (
-    kafka_topic = 'shipped_orders'
+ksql> CREATE STREAM cshipped_orders WITH (
+    kafka_topic = 'cshipped_orders'
 )   AS
     SELECT o.order_id,
            s.shipment_id,
@@ -159,13 +159,13 @@ ksql> CREATE SINK CONNECTOR enriched_writer WITH (
     'connector.class' = 'io.confluent.connect.elasticsearch.ElasticsearchSinkConnector',
     'connection.url' = 'http://elastic:9200',
     'type.name' = 'kafka-connect',
-    'topics' = 'shipped_orders'
+    'topics' = 'cshipped_orders'
 );
 ksql> exit;
 ```
 Check that the data arrived in the index by running the following command from your host::
 ```bash
-curl http://localhost:9200/shipped_orders/_search?pretty
+curl http://localhost:9200/cshipped_orders/_search?pretty
 ```
 Creating a de-normalized customer object
 ```bash
@@ -248,7 +248,7 @@ Another sample should make it more viewable how easy it is to de-normalize a cus
 ![Customer Order Report](img/multi-join.png)
 First create topics:
 ```bash
-docker exec -it workshop-kafka  kafka-topics --create --topic customers --bootstrap-server localhost:9092
+docker exec -it workshop-kafka  kafka-topics --create --topic custcustomers --bootstrap-server localhost:9092
 docker exec -it workshop-kafka  kafka-topics --create --topic custorders --bootstrap-server localhost:9092
 docker exec -it workshop-kafka  kafka-topics --create --topic custitems --bootstrap-server localhost:9092
 ```
@@ -256,16 +256,16 @@ docker exec -it workshop-kafka  kafka-topics --create --topic custitems --bootst
 ```bash
 docker exec -it workshop-ksqldb-cli ksql http://ksqldb-server:8088
 ksql> SET 'auto.offset.reset' = 'earliest';
-ksql> CREATE TABLE customers (customerid STRING PRIMARY KEY, customername STRING) WITH (KAFKA_TOPIC='customers', VALUE_FORMAT='json'); 
-ksql> describe customers;
+ksql> CREATE TABLE custcustomers (customerid STRING PRIMARY KEY, customername STRING) WITH (KAFKA_TOPIC='custcustomers', VALUE_FORMAT='json'); 
+ksql> describe custcustomers;
 ksql> CREATE STREAM custorders (orderid STRING KEY, customerid STRING, itemid STRING, purchasedate STRING) WITH (KAFKA_TOPIC='custorders', VALUE_FORMAT='json');
 ksql> describe custorders;
 ksql> CREATE TABLE custitems (itemid STRING PRIMARY KEY, itemname STRING) WITH (KAFKA_TOPIC='custitems', VALUE_FORMAT='json');
 ksql> describe custitems;
-ksql> INSERT INTO customers (customerid , customername) VALUES ('1','Carsten Muetzlitz');
-INSERT INTO customers (customerid , customername) VALUES ('2','Jan Svoboda');
-INSERT INTO customers (customerid , customername) VALUES ('3','Suvad Sahovic');
-ksql> select * from customers emit changes limit 3;
+ksql> INSERT INTO custcustomers (customerid , customername) VALUES ('1','Carsten Muetzlitz');
+INSERT INTO custcustomers (customerid , customername) VALUES ('2','Jan Svoboda');
+INSERT INTO custcustomers (customerid , customername) VALUES ('3','Suvad Sahovic');
+ksql> select * from custcustomers emit changes limit 3;
 ksql> INSERT INTO custitems (itemid , itemname ) VALUES ('1','MacBook Air');
 INSERT INTO custitems (itemid , itemname ) VALUES ('2','Apple Pencil');
 INSERT INTO custitems (itemid , itemname ) VALUES ('3','iPad Pro');
@@ -286,7 +286,7 @@ Let's join everything together. With ksqldb lower 0.9 you need to go the old way
 ksql> CREATE STREAM tmp_join AS
 SELECT c.customerid AS customerid, c.customername, o.orderid, o.itemid, o.purchasedate
 FROM custorders as o
-INNER JOIN customers as c ON o.customerid = c.customerid
+INNER JOIN custcustomers as c ON o.customerid = c.customerid
 EMIT CHANGES;
 ksql> CREATE STREAM customers_orders_report_old_way AS
 SELECT t.customerid, t.customername, t.orderid, t.itemid, i.itemname, t.purchasedate
@@ -300,7 +300,7 @@ I would say the old way is more complex and costs lots more. With ksqlDB >= 0.9 
 ksql> CREATE STREAM customers_orders_report AS
 SELECT c.customerid AS customerid, c.customername, o.orderid, i.itemid, i.itemname, o.purchasedate
 FROM custorders as o
-LEFT JOIN customers as c ON o.customerid = c.customerid
+LEFT JOIN custcustomers as c ON o.customerid = c.customerid
 LEFT JOIN custitems as i ON o.itemid = i.itemid
 EMIT CHANGES;
 ksql> select * from customers_orders_report emit changes;
@@ -311,12 +311,13 @@ ksql> explain CSAS_CUSTOMERS_ORDERS_REPORT_11;
 # compare it with:
 ksql> explain CSAS_CUSTOMERS_ORDERS_REPORT_OLD_WAY_9;
 ksql> explain CSAS_TMP_JOIN_0;
+ksql> exit;
 ```
 and you will see the old way has one more sub-topology.
 
 This Lab will show that is does make sense to do the pre-processing in an ETL pipeline direcly in Apache Kafka. Why loading more data into sink (e.g. a DWH like big query)? You can prepare what ever you need directly in Kafka.
 
-But please be aware that for running ksqldb apps it make sense to [plan the capacity](https://docs.ksqldb.io/en/latest/operate-and-deploy/capacity-planning/).
+But please be aware that for running ksqlDB clusters it make sense to [plan the capacity](https://docs.ksqldb.io/en/latest/operate-and-deploy/capacity-planning/).
 
 End lab8
 

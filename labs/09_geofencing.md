@@ -7,7 +7,7 @@ pre-rq:
 
 ## Create topics
 ```bash
-#start environment
+#start environment if it is not running already
 docker-compose up -d
 # create topics
 docker exec -it workshop-kafka kafka-topics --bootstrap-server localhost:9092 --create --topic bus_raw  --config retention.ms=-1
@@ -99,11 +99,8 @@ java -jar jars/KafkaEventService-1.0.1-fat.jar -conf conf/kesConfig.json
 ```
 Check in browser and do geo fencing [Geo Fencing App](http://localhost:8080/home.html)
 
-## Stop
-Close Kafka Event Service with CTRL+c. Shutdown docker
-```bash
-docker-compose down -v
-```
+## Stop Java
+Stop java by neter CTRL+c
 
 End lab9
 
