@@ -167,6 +167,8 @@ This project utilizes a set of code style rules that are automatically applied b
 
 2. If your IDE does not support importing the Eclipse-based formatter file or you'd rather tidy up the formatting after making your changes locally, you can run a project build to make sure that all code changes adhere to the project's desired style.  Instructions on how to run a build locally are provided below.
 
+3. With the command `mvn process-sources` the code style rules can be applied automatically.
+
 In the event that a pull request is submitted with code style violations, continuous integration will fail the pull request build.  
 
 To fix pull requests with code style violations, simply run the project's build locally and allow the automatic formatting happen.  Once the build completes, you will have some local repository files modified to fix the coding style which can be amended on your pull request.  Once the pull request is synchronized with the formatting changes, CI will rerun the build.
@@ -249,7 +251,7 @@ and in your fork:
 
 The project currently builds its jobs in two environments:
 
-- Travis CI for pull requests: https://travis-ci.org/debezium/debezium/builds
+- GitHub Actions for pull requests: https://github.com/debezium/debezium/actions
   - Tests run only against the current version of each supported database
 - Jenkins CI for tests matrix, deployment, release, etc - http://ci.hibernate.org/view/Debezium/
   - Test run against all database versions supported by the individual connectors
@@ -266,5 +268,5 @@ Here's a quick check list for a good pull request (PR):
 * One feature/change per PR
 * No changes to code not directly related to your change (e.g. no formatting changes or refactoring to existing code, if you want to refactor/improve existing code that's a separate discussion and separate JIRA issue)
 * New/changed features have been documented
-* A full build completes succesfully
+* A full build completes successfully
 * Do a rebase on upstream `master`

@@ -2,114 +2,113 @@
 
 - [Overview](#overview)
 - [Versions](#versions)
-- [Install and Run](#install-and-run)
+- [Usage](#usage)
 - [Configuration](#configuration)
 - [Confusion about schemas and Avro](#confusion-about-schemas-and-avro)
+- [Publishing](#publishing-docker-images)
 
 # Overview
 
-`kafka-connect-datagen` is a Kafka Connect connector for generating mock data.
-It is available in [Confluent Hub](https://www.confluent.io/connector/kafka-connect-datagen/).
-It is not suitable for production.
+`kafka-connect-datagen` is a [Kafka Connect](https://docs.confluent.io/current/connect/index.html) connector for generating mock data for testing and is not suitable for production scenarios.  It is available in [Confluent Hub](https://www.confluent.io/connector/kafka-connect-datagen/).
 
 # Versions
 
 There are multiple [released versions](https://github.com/confluentinc/kafka-connect-datagen/releases) of this connector, starting with `0.1.0`.
-The instructions below use version `0.1.5` as an example, but you can substitute any of the other released versions.
+The instructions below use version `0.3.2` as an example, but you can substitute any of the other released versions.
 In fact, unless specified otherwise, we recommend using the latest released version to get all of the features and bug fixes.
 
-# Install and Run
+# Usage
 
-## Confluent Platform running on local install
+You can choose to install a released version of the `kafka-connect-datagen` from [Confluent Hub](https://www.confluent.io/connector/kafka-connect-datagen/) or build it from source.  For running the connector you can choose a local [Confluent Platform Installation](https://docs.confluent.io/current/quickstart/index.html) or in a Docker container.
 
-### Install connector from Confluent Hub
+## Install the connector from Confluent Hub to a local Confluent Platform
 
-You may install the `kafka-connect-datagen` connector from [Confluent Hub](https://www.confluent.io/connector/kafka-connect-datagen/).
+Using the [Confluent Hub Client](https://docs.confluent.io/current/connect/managing/confluent-hub/client.html) you may install the `kafka-connect-datagen` connector from [Confluent Hub](https://www.confluent.io/connector/kafka-connect-datagen/).
+
+To install a specific release version you can run: 
 
 ```bash
-confluent-hub install confluentinc/kafka-connect-datagen:0.1.5
+confluent-hub install confluentinc/kafka-connect-datagen:0.3.2
 ```
 
-for a the `0.1.5` version of the connector (you can use any released version), or
+or to install the latest released version:
 
 ```bash
 confluent-hub install confluentinc/kafka-connect-datagen:latest
 ```
 
-for the latest released version of the connector.
-
-
 ### Build connector from latest code
 
 Alternatively, you may build and install the `kafka-connect-datagen` connector from latest code.
-Here we use `v0.1.5` to reference the git tag for the `0.1.5` version, but the same pattern works for all released versions.
+Here we use `v0.3.2` to reference the git tag for the `0.3.2` version, but the same pattern works for all released versions.
 
 ```bash
-git checkout v0.1.5
+git checkout v0.3.2
 mvn clean package
-confluent-hub install target/components/packages/confluentinc-kafka-connect-datagen-0.1.5.zip
+confluent-hub install target/components/packages/confluentinc-kafka-connect-datagen-0.3.2.zip
 ```
 
 ### Run connector in local install
 
-Here is an example of how to run the `kafka-connect-datagen` on a local install:
+Here is an example of how to run the `kafka-connect-datagen` on a local Confluent Platform after it's been installed.  [Configuration](#configuration) details are provided below.
 
 ```bash
-confluent start connect
-confluent config datagen-pageviews -d config/connector_pageviews.config
-confluent status connectors
-confluent consume test1 --value-format avro --max-messages 5 --property print.key=true --property key.deserializer=org.apache.kafka.common.serialization.StringDeserializer --from-beginning
+confluent local start connect
+confluent local config datagen-pageviews -- -d config/connector_pageviews.config
+confluent local status connectors
+confluent local consume test1 --value-format avro --max-messages 5 --property print.key=true --property key.deserializer=org.apache.kafka.common.serialization.StringDeserializer --from-beginning
 ```
 
-## Confluent Platform running in Docker
+## Install the connector from Confluent Hub into a [Kafka Connect](https://docs.confluent.io/current/connect/index.html) based Docker image
 
-This project provides several Dockerfiles that you can use to create Docker images with this connector.
-The Dockerfiles differ slightly with each release, so be sure the connector version in the Dockerfile matches the version you want to use.
+A Docker image based on Kafka Connect with the `kafka-connect-datagen` plugin is already available in [Dockerhub](https://hub.docker.com/r/cnfldemos/kafka-connect-datagen), and it is ready for you to use.
 
-### Install connector from Confluent Hub
+If you want to build a local copy of the Docker image with `kafka-connect-datagen`, this project provides a [Dockerfile](Dockerfile-local) that you can reference.
 
-You may install into your Docker image the `kafka-connect-datagen` connector from [Confluent Hub](https://www.confluent.io/connector/kafka-connect-datagen/).
-The following command builds the image using the `Dockerfile-confluenthub` specification and tags that image with `confluentinc/kafka-connect-datagen:0.1.5` (be sure to use the correct datagen connector version in the label).
-
+You can create a Docker image packaged with the locally built source by running (for example with the 5.5.0 version of Confluent Platform):
 ```bash
-docker build . -f Dockerfile-confluenthub -t confluentinc/kafka-connect-datagen:0.1.5
+make build-docker-from-local CP_VERSION=5.5.0
 ```
 
-### Build connector from latest code
+This will build the connector from source and create a local image with an aggregate version number.  The aggregate version number is the kafka-connect-datagen connector version number and the Confluent Platform version number separated with a `-`.   The local kafka-connect-datagen version number is defined in the `pom.xml` file, and the Confluent Platform version defined in the [Makefile](Makfile).  An example of the aggregate version number might be: `0.3.2-5.5.0`.
 
-Alternatively, you may build and install the `kafka-connect-datagen` connector from latest code.
-Here we use `v0.1.5` to reference the git tag for the `0.1.5` version, but the same pattern works for all released versions.
-Be sure to use the same version in the Docker image tag (e.g., `confluentinc/kafka-connect-datagen:0.1.5`) that you checked out (e.g., `v0.1.5`).
+Alternatively, you can install the `kafka-connect-datagen` connector from [Confluent Hub](https://www.confluent.io/connector/kafka-connect-datagen/) into a Docker image by running:
+```bash
+make build-docker-from-released CP_VERSION=5.5.0
+```
+
+The [Makefile](Makefile) contains some default variables that affect the version numbers of both the installed `kafka-connect-datagen` as well as the base Confluent Platform version.  The variables are located near the top of the [Makefile](Makefile) with the following names and current default values:
 
 ```bash
-git checkout v0.1.5
-mvn clean package
-docker build . -f Dockerfile-local -t confluentinc/kafka-connect-datagen:0.1.5
+CP_VERSION ?= 5.5.0
+
+KAFKA_CONNECT_DATAGEN_VERSION ?= 0.3.2
+```
+These values can be overriden with variable declarations before the `make` command.  For example:
+
+```bash
+KAFKA_CONNECT_DATAGEN_VERSION=0.3.2 make build-docker-from-released
 ```
 
 ### Run connector in Docker Compose
 
-Here is an example of how to run the `kafka-connect-datagen` with Docker Compose.
-If you used a different Docker image tag, be sure to use that here instead of `confluentinc/kafka-connect-datagen:0.1.5`.
+Here is an example of how to run the `kafka-connect-datagen` with the provided [docker-compose.yml](docker-compose.yml) file.  If you wish to use a different Docker image tag, be sure to modify appropriately in the [docker-compose.yml](docker-compose.yml) file.
+
 
 ```bash
 docker-compose up -d --build
 curl -X POST -H "Content-Type: application/json" --data @config/connector_pageviews.config http://localhost:8083/connectors
 docker-compose exec connect kafka-console-consumer --topic pageviews --bootstrap-server kafka:29092  --property print.key=true --max-messages 5 --from-beginning
 ```
+## Building
 
-### Publish Docker Image
+To build the `kafka-connect-datagen` connector from latest code and install it to a local Confluent Platform, you can perform the following (here we use `v0.1.6` to reference the git tag for the `0.1.6` version, but the same pattern works for all released versions).
 
-To release a new version and publish a new Docker image to Dockerhub at https://hub.docker.com/r/cnfldemos/kafka-connect-datagen/:
-
-* Update the version numbers in `Dockerfile-dockerhub`
-* Run the following:
-
+```bash
+git checkout v0.1.6
+make package
+confluent-hub install target/components/packages/confluentinc-kafka-connect-datagen-0.1.6.zip
 ```
-make publish
-```
-
-Note: The provided Makefile and `make publish` command publishes the Docker image to https://hub.docker.com/r/cnfldemos/kafka-connect-datagen/ which is accessible only to the organization admins. Docker daemon must be logged into proper Docker Hub account.
 
 # Configuration
 
@@ -117,11 +116,29 @@ Note: The provided Makefile and `make publish` command publishes the Docker imag
 
 See all Kafka Connect [configuration parameters](https://docs.confluent.io/current/connect/managing/configuring.html).
 
-## Connector-specific Parameters
+## kafka-connect-datagen Specific Parameters
 
-See `kafka-connect-datagen` [configuration parameters](https://github.com/confluentinc/kafka-connect-datagen/blob/master/src/main/java/io/confluent/kafka/connect/datagen/DatagenConnectorConfig.java) and their defaults.
+Parameter | Description | Default
+-|-|-
+`kafka.topic` | Topic to write to | 
+`max.interval` | Max interval between messages (ms) | 500
+`iterations` | Number of messages to send from each task, or less than 1 for unlimited | -1
+`schema.string` | The literal JSON-encoded Avro schema to use. Cannot be set with `schema.filename` or `quickstart`
+`schema.filename` | Filename of schema to use. Cannot be set with `schema.string` or `quickstart`
+`schema.keyfield` | Name of field to use as the message key
+`quickstart` | Name of [quickstart](https://github.com/confluentinc/kafka-connect-datagen/tree/master/src/main/resources) to use. Cannot be set with `schema.string` or `schema.filename`
 
-## Use a bundled schema specifications
+## Sample configurations
+
+See the [config](https://github.com/confluentinc/kafka-connect-datagen/tree/master/config) folder for sample configurations. 
+
+## Supported data formats
+
+Kafka Connect supports [Converters](https://docs.confluent.io/current/connect/userguide.html#connect-configuring-converters) which can be used to convert record key and value formats when reading from and writing to Kafka. As of the 5.5 release, Confluent Platform packages Avro, JSON, and Protobuf converters (earlier versions package just Avro converters).
+
+For an example of using the the Protobuf converter with kafka-connect-datagen, see this [example configuration](config/connector_users_protobuf.config). Take note of the required use of the `SetSchemaMetadata` [Transformation](https://docs.confluent.io/current/connect/transforms/index.html) which addresses a compatibility issue between schema names used by kafka-connect-datagen and Protobuf. See the [Schema names are not compatible with Protobuf issue](https://github.com/confluentinc/kafka-connect-datagen/issues/62) for details.
+
+## Use a bundled schema specification
 
 There are a few quickstart schema specifications bundled with `kafka-connect-datagen`, and they are listed in this [directory](https://github.com/confluentinc/kafka-connect-datagen/tree/master/src/main/resources).
 To use one of these bundled schema, refer to [this mapping](https://github.com/confluentinc/kafka-connect-datagen/blob/master/src/main/java/io/confluent/kafka/connect/datagen/DatagenTask.java#L66-L73) and in the configuration file, set the parameter `quickstart` to the associated name.
@@ -148,6 +165,14 @@ To define your own schema:
 "schema.keyfield": "<field representing the key>",
 ...
 ```
+
+_The custom schema can be used at runtime; it is not necessary to recompile the connector_.
+
+## Record keys
+
+You can control the keys that the connector publishes with its records via the `schema.keyfield` property. If it's set, the connector will look for a field with that name in the top-level Avro records that it generates, and use the value and schema of that field for the key of the message that it publishes to Kafka.
+
+Keys can be any type (`string`, `int`, `record`, etc.) and can also be nullable. If no `schema.keyfield` is provided, the key will be `null` with an optional string schema.
 
 # Confusion about schemas and Avro
 
@@ -199,3 +224,46 @@ If you are using Avro format for producing data to Kafka, here is the correspond
 ```
 
 If you are not using Avro format for producing data to Kafka, there will be no schema in Confluent Schema Registry.
+
+# Utility Headers
+
+The Datagen Connector will capture details about the record's generation in the headers of the records it produces.
+The following fields are populated:
+
+Header Key | Header Value
+-|-
+`task.generation` | Task generation number (starts at 0, incremented each time the task restarts)
+`task.id` | Task id number (0 up to `tasks.max` - 1)
+`current.iteration` | Record iteration number (starts at 0, incremented each time a record is generated)
+
+
+
+# Publishing Docker Images
+
+*Note: The following instructions are only relevant if you are an administrator of this repository and have push access to the https://hub.docker.com/r/cnfldemos/kafka-connect-datagen/ repository.  The local Docker daemon must be logged into a proper Docker Hub account.*
+
+To release new versions of the Docker images to Dockerhub (https://hub.docker.com/r/cnfldemos/kafka-connect-datagen/ & https://hub.docker.com/r/cnfldemos/cp-server-connect-operator-with-datagen) use the respective targets in the [Makefile](Makefile).
+
+The [Makefile](Makefile) contains some default variables that affect the version numbers of both the installed `kafka-connect-datagen` as well as the base Confluent Platform version.  The variables are located near the top of the [Makefile](Makefile) with the following names and current default values:
+
+```bash
+CP_VERSION ?= 5.5.0
+KAFKA_CONNECT_DATAGEN_VERSION ?= 0.3.2
+OPERATOR_VERSION ?= 0 # Operator is a 'rev' version appended at the end of the CP version, like so: 5.5.0.0
+```
+
+To publish the https://hub.docker.com/r/cnfldemos/kafka-connect-datagen/ image:
+```bash
+make push-from-released
+```
+
+and to override the CP Version of the `kafka-connect-datagen` version you can run something similar to:
+```bash
+CP_VERSION=5.5.0 KAFKA_CONNECT_DATAGEN_VERSION=0.1.4 make publish-cp-kafka-connect-confluenthub
+```
+
+to override the CP Version and the Operator version, which may happen if Operator releases a patch version, you could run something similar to:
+```bash
+CP_VERSION=5.5.0 OPERATOR_VERSION=1 KAFKA_CONNECT_DATAGEN_VERSION=0.1.4 make push-cp-server-connect-operator-from-released
+```
+which would result in a docker image tagged as: `cp-server-connect-operator-datagen:0.1.4-5.5.0.1` and pushed to DockerHub
