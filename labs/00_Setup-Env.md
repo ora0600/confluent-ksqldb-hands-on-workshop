@@ -55,7 +55,8 @@ docker exec -it workshop-kafka  kafka-topics --create --topic transactions --boo
 ```
 
 # Load data
-For some topics we prepared some data files to be load into Confluent Platform Kafka cluster. These files are used to produce data into topics. Later we will also use connectors and `INSERT Statements`:
+For some topics we prepared some data files to be load into Confluent Platform Kafka cluster. These files are used to produce data into topics. Later we will also use connectors and `INSERT Statements`.
+Note: Windows users must use Windows PowerShell to run these commands.
 ```bash
 # produce data orders
 docker exec -it workshop-kafka bash -c 'cat /produce-data/orders.json | kafka-console-producer --topic orders --broker-list localhost:9092  --property "parse.key=true" --property "key.separator=:"'
