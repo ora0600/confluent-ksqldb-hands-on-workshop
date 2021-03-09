@@ -13,9 +13,9 @@ Now, we need to install some more connectors. We use these connectors later with
 Check if mongodb, datagen, elasticsearch, mysql and postgresql connectors are there, if not install it;
 ```bash
 ll confluent-hub-components/
-confluent-hub install --component-dir confluent-hub-components --no-prompt debezium/debezium-connector-postgresql:1.1.0
-confluent-hub install --component-dir confluent-hub-components --no-prompt debezium/debezium-connector-mongodb:1.1.0
-confluent-hub install --component-dir confluent-hub-components --no-prompt confluentinc/kafka-connect-elasticsearch:10.0.2
+confluent-hub install --component-dir confluent-hub-components --no-prompt debezium/debezium-connector-postgresql:1.4.0
+confluent-hub install --component-dir confluent-hub-components --no-prompt debezium/debezium-connector-mongodb:1.4.0
+confluent-hub install --component-dir confluent-hub-components --no-prompt confluentinc/kafka-connect-elasticsearch:11.0.2
 ...
 ```
 
