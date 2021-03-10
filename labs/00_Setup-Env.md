@@ -33,7 +33,7 @@ docker-compose ps
 ```
 All container should be healthy and running.
 
-# Check Confluent Control Centeropen C3
+# Check Confluent Control Center (C3) - open C3
 Open URL in Browser
 * on your local machine: http://localhost:9021/
 * on cloud infrastructure: from your local machine connecting to cloud http://publicip:9021/
