@@ -7,6 +7,8 @@ yum install expect -y
 yum install nc -y
 # install docker
 yum install -y docker
+# install java 11
+amazon-linux-extras install java-openjdk11 -y
 # set environment
 echo vm.max_map_count=262144 >> /etc/sysctl.conf
 sysctl -w vm.max_map_count=262144
