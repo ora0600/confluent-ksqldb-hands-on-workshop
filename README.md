@@ -34,6 +34,7 @@ For an environment in cloud you need to run following components on your machine
 For an environment on your hardware (Macos):
   * Docker Desktop installed, give Docker 8GB of your RAM
   * curl installed
+  * java 11 installed
   * jq installed (or don't use jq)
 
 For Windows Users
