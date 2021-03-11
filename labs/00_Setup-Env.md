@@ -9,16 +9,6 @@ Before continue please change the data of produce file in `produce-data` dir. We
 vi produce-data/*
 # change all the time data to the current month. e.g. if you are in Dec 2020 change "ORDER_TS": "2020-04-25T11:58:25Z" to "ORDER_TS": "2020-12-25T11:58:25Z"
 ```
-Now, we need to install some more connectors. We use these connectors later with ksqlDB.
-Check if mongodb, datagen, elasticsearch, mysql and postgresql connectors are there, if not install it;
-```bash
-ll confluent-hub-components/
-confluent-hub install --component-dir confluent-hub-components --no-prompt debezium/debezium-connector-postgresql:1.4.0
-confluent-hub install --component-dir confluent-hub-components --no-prompt debezium/debezium-connector-mongodb:1.4.0
-confluent-hub install --component-dir confluent-hub-components --no-prompt confluentinc/kafka-connect-elasticsearch:11.0.2
-...
-```
-
 Start the cluster on your own hardware
 ```bash
 docker-compose up -d
