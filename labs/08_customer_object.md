@@ -2,6 +2,9 @@
 We prepared two demos where we de-normalized so to say database tables in Apache kafka. The use case behind this is to do preprocessing direct in Apache Kafka and not in the target system.
 
 ## Demo 1: de-normalize customer tables in Apache Kafka
+This sample is quite complex and do a couple of joins and then a much more simplified method with a multi-join.
+![2-way-multi-join](img/2-way-multi-join.png)
+
 Create the customers table in Postgres
 ```bash
 docker exec -it postgres /bin/bash
@@ -57,7 +60,7 @@ my-replica-set:PRIMARY> use logistics
 my-replica-set:PRIMARY> db.createCollection("orders")
 my-replica-set:PRIMARY> db.createCollection("shipments")
 my-replica-set:PRIMARY> db.orders.insert({"customer_id": "2", "order_id": "13", "price": 50.50, "currency": "usd", "ts": "2021-03-17T11:20:00"})
-my-replica-set:PRIMARY> db.orders.insert({"customer_id": "5", "order_id": "17", "price": 25.25, "currency": "eur", "ts": "2021-03-17T17:22:00"})
+my-replica-set:PRIMARY> db.orders.insert({"customer_id": "2", "order_id": "13", "price": 50.50, "currency": "usd", "ts": "2021-03-17T11:20:00"})
 my-replica-set:PRIMARY> db.orders.insert({"customer_id": "5", "order_id": "15", "price": 13.75, "currency": "usd", "ts": "2021-03-17T02:55:00"})
 my-replica-set:PRIMARY> db.orders.insert({"customer_id": "7", "order_id": "22", "price": 29.71, "currency": "aud", "ts": "2021-03-17T00:12:00"})
 my-replica-set:PRIMARY> db.shipments.insert({"order_id": "17", "shipment_id": "75", "origin": "texas", "ts": "2021-03-17T19:20:00"})
@@ -125,17 +128,22 @@ ksql> CREATE TABLE customers_by_key AS
     FROM ccustomers
     GROUP BY id
     EMIT CHANGES;
+# for this table a pull query should now work
+ksql> select * from customers_by_key where id = '5';
+# Create complete joined object    
 ksql> CREATE STREAM enriched_orders AS
     SELECT o.order_id,
            o.price,
            o.currency,
-           c.id AS customer_id,
+           o.customer_id,
+           c.id AS cid,
            c.name AS customer_name,
            c.age AS customer_age
     FROM oorders AS o
     LEFT JOIN customers_by_key c
     ON o.customer_id = c.id
     EMIT CHANGES;
+ksql> select * from enriched_orders emit changes;
 ksql> CREATE STREAM cshipped_orders WITH (
     kafka_topic = 'cshipped_orders'
 )   AS
@@ -152,6 +160,7 @@ ksql> CREATE STREAM cshipped_orders WITH (
     WITHIN 7 DAYS
     ON s.order_id = o.order_id
     EMIT CHANGES;
+ksql> select * from cshipped_orders emit changes;
 ```
 Start the Elasticsearch sink connector
 ```bash
@@ -190,29 +199,8 @@ ksql> SELECT o.order_id as ORDER_ID,
     JOIN sshipments s WITHIN 7 DAYS ON s.order_id = o.order_id
     EMIT CHANGES;
 ```
-Open second terminal and create a stream from query as persistant query   
-```bash
-docker exec -it workshop-ksqldb-cli ksql http://ksqldb-server:8088   
-ksql> SET 'auto.offset.reset' = 'earliest'; 
-ksql> CREATE STREAM denormalizedcustomerview AS
-SELECT o.order_id as ORDER_ID,
-       c.id AS c_id,
-       c.name AS customer_name,
-       c.age AS customer_age,
-       o.customer_id,
-       o.price,
-       o.currency,
-       s.shipment_id,
-       s.origin
-    FROM oorders AS o
-    JOIN customers_by_key c ON o.customer_id = c.id
-    JOIN sshipments s WITHIN 7 DAYS ON s.order_id = o.order_id
-    EMIT CHANGES;
-ksql> describe denormalizedcustomerview;
-#ksql> SET 'commit.interval.ms'= '1000';
-ksql> select * from denormalizedcustomerview emit changes;
-```
-Open a third terminal and insert new data into the databases
+
+Open a second terminal and insert new data into the databases
 Insert new customers in Postgres
 ```bash
 docker exec -it postgres /bin/bash
@@ -237,6 +225,28 @@ my-replica-set:PRIMARY> db.shipments.insert({"order_id": "115", "shipment_id": "
 my-replica-set:PRIMARY> exit
 exit
 ```
+Open a third terminal and create a stream from query as persistant query   
+```bash
+docker exec -it workshop-ksqldb-cli ksql http://ksqldb-server:8088   
+ksql> SET 'auto.offset.reset' = 'earliest'; 
+ksql> CREATE STREAM denormalizedcustomerview AS
+SELECT o.order_id as ORDER_ID,
+       c.id AS c_id,
+       c.name AS customer_name,
+       c.age AS customer_age,
+       o.customer_id,
+       o.price,
+       o.currency,
+       s.shipment_id,
+       s.origin
+    FROM oorders AS o
+    JOIN customers_by_key c ON o.customer_id = c.id
+    JOIN sshipments s WITHIN 7 DAYS ON s.order_id = o.order_id
+    EMIT CHANGES;
+ksql> describe denormalizedcustomerview;
+ksql> SET 'commit.interval.ms'= '1000';
+ksql> select * from denormalizedcustomerview emit changes;
+```
 This experiment looks like this, a full view of the customer object including orders and shipment:
 [![terminal experiment](img/terminals.png)
 
@@ -252,6 +262,7 @@ docker exec -it workshop-kafka  kafka-topics --create --topic custcustomers --bo
 docker exec -it workshop-kafka  kafka-topics --create --topic custorders --bootstrap-server localhost:9092
 docker exec -it workshop-kafka  kafka-topics --create --topic custitems --bootstrap-server localhost:9092
 ```
+Will will execute all command in Control Center. Please open [Confluent Control Center](http://localhost:9021)
 
 ```bash
 docker exec -it workshop-ksqldb-cli ksql http://ksqldb-server:8088
@@ -263,8 +274,8 @@ ksql> describe custorders;
 ksql> CREATE TABLE custitems (itemid STRING PRIMARY KEY, itemname STRING) WITH (KAFKA_TOPIC='custitems', VALUE_FORMAT='json');
 ksql> describe custitems;
 ksql> INSERT INTO custcustomers (customerid , customername) VALUES ('1','Carsten Muetzlitz');
-INSERT INTO custcustomers (customerid , customername) VALUES ('2','Jan Svoboda');
-INSERT INTO custcustomers (customerid , customername) VALUES ('3','Suvad Sahovic');
+ INSERT INTO custcustomers (customerid , customername) VALUES ('2','Jan Svoboda');
+ INSERT INTO custcustomers (customerid , customername) VALUES ('3','Suvad Sahovic');
 ksql> select * from custcustomers emit changes limit 3;
 ksql> INSERT INTO custitems (itemid , itemname ) VALUES ('1','MacBook Air');
 INSERT INTO custitems (itemid , itemname ) VALUES ('2','Apple Pencil');
@@ -281,7 +292,7 @@ INSERT INTO custorders (orderid, customerid , itemid , purchasedate ) VALUES ('5
 INSERT INTO custorders (orderid, customerid , itemid , purchasedate ) VALUES ('6','2','6','2021-03-17');
 KSQL> select * from custorders emit changes limit 6;
 ```
-Let's join everything together. With ksqldb lower 0.9 you need to go the old way.
+Let's join everything together. With ksqlDB lower 0.9 you need to go the old way.
 ```bash
 ksql> CREATE STREAM tmp_join AS
 SELECT c.customerid AS customerid, c.customername, o.orderid, o.itemid, o.purchasedate
@@ -295,7 +306,7 @@ LEFT JOIN custitems as i ON t.itemid = i.itemid
 EMIT CHANGES;
 ksql> select * from customers_orders_report_old_way emit changes;
 ```
-I would say the old way is more complex and costs lots more. With ksqlDB >= 0.9 you can do multi-join. This much more easier and generate less costs in terms of resource usage.
+I would say the old way is more complex and cost more resources. With ksqlDB >= 0.9 you can do multi-join. This is much more easier and generate less costs in terms of resource usage.
 ```bash
 ksql> CREATE STREAM customers_orders_report AS
 SELECT c.customerid AS customerid, c.customername, o.orderid, i.itemid, i.itemname, o.purchasedate
@@ -307,10 +318,10 @@ ksql> select * from customers_orders_report emit changes;
 ```
 You can compare both ways.
 ```bash
-ksql> explain CSAS_CUSTOMERS_ORDERS_REPORT_11;
+ksql> explain CSAS_CUSTOMERS_ORDERS_REPORT_57;
 # compare it with:
-ksql> explain CSAS_CUSTOMERS_ORDERS_REPORT_OLD_WAY_9;
-ksql> explain CSAS_TMP_JOIN_0;
+ksql> explain CSAS_CUSTOMERS_ORDERS_REPORT_OLD_WAY_55;
+ksql> explain CSAS_TMP_JOIN_53;
 ksql> exit;
 ```
 and you will see the old way has one more sub-topology.
