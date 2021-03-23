@@ -318,7 +318,7 @@ ksql> select * from customers_orders_report emit changes;
 ```
 You can compare both ways. 
 
-ATTENTION: Modify the sequence number "_53", "_55", "_57" with your own sequence number.  
+ATTENTION: Modify the sequence number below "_53", "_55", "_57" with your own sequence number.  
 ```bash
 ksql> explain CSAS_CUSTOMERS_ORDERS_REPORT_57;
 # compare it with:
