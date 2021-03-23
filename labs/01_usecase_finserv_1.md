@@ -22,7 +22,7 @@ ksql> show properties;
 ```
 Create Payment Stream and convert it automatically to AVRO.
 ```bash
-ksql> create stream payments(PAYMENT_ID INTEGER KEY, CUSTID INTEGER, ACCOUNTID INTEGER, AMOUNT BIGINT, BANK VARCHAR) with(kafka_topic='Payment_Instruction', value_format='avro');
+ksql> create stream payments with(kafka_topic='Payment_Instruction', value_format='avro');
 ```
 Check your creation with describe and select. You can also use Confluent Control Center for this inspection.
 ```bash
@@ -32,8 +32,8 @@ ksql> select * from payments emit changes;
 ```
 Create the other streams
 ```bash
-ksql> create stream aml_status(PAYMENT_ID INTEGER KEY, BANK VARCHAR, STATUS VARCHAR) with(kafka_topic='AML_Status', value_format='avro');
-ksql> create stream funds_status(PAYMENT_ID INTEGER KEY, REASON_CODE VARCHAR, STATUS VARCHAR) with(kafka_topic='Funds_Status', value_format='avro');
+ksql> create stream aml_status with(kafka_topic='AML_Status', value_format='avro');
+ksql> create stream funds_status with(kafka_topic='Funds_Status', value_format='avro');
 ksql> list streams;
 ksql> exit
 ```
@@ -115,6 +115,7 @@ ksql> describe customers_flat;
 Create Table CUSTOMERS which is based on the newly created topic CUSTOMERS_FLAT (by stream CUSTOMERS_FLAT)
 ```bash
 ksql> CREATE TABLE customers (ID INTEGER PRIMARY KEY, FIRST_NAME VARCHAR, LAST_NAME VARCHAR, EMAIL VARCHAR, GENDER VARCHAR, STATUS360 VARCHAR) WITH(kafka_topic='CUSTOMERS_FLAT', value_format='avro');
+ksql> select * from customers emit changes;
 ```
 check streams and see which topics belong to them
 ```bash
@@ -212,7 +213,8 @@ ksql> select * from payments_final emit changes limit 1;
 ```
 Pull queries, check value for a specific payment (snapshot lookup). Pull Query is a Preview feature.
 ```bash
-ksql> select * from payments_final where payment_id=825241649;
+ksql> set 'auto.offset.reset'='earliest';
+ksql> select * from payments_final where payment_id=1207;
 ksql> exit;
 ```
 toDo: Do one multi-Join.
