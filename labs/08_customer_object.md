@@ -59,15 +59,15 @@ my-replica-set:PRIMARY> db.createUser({
 my-replica-set:PRIMARY> use logistics
 my-replica-set:PRIMARY> db.createCollection("orders")
 my-replica-set:PRIMARY> db.createCollection("shipments")
-my-replica-set:PRIMARY> db.orders.insert({"customer_id": "2", "order_id": "13", "price": 50.50, "currency": "usd", "ts": "2021-03-17T11:20:00"})
-my-replica-set:PRIMARY> db.orders.insert({"customer_id": "2", "order_id": "13", "price": 50.50, "currency": "usd", "ts": "2021-03-17T11:20:00"})
-my-replica-set:PRIMARY> db.orders.insert({"customer_id": "5", "order_id": "15", "price": 13.75, "currency": "usd", "ts": "2021-03-17T02:55:00"})
-my-replica-set:PRIMARY> db.orders.insert({"customer_id": "7", "order_id": "22", "price": 29.71, "currency": "aud", "ts": "2021-03-17T00:12:00"})
-my-replica-set:PRIMARY> db.shipments.insert({"order_id": "17", "shipment_id": "75", "origin": "texas", "ts": "2021-03-17T19:20:00"})
-my-replica-set:PRIMARY> db.shipments.insert({"order_id": "22", "shipment_id": "71", "origin": "iowa", "ts": "2021-03-17T12:25:00"})
-my-replica-set:PRIMARY> db.shipments.insert({"order_id": "29", "shipment_id": "89", "origin": "california", "ts": "2021-03-17T13:21:00"})
-my-replica-set:PRIMARY> db.shipments.insert({"order_id": "13", "shipment_id": "92", "origin": "maine", "ts": "2021-03-17T06:13:00"})
-my-replica-set:PRIMARY> db.shipments.insert({"order_id": "15", "shipment_id": "95", "origin": "florida", "ts": "2021-03-17T01:13:00"})
+my-replica-set:PRIMARY> db.orders.insert({"customer_id": "2", "order_id": "13", "price": 50.50, "currency": "usd", "ts": "2021-03-23T11:20:00"})
+my-replica-set:PRIMARY> db.orders.insert({"customer_id": "2", "order_id": "13", "price": 50.50, "currency": "usd", "ts": "2021-03-23T11:20:00"})
+my-replica-set:PRIMARY> db.orders.insert({"customer_id": "5", "order_id": "15", "price": 13.75, "currency": "usd", "ts": "2021-03-23T02:55:00"})
+my-replica-set:PRIMARY> db.orders.insert({"customer_id": "7", "order_id": "22", "price": 29.71, "currency": "aud", "ts": "2021-03-23T00:12:00"})
+my-replica-set:PRIMARY> db.shipments.insert({"order_id": "17", "shipment_id": "75", "origin": "texas", "ts": "2021-03-23T19:20:00"})
+my-replica-set:PRIMARY> db.shipments.insert({"order_id": "22", "shipment_id": "71", "origin": "iowa", "ts": "2021-03-23T12:25:00"})
+my-replica-set:PRIMARY> db.shipments.insert({"order_id": "29", "shipment_id": "89", "origin": "california", "ts": "2021-03-23T13:21:00"})
+my-replica-set:PRIMARY> db.shipments.insert({"order_id": "13", "shipment_id": "92", "origin": "maine", "ts": "2021-03-23T06:13:00"})
+my-replica-set:PRIMARY> db.shipments.insert({"order_id": "15", "shipment_id": "95", "origin": "florida", "ts": "2021-03-23T01:13:00"})
 my-replica-set:PRIMARY> exit
 exit
 ```
@@ -216,12 +216,12 @@ Configure MongoDB for Debezium and insert data for orders and shipments:
 docker exec -it mongo /bin/bash
 mongo -u $MONGO_INITDB_ROOT_USERNAME -p mongo-pw admin
 my-replica-set:PRIMARY> use logistics
-my-replica-set:PRIMARY> db.orders.insert({"customer_id": "10", "order_id": "113", "price": 50.50, "currency": "eur", "ts": "2021-03-17T11:20:00"})
-my-replica-set:PRIMARY> db.orders.insert({"customer_id": "15", "order_id": "117", "price": 25.25, "currency": "eur", "ts": "2021-03-17T17:22:00"})
-my-replica-set:PRIMARY> db.orders.insert({"customer_id": "20", "order_id": "115", "price": 13.75, "currency": "eur", "ts": "2021-03-17T02:55:00"})
-my-replica-set:PRIMARY> db.shipments.insert({"order_id": "117", "shipment_id": "175", "origin": "Berlin", "ts": "2021-03-17T19:20:00"})
-my-replica-set:PRIMARY> db.shipments.insert({"order_id": "113", "shipment_id": "192", "origin": "Falkensee", "ts": "2021-03-17T06:13:00"})
-my-replica-set:PRIMARY> db.shipments.insert({"order_id": "115", "shipment_id": "195", "origin": "Munich", "ts": "2021-03-17T01:13:00"})
+my-replica-set:PRIMARY> db.orders.insert({"customer_id": "10", "order_id": "113", "price": 50.50, "currency": "eur", "ts": "2021-03-23T11:20:00"})
+my-replica-set:PRIMARY> db.orders.insert({"customer_id": "15", "order_id": "117", "price": 25.25, "currency": "eur", "ts": "2021-03-23T17:22:00"})
+my-replica-set:PRIMARY> db.orders.insert({"customer_id": "20", "order_id": "115", "price": 13.75, "currency": "eur", "ts": "2021-03-23T02:55:00"})
+my-replica-set:PRIMARY> db.shipments.insert({"order_id": "117", "shipment_id": "175", "origin": "Berlin", "ts": "2021-03-23T19:20:00"})
+my-replica-set:PRIMARY> db.shipments.insert({"order_id": "113", "shipment_id": "192", "origin": "Falkensee", "ts": "2021-03-23T06:13:00"})
+my-replica-set:PRIMARY> db.shipments.insert({"order_id": "115", "shipment_id": "195", "origin": "Munich", "ts": "2021-03-23T01:13:00"})
 my-replica-set:PRIMARY> exit
 exit
 ```
@@ -284,12 +284,12 @@ INSERT INTO custitems (itemid , itemname ) VALUES ('4','Apple Watch');
 INSERT INTO custitems (itemid , itemname ) VALUES ('5','iPhone 12');
 INSERT INTO custitems (itemid , itemname ) VALUES ('6','Apple TV');
 ksql> select * from custitems emit changes limit 6;
-ksql> INSERT INTO custorders (orderid, customerid , itemid , purchasedate ) VALUES ('1','1','1','2021-03-17');
-INSERT INTO custorders (orderid, customerid , itemid , purchasedate ) VALUES ('2','1','2','2021-03-17');
-INSERT INTO custorders (orderid, customerid , itemid , purchasedate ) VALUES ('3','3','3','2021-03-17');
-INSERT INTO custorders (orderid, customerid , itemid , purchasedate ) VALUES ('4','3','4','2021-03-17');
-INSERT INTO custorders (orderid, customerid , itemid , purchasedate ) VALUES ('5','2','5','2021-03-17');
-INSERT INTO custorders (orderid, customerid , itemid , purchasedate ) VALUES ('6','2','6','2021-03-17');
+ksql> INSERT INTO custorders (orderid, customerid , itemid , purchasedate ) VALUES ('1','1','1','2021-03-23');
+INSERT INTO custorders (orderid, customerid , itemid , purchasedate ) VALUES ('2','1','2','2021-03-23');
+INSERT INTO custorders (orderid, customerid , itemid , purchasedate ) VALUES ('3','3','3','2021-03-23');
+INSERT INTO custorders (orderid, customerid , itemid , purchasedate ) VALUES ('4','3','4','2021-03-23');
+INSERT INTO custorders (orderid, customerid , itemid , purchasedate ) VALUES ('5','2','5','2021-03-23');
+INSERT INTO custorders (orderid, customerid , itemid , purchasedate ) VALUES ('6','2','6','2021-03-23');
 KSQL> select * from custorders emit changes limit 6;
 ```
 Let's join everything together. With ksqlDB lower 0.9 you need to go the old way.
