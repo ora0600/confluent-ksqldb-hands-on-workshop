@@ -316,7 +316,7 @@ LEFT JOIN custitems as i ON o.itemid = i.itemid
 EMIT CHANGES;
 ksql> select * from customers_orders_report emit changes;
 ```
-You can compare both ways.
+You can compare both ways. ATTENTION: Modify the sequence number "_53", "_55", "_57" with your own sequence number.  
 ```bash
 ksql> explain CSAS_CUSTOMERS_ORDERS_REPORT_57;
 # compare it with:
