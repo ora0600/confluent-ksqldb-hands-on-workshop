@@ -1,5 +1,5 @@
 # De-normalize a customer object with ksqlDB
-We prepared two demos where we de-normalized so to say database tables in Apache kafka. The use case behind this is to do preprocessing direct in Apache Kafka and not in the target system.
+We prepared two demos where we de-normalized so to say database tables into Confluent Platform kafka. The use case behind this is to do preprocessing events directly in the Kafka cluster and not in the target system. Jay kreps named this architecture pattern Kappa-Architecture.
 
 ## Demo 1: de-normalize customer tables in Apache Kafka
 This sample is quite complex and do a couple of joins and then a much more simplified method with a multi-join.
