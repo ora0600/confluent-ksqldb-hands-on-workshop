@@ -251,7 +251,7 @@ ksql> SET 'commit.interval.ms'= '1000';
 ksql> select * from denormalizedcustomerview emit changes;
 ```
 This experiment looks like this, a full view of the customer object including orders and shipment:
-[![terminal experiment](img/terminals.png)
+![terminal experiment](img/terminals.png)
 
 Let's compare both ways with the explain command and load the topology into KStreams [topology visualizer](https://zz85.github.io/kafka-streams-viz/).
 ```bash
@@ -265,10 +265,10 @@ What do you think is more performant? Check also the [documentation](https://doc
 Check also in Confluent Control Center the generated repartitioning topics for both scenarios
 
 `denormalizedcustomerview` has 3 repartioned new topics (in total 7) .
-[![DENORMALIZEDCUSTOMERVIEW](img/DENORMALIZEDCUSTOMERVIEW.png)
+![DENORMALIZEDCUSTOMERVIEW](img/DENORMALIZEDCUSTOMERVIEW.png)
 
 `cshipped_orders` has 2 repartioned new topics (in total 5)
-[![cshipped_orders](img/cshipped_orders.png)
+![cshipped_orders](img/cshipped_orders.png)
 
 Now, exit from all terminals.
 
