@@ -163,7 +163,7 @@ ksql> CREATE STREAM cshipped_orders WITH (
 ksql> select * from cshipped_orders emit changes;
 ```
 So, what we did is to combine all data we need into one object. The flow for this setup looks like this
-![2-way-stp-by-step-join-flow](img/flow-step-by-step-join-png)
+![2-way-stp-by-step-join-flow](img/flow-step-by-step-join-png.png)
 
 Start the Elasticsearch sink connector
 ```bash
