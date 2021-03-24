@@ -78,7 +78,7 @@ We will ask you before the workshop, if you would like to run on your own enviro
 5. Lab Geo Fencing - Lab 9
     * [Doing GEO Fencing with ksqlDB](labs/09_geofencing.md)
 6. Labs Operations - Lab 10
-    * [Add a ksqlDB App into your environment](labs/09_ksqldb_operations.md)
+    * [Add a ksqlDB App into your environment](labs/10_ksqldb_operations.md)
 
 We will have a LUNCH Break for 60 Minutes (around 12am) and the workshop will finish around 3pm.
 
