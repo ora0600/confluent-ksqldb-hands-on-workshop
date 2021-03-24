@@ -179,7 +179,7 @@ Check that the data arrived in the Elasticsearch index by running the following 
 ```bash
 curl http://localhost:9200/cshipped_orders/_search?pretty
 ```
-No we doing the more easiert way, we  create a de-normalized customer object with a multi-join statement:
+Now, we are doing the more easier way, we will create a de-normalized customer object with a multi-join statement:
 ```bash
 docker exec -it workshop-ksqldb-cli ksql http://ksqldb-server:8088
 ksql> describe ccustomers;
@@ -252,6 +252,23 @@ ksql> select * from denormalizedcustomerview emit changes;
 ```
 This experiment looks like this, a full view of the customer object including orders and shipment:
 [![terminal experiment](img/terminals.png)
+
+Let's compare both ways with the explain command and load the topology into KStreams [topology visualizer](https://zz85.github.io/kafka-streams-viz/).
+```bash
+describe extended cshipped_orders;
+# You will also see the query in in C3 ksqlDB Editor under running queries
+explain <query id>; # something like this CSAS_CSHIPPED_ORDERS_25
+describe extended denormalizedcustomerview;
+explain <query id>; # something like CSAS_DENORMALIZEDCUSTOMERVIEW_27´
+```
+What do you think is more performant? Check also the [documentation](https://docs.ksqldb.io/en/latest/operate-and-deploy/capacity-planning/).
+Check also in Confluent Control Center the generated repartitioning topics for both scenarios
+
+`denormalizedcustomerview` has 3 repartioned new topics (in total 7) .
+[![DENORMALIZEDCUSTOMERVIEW](img/DENORMALIZEDCUSTOMERVIEW.png)
+
+`cshipped_orders` has 2 repartioned new topics (in total 5)
+[![cshipped_orders](img/cshipped_orders.png)
 
 Now, exit from all terminals.
 
