@@ -5,7 +5,7 @@ We prepared two demos where we de-normalized so to say database tables into Conf
 This sample is quite complex and do a couple of joins and then a much more simplified method with a multi-join. The use case behind, is to ETL data from databases (mongoDB and postGRES) and transform the data into de-normalized object. Which me move to Elastic-Search later.
 ![2-way-multi-join](img/2-way-multi-join.png)
 
-Create the customers table in Postgres
+Create the customers table in Postgres DB and insert 3 customers:
 ```bash
 docker exec -it postgres /bin/bash
 psql -U postgres-user customers
