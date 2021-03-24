@@ -133,13 +133,13 @@ ksql> list tables;
 ```
 Table CUSTOMERS is based on the topic CUSTOMERS_FLAT
 
-9. Check topology of execution stream CUSTOMERS_FLAT. Is the stream re-partitioned?
+Check topology of execution stream CUSTOMERS_FLAT. Is the stream re-partitioned?
 ```bash
 ksql> show queries;
 # choose the right query id - go to Control Center, then cluster area, then ksqlDB area, then ksqlDB Application "workshop", then "running queries" and take the query.id in the bottom
 ksql> explain CSAS_CUSTOMERS_FLAT_0;
 ```
-Select new table with push query:
+9. Select new table with push query:
 ```bash
 ksql> select * from customers emit changes;
 ksql> select * from customers where id=1 emit changes;
