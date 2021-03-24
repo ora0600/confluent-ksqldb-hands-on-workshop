@@ -162,6 +162,9 @@ ksql> CREATE STREAM cshipped_orders WITH (
     EMIT CHANGES;
 ksql> select * from cshipped_orders emit changes;
 ```
+So, what we did is to combine all data we need into one object. The flow for this setup looks like this
+![2-way-stp-by-step-join-flow](img/flow-step-by-step-join-png)
+
 Start the Elasticsearch sink connector
 ```bash
 ksql> CREATE SINK CONNECTOR enriched_writer WITH (
