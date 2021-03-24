@@ -37,7 +37,6 @@ ksql> create stream funds_status with(kafka_topic='Funds_Status', value_format='
 ksql> list streams;
 ksql> exit
 ```
-toDo: Replace mySQL with oracle DB and Confluent CDC Connector.
 
 Inspect mysql database content:
 ```bash
