@@ -113,7 +113,14 @@ ksql> describe customers_flat;
 ```
 8. Create Table CUSTOMERS which is based on the newly created topic CUSTOMERS_FLAT (by stream CUSTOMERS_FLAT)
 ```bash
-ksql> CREATE TABLE customers (ID INTEGER PRIMARY KEY, FIRST_NAME VARCHAR, LAST_NAME VARCHAR, EMAIL VARCHAR, GENDER VARCHAR, STATUS360 VARCHAR) WITH(kafka_topic='CUSTOMERS_FLAT', value_format='avro');
+ksql> CREATE TABLE customers (
+          ID INTEGER PRIMARY KEY, 
+          FIRST_NAME VARCHAR, 
+          LAST_NAME VARCHAR, 
+          EMAIL VARCHAR, 
+          GENDER VARCHAR, 
+          STATUS360 VARCHAR) 
+          WITH(kafka_topic='CUSTOMERS_FLAT', value_format='avro');
 ksql> select * from customers emit changes;
 ```
 check streams and see which topics belong to them
