@@ -230,7 +230,7 @@ ksql> exit;
 ```bash
 curl -X "POST" "http://localhost:8088/query" \
         -H "Content-Type: application/vnd.ksql.v1+json; charset=utf-8" \
-        -d $'{"ksql": "select * from payments_final where payment_id=825241649;","streamsProperties": {}}' | jq
+        -d $'{"ksql": "select * from payments_final where payment_id=1207;","streamsProperties": {}}' | jq
 ```
 list streams via curl
 ```bash
