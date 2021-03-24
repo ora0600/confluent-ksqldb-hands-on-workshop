@@ -137,7 +137,7 @@ Check topology of execution stream CUSTOMERS_FLAT. Is the stream re-partitioned?
 ```bash
 ksql> show queries;
 # choose the right query id - go to Control Center, then cluster area, then ksqlDB area, then ksqlDB Application "workshop", then "running queries" and take the query.id in the bottom
-ksql> explain CSAS_CUSTOMERS_FLAT_0;
+ksql> explain CSAS_CUSTOMERS_FLAT_<MY QUERY NUMBER>;
 ```
 9. Select new table with push query:
 ```bash
