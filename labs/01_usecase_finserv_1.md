@@ -1,7 +1,6 @@
 # Finacial services case: Payment Status check
-Data for this use case is loaded via 3 Connectors. Please check.
 
-End Result should look like this:
+We are going to build data pipeline which should look like this:
 ![Financial Services Use cases as flow](img/Financial_datapipe.png)
 
 1. Start implementing: Login to ksqlDB-cli
