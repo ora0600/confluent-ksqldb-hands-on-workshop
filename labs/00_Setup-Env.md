@@ -31,6 +31,7 @@ Open URL in Browser
 You should see in Control Center
 * one running cluster
 * three running connectors
+    *  PLEASE PAUSE ALL OF THEM. THEN YOU CAN BETTER PLAY IN YOUR LABS.  
 * one running ksqlDB cluster
 * three topics AML_Status, Funds_Status, Payment_Instruction are created and some internal topics.
 
