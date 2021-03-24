@@ -3,7 +3,7 @@
 We are going to build data pipeline which should look like this:
 ![Financial Services Use cases as flow](img/Financial_datapipe.png)
 
-1. Start implementing: Login to ksqlDB-cli
+1. Login to ksqlDB-cli
 ```bash
 docker exec -it workshop-ksqldb-cli ksql http://ksqldb-server:8088
 ksql> show topics;
