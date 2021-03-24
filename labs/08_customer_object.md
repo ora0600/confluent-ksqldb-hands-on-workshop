@@ -104,7 +104,7 @@ ksql> CREATE SOURCE CONNECTOR logistics_reader WITH (
     'transforms.unwrap.operation.header' = 'true'
 );
 ```
-Create the ksqlDB source streams
+The connectors created topics and sync the data from databases into topics. To do preprocessing in Kafka we need to create the ksqlDB source streams first. You can do this in cli or Confluent Control Center.
 ```bash
 ksql> SET 'auto.offset.reset' = 'earliest';
 ksql> CREATE STREAM ccustomers WITH (
