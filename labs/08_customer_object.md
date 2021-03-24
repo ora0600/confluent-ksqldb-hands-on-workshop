@@ -349,9 +349,9 @@ ksql> explain CSAS_CUSTOMERS_ORDERS_REPORT_OLD_WAY_55;
 ksql> explain CSAS_TMP_JOIN_53;
 ksql> exit;
 ```
-and you will see the old way has one more sub-topology.
+and you will see the old way has 3 topics in total and multi-join 5 topics.
 
-This Lab will show that is does make sense to do the pre-processing in an ETL pipeline direcly in Apache Kafka. Why loading more data into sink (e.g. a DWH like big query)? You can prepare what ever you need directly in Kafka.
+This Lab will show that is does make much sense for specific cases to do the pre-processing in an ETL pipeline direcly in Apache Kafka. Why loading more data into sink (e.g. a DWH like big query)? You can prepare what ever you need directly in Kafka.
 
 But please be aware that for running ksqlDB clusters it make sense to [plan the capacity](https://docs.ksqldb.io/en/latest/operate-and-deploy/capacity-planning/).
 
