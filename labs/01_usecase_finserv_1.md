@@ -242,5 +242,8 @@ curl -X "POST" "http://localhost:8088/ksql" \
 
 END Lab 1 
 
+Final table with payment statuses
+![Financial Services Final Result](img/payments_final_status.png)
+
 
 [go back to Agenda](https://github.com/ora0600/confluent-ksqldb-hands-on-workshop/blob/master/README.md#hands-on-agenda-and-labs)
