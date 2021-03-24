@@ -140,13 +140,13 @@ ksql> show queries;
 # choose the right query id - go to Control Center, then cluster area, then ksqlDB area, then ksqlDB Application "workshop", then "running queries" and take the query.id in the bottom
 ksql> explain CSAS_CUSTOMERS_FLAT_<MY QUERY NUMBER>;
 ```
-9. Select new table with push query:
+Select new table with push query:
 ```bash
 ksql> select * from customers emit changes;
 ksql> select * from customers where id=1 emit changes;
 ksql> exit;
 ```
-change data in DB and check how is update changing Kafka:
+9. Change data in DB and check how is update changing Kafka:
 ```bash
 docker exec -it workshop-mysql mysql -uroot -pconfluent
 mysql> use demo;
