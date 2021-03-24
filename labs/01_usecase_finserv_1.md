@@ -93,9 +93,9 @@ curl http://localhost:8081/subjects | jq
 ```
 
 6. Now check in Control Center:
-1) that the connector "source_dbz_mysql" is created and running,
-2) created a couple of topics (3) and 2 subjects
-2) check in the ksqlDB cluster `workshop` the `ksqldb`flow before you create next streams as running queries. We have a couple of streams running.
+-check the connector "source_dbz_mysql" is created and running,
+-created a couple of topics (3) and 2 subjects
+-check in the ksqlDB cluster `workshop` the `ksqldb`flow before you create next streams as running queries. We have a couple of streams running.
 
 7. Reformat and filter out only relevant data from "customers_cdc" stream into a new stream "customers_flat"
 ```bash
