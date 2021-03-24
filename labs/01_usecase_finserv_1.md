@@ -184,6 +184,7 @@ Now check in Control Center:
 ksql> CREATE STREAM payment_statuses AS SELECT payment_id, status, 'AML' as source_system FROM aml_status;
 ksql> INSERT INTO payment_statuses SELECT payment_id, status, 'FUNDS' as source_system FROM funds_status;
 ksql> describe payment_statuses;
+ksql> set 'auto.offset.reset'='latest';
 ksql> select * from payment_statuses emit changes;
 ```
 Combine payment and status events in 1 hour window. Why we need a timing window for stream-stream join?
