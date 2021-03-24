@@ -2,7 +2,7 @@
 We prepared two demos where we de-normalized so to say database tables into Confluent Platform kafka. The use case behind this is to do preprocessing events directly in the Kafka cluster and not in the target system. Jay kreps named this architecture pattern Kappa-Architecture.
 
 ## Demo 1: de-normalize customer tables in Confluent Kafka cluster
-This sample is quite complex and do a couple of joins and then a much more simplified method with a multi-join.
+This sample is quite complex and do a couple of joins and then a much more simplified method with a multi-join. The use case behind, is to ETL data from databases (mongoDB and postGRES) and transform the data into de-normalized object. Which me move to Elastic-Search later.
 ![2-way-multi-join](img/2-way-multi-join.png)
 
 Create the customers table in Postgres
