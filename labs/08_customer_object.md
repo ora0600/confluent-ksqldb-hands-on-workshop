@@ -293,10 +293,12 @@ ksql> CREATE STREAM custorders (orderid STRING KEY, customerid STRING, itemid ST
 ksql> describe custorders;
 ksql> CREATE TABLE custitems (itemid STRING PRIMARY KEY, itemname STRING) WITH (KAFKA_TOPIC='custitems', VALUE_FORMAT='json');
 ksql> describe custitems;
+# you can copy and paste all insert statements into C3 ksqlDB Editor
 ksql> INSERT INTO custcustomers (customerid , customername) VALUES ('1','Carsten Muetzlitz');
  INSERT INTO custcustomers (customerid , customername) VALUES ('2','Jan Svoboda');
  INSERT INTO custcustomers (customerid , customername) VALUES ('3','Suvad Sahovic');
 ksql> select * from custcustomers emit changes limit 3;
+# you can copy and paste all insert statements into C3 ksqlDB Editor
 ksql> INSERT INTO custitems (itemid , itemname ) VALUES ('1','MacBook Air');
 INSERT INTO custitems (itemid , itemname ) VALUES ('2','Apple Pencil');
 INSERT INTO custitems (itemid , itemname ) VALUES ('3','iPad Pro');
@@ -304,6 +306,7 @@ INSERT INTO custitems (itemid , itemname ) VALUES ('4','Apple Watch');
 INSERT INTO custitems (itemid , itemname ) VALUES ('5','iPhone 12');
 INSERT INTO custitems (itemid , itemname ) VALUES ('6','Apple TV');
 ksql> select * from custitems emit changes limit 6;
+# you can copy and paste all insert statements into C3 ksqlDB Editor
 ksql> INSERT INTO custorders (orderid, customerid , itemid , purchasedate ) VALUES ('1','1','1','2021-03-23');
 INSERT INTO custorders (orderid, customerid , itemid , purchasedate ) VALUES ('2','1','2','2021-03-23');
 INSERT INTO custorders (orderid, customerid , itemid , purchasedate ) VALUES ('3','3','3','2021-03-23');
