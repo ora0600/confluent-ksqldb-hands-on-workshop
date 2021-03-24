@@ -179,7 +179,7 @@ Check that the data arrived in the Elasticsearch index by running the following 
 ```bash
 curl http://localhost:9200/cshipped_orders/_search?pretty
 ```
-Creating a de-normalized customer object
+No we doing the more easiert way, we  create a de-normalized customer object with a multi-join statement:
 ```bash
 docker exec -it workshop-ksqldb-cli ksql http://ksqldb-server:8088
 ksql> describe ccustomers;
