@@ -38,7 +38,7 @@ ksql> list streams;
 ksql> exit
 ```
 
-Inspect mysql database content:
+3. Inspect mysql database content:
 ```bash
 docker exec -it workshop-mysql mysql -uroot -pconfluent
 mysql> use demo;
@@ -46,7 +46,7 @@ mysql> show tables;
 mysql> select * from CUSTOMERS;
 mysql> exit
 ```
-3. Create the DB CDC connector to get all data from database. We create the connector as script in ksqlDB:
+4. Create the DB CDC connector to get all data from database. We create the connector as script in ksqlDB:
 ```bash
 docker exec -it workshop-ksqldb-cli ksql http://ksqldb-server:8088
 ksql> CREATE SOURCE CONNECTOR source_dbz_mysql WITH (
@@ -75,7 +75,7 @@ ksql> CREATE STREAM customers_cdc WITH (kafka_topic='workshop.demo.CUSTOMERS-cdc
 ksql> describe customers_cdc;
 ksql> exit
 ```
-4. Check Schema Registry. What did the connector create:
+5. Check Schema Registry. What did the connector create:
 ```bash
 curl http://localhost:8081/subjects | jq
 # output
@@ -91,7 +91,7 @@ curl http://localhost:8081/subjects | jq
 ]
 ```
 
-5. Now check in Control Center:
+6. Now check in Control Center:
 1) that the connector "source_dbz_mysql" is created and running,
 2) created a couple of topics (3) and 2 subjects
 2) check in the ksqlDB cluster `workshop` the `ksqldb`flow before you create next streams as running queries. We have a couple of streams running.
@@ -111,7 +111,7 @@ from customers_cdc
 partition by after->id;
 ksql> describe customers_flat;
 ```
-6. Create Table CUSTOMERS which is based on the newly created topic CUSTOMERS_FLAT (by stream CUSTOMERS_FLAT)
+7. Create Table CUSTOMERS which is based on the newly created topic CUSTOMERS_FLAT (by stream CUSTOMERS_FLAT)
 ```bash
 ksql> CREATE TABLE customers (ID INTEGER PRIMARY KEY, FIRST_NAME VARCHAR, LAST_NAME VARCHAR, EMAIL VARCHAR, GENDER VARCHAR, STATUS360 VARCHAR) WITH(kafka_topic='CUSTOMERS_FLAT', value_format='avro');
 ksql> select * from customers emit changes;
@@ -126,7 +126,7 @@ ksql> list tables;
 ```
 Table CUSTOMERS is based on the topic CUSTOMERS_FLAT
 
-7. Check topology of execution stream CUSTOMERS_FLAT. Is the stream re-partitioned?
+8. Check topology of execution stream CUSTOMERS_FLAT. Is the stream re-partitioned?
 ```bash
 ksql> show queries;
 # choose the right query id - go to Control Center, then cluster area, then ksqlDB area, then ksqlDB Application "workshop", then "running queries" and take the query.id in the bottom
@@ -151,7 +151,7 @@ docker exec -it workshop-ksqldb-cli ksql http://ksqldb-server:8088
 ksql> set 'auto.offset.reset'='earliest';
 ksql> select * from customers where id=1 emit changes;
 ```
-8. Enriching Payments with Customer details
+9. Enriching Payments with Customer details
 ```bash
 ksql> create stream enriched_payments as select
 p.payment_id as payment_id,
@@ -167,7 +167,7 @@ from payments p left join customers c on p.custid = c.id;
 ksql> describe ENRICHED_PAYMENTS;
 ksql> select * from enriched_payments emit changes;
 ```
-9. Now check in Control Center:
+10. Now check in Control Center:
 1) check in ksqlDB cluster `workshop` - the running queries. Take a look in the details (SINK: and SOURCE:) of the running queries.
 2) check in ksqlDB cluster `workshop` the flow to follow the expansion easier. If it is not visible refresh the webpage in browser.
 
@@ -196,7 +196,7 @@ ksql> describe payments_with_status;
 ksql> select * from payments_with_status emit changes;
 ksql> select * from payments_with_status emit changes limit 10;
 ```
-10. Check in the ksqldb area the ksqldb flow to follow the expansion easier
+11. Check in the ksqldb area the ksqldb flow to follow the expansion easier
 
 Aggregate into consolidated records
 ```bash
@@ -218,7 +218,7 @@ ksql> exit;
 ```
 toDo: Do one multi-Join.
 
-11. Query by REST Call
+12. Query by REST Call
 ```bash
 curl -X "POST" "http://localhost:8088/query" \
         -H "Content-Type: application/vnd.ksql.v1+json; charset=utf-8" \
