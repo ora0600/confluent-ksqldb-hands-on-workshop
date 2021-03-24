@@ -2,7 +2,7 @@
 Data for this use case is loaded via 3 Connectors. Please check.
 We will create a CDC Connector and doing event stream processing, enrichment and more...
 
-Start implementing: Login to ksqlDB-cli
+1. Start implementing: Login to ksqlDB-cli
 ```bash
 docker exec -it workshop-ksqldb-cli ksql http://ksqldb-server:8088
 ksql> show topics;
@@ -20,7 +20,7 @@ Check the properties set for ksqlDB. What is the `ksql.service.id`?
 ```bash
 ksql> show properties;
 ```
-Create Payment Stream and convert it automatically to AVRO.
+2. Create Payment Stream and convert it automatically to AVRO.
 ```bash
 ksql> create stream payments with(kafka_topic='Payment_Instruction', value_format='avro');
 ```
@@ -47,7 +47,7 @@ mysql> show tables;
 mysql> select * from CUSTOMERS;
 mysql> exit
 ```
-Create the DB CDC connector to get all data from database. We create the connector as script in ksqlDB:
+3. Create the DB CDC connector to get all data from database. We create the connector as script in ksqlDB:
 ```bash
 docker exec -it workshop-ksqldb-cli ksql http://ksqldb-server:8088
 ksql> CREATE SOURCE CONNECTOR source_dbz_mysql WITH (
@@ -76,7 +76,7 @@ ksql> CREATE STREAM customers_cdc WITH (kafka_topic='workshop.demo.CUSTOMERS-cdc
 ksql> describe customers_cdc;
 ksql> exit
 ```
-Check Schema Registry. What did the connector create:
+4. Check Schema Registry. What did the connector create:
 ```bash
 curl http://localhost:8081/subjects | jq
 # output
@@ -92,7 +92,7 @@ curl http://localhost:8081/subjects | jq
 ]
 ```
 
-Now check in Control Center:
+5. Now check in Control Center:
 1) that the connector "source_dbz_mysql" is created and running,
 2) created a couple of topics (3) and 2 subjects
 2) check in the ksqlDB cluster `workshop` the `ksqldb`flow before you create next streams as running queries. We have a couple of streams running.
@@ -112,7 +112,7 @@ from customers_cdc
 partition by after->id;
 ksql> describe customers_flat;
 ```
-Create Table CUSTOMERS which is based on the newly created topic CUSTOMERS_FLAT (by stream CUSTOMERS_FLAT)
+6. Create Table CUSTOMERS which is based on the newly created topic CUSTOMERS_FLAT (by stream CUSTOMERS_FLAT)
 ```bash
 ksql> CREATE TABLE customers (ID INTEGER PRIMARY KEY, FIRST_NAME VARCHAR, LAST_NAME VARCHAR, EMAIL VARCHAR, GENDER VARCHAR, STATUS360 VARCHAR) WITH(kafka_topic='CUSTOMERS_FLAT', value_format='avro');
 ksql> select * from customers emit changes;
@@ -127,7 +127,7 @@ ksql> list tables;
 ```
 Table CUSTOMERS is based on the topic CUSTOMERS_FLAT
 
-Check topology of execution stream CUSTOMERS_FLAT. Is the stream re-partitioned?
+7. Check topology of execution stream CUSTOMERS_FLAT. Is the stream re-partitioned?
 ```bash
 ksql> show queries;
 # choose the right query id - go to Control Center, then cluster area, then ksqlDB area, then ksqlDB Application "workshop", then "running queries" and take the query.id in the bottom
@@ -152,7 +152,7 @@ docker exec -it workshop-ksqldb-cli ksql http://ksqldb-server:8088
 ksql> set 'auto.offset.reset'='earliest';
 ksql> select * from customers where id=1 emit changes;
 ```
-Enriching Payments with Customer details
+8. Enriching Payments with Customer details
 ```bash
 ksql> create stream enriched_payments as select
 p.payment_id as payment_id,
@@ -168,7 +168,7 @@ from payments p left join customers c on p.custid = c.id;
 ksql> describe ENRICHED_PAYMENTS;
 ksql> select * from enriched_payments emit changes;
 ```
-Now check in Control Center:
+9. Now check in Control Center:
 1) check in ksqlDB cluster `workshop` - the running queries. Take a look in the details (SINK: and SOURCE:) of the running queries.
 2) check in ksqlDB cluster `workshop` the flow to follow the expansion easier. If it is not visible refresh the webpage in browser.
 
@@ -197,7 +197,7 @@ ksql> describe payments_with_status;
 ksql> select * from payments_with_status emit changes;
 ksql> select * from payments_with_status emit changes limit 10;
 ```
-Check in the ksqldb area the ksqldb flow to follow the expansion easier
+10. Check in the ksqldb area the ksqldb flow to follow the expansion easier
 
 Aggregate into consolidated records
 ```bash
@@ -219,7 +219,7 @@ ksql> exit;
 ```
 toDo: Do one multi-Join.
 
-Query by REST Call
+11. Query by REST Call
 ```bash
 curl -X "POST" "http://localhost:8088/query" \
         -H "Content-Type: application/vnd.ksql.v1+json; charset=utf-8" \
