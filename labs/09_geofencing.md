@@ -1,6 +1,7 @@
 # GEO Fencing with ksqlDB
 The demo is copied from [Kafka GeEO Demo developed by Will LaForest](https://github.com/wlaforest/KafkaGeoDemo).
 Please follow explanation on [Kafka GeEO Demo developed by Will LaForest](https://github.com/wlaforest/KafkaGeoDemo).
+
 To set this up in our environment please do the following steps:
 pre-rq:
  * java 11 is installed
