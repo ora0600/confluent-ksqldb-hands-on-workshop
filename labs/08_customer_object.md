@@ -71,7 +71,7 @@ my-replica-set:PRIMARY> db.shipments.insert({"order_id": "15", "shipment_id": "9
 my-replica-set:PRIMARY> exit
 exit
 ```
-Start the Postgres and MongoDB Debezium source connectors
+Start the Postgres and MongoDB Debezium source connectors. We use the ksqlDB cli for this but you could also use the Confluent Control Center.
 ```bash
 docker exec -it workshop-ksqldb-cli ksql http://ksqldb-server:8088
 ksql> SET 'auto.offset.reset' = 'earliest';
