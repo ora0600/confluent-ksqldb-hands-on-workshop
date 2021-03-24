@@ -96,7 +96,7 @@ curl http://localhost:8081/subjects | jq
 2) created a couple of topics (3) and 2 subjects
 2) check in the ksqlDB cluster `workshop` the `ksqldb`flow before you create next streams as running queries. We have a couple of streams running.
 
-Reformat and filter out only relevant data from "customers_cdc" stream into a new stream "customers_flat"
+7. Reformat and filter out only relevant data from "customers_cdc" stream into a new stream "customers_flat"
 ```bash
 docker exec -it workshop-ksqldb-cli ksql http://ksqldb-server:8088
 ksql> set 'auto.offset.reset'='earliest';
@@ -111,7 +111,7 @@ from customers_cdc
 partition by after->id;
 ksql> describe customers_flat;
 ```
-7. Create Table CUSTOMERS which is based on the newly created topic CUSTOMERS_FLAT (by stream CUSTOMERS_FLAT)
+8. Create Table CUSTOMERS which is based on the newly created topic CUSTOMERS_FLAT (by stream CUSTOMERS_FLAT)
 ```bash
 ksql> CREATE TABLE customers (ID INTEGER PRIMARY KEY, FIRST_NAME VARCHAR, LAST_NAME VARCHAR, EMAIL VARCHAR, GENDER VARCHAR, STATUS360 VARCHAR) WITH(kafka_topic='CUSTOMERS_FLAT', value_format='avro');
 ksql> select * from customers emit changes;
@@ -126,7 +126,7 @@ ksql> list tables;
 ```
 Table CUSTOMERS is based on the topic CUSTOMERS_FLAT
 
-8. Check topology of execution stream CUSTOMERS_FLAT. Is the stream re-partitioned?
+9. Check topology of execution stream CUSTOMERS_FLAT. Is the stream re-partitioned?
 ```bash
 ksql> show queries;
 # choose the right query id - go to Control Center, then cluster area, then ksqlDB area, then ksqlDB Application "workshop", then "running queries" and take the query.id in the bottom
@@ -151,7 +151,7 @@ docker exec -it workshop-ksqldb-cli ksql http://ksqldb-server:8088
 ksql> set 'auto.offset.reset'='earliest';
 ksql> select * from customers where id=1 emit changes;
 ```
-9. Enriching Payments with Customer details
+10. Enriching Payments with Customer details
 ```bash
 ksql> create stream enriched_payments as select
 p.payment_id as payment_id,
@@ -167,7 +167,7 @@ from payments p left join customers c on p.custid = c.id;
 ksql> describe ENRICHED_PAYMENTS;
 ksql> select * from enriched_payments emit changes;
 ```
-10. Now check in Control Center:
+11. Now check in Control Center:
 1) check in ksqlDB cluster `workshop` - the running queries. Take a look in the details (SINK: and SOURCE:) of the running queries.
 2) check in ksqlDB cluster `workshop` the flow to follow the expansion easier. If it is not visible refresh the webpage in browser.
 
@@ -196,7 +196,7 @@ ksql> describe payments_with_status;
 ksql> select * from payments_with_status emit changes;
 ksql> select * from payments_with_status emit changes limit 10;
 ```
-11. Check in the ksqldb area the ksqldb flow to follow the expansion easier
+12. Check in the ksqldb area the ksqldb flow to follow the expansion easier
 
 Aggregate into consolidated records
 ```bash
@@ -218,7 +218,7 @@ ksql> exit;
 ```
 toDo: Do one multi-Join.
 
-12. Query by REST Call
+13. Query by REST Call
 ```bash
 curl -X "POST" "http://localhost:8088/query" \
         -H "Content-Type: application/vnd.ksql.v1+json; charset=utf-8" \
