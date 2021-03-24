@@ -172,7 +172,7 @@ ksql> CREATE SINK CONNECTOR enriched_writer WITH (
 );
 ksql> exit;
 ```
-Check that the data arrived in the index by running the following command from your host::
+Check that the data arrived in the Elasticsearch index by running the following command from your host::
 ```bash
 curl http://localhost:9200/cshipped_orders/_search?pretty
 ```
