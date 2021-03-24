@@ -134,7 +134,7 @@ services:
             "connector.class": "io.confluent.kafka.connect.datagen.DatagenConnector",
             "key.converter": "org.apache.kafka.connect.storage.StringConverter",
             "kafka.topic": "Funds_Status",
-            "max.interval": 1500,
+            "max.interval": 1000,
             "schema.filename": "/datagen/funds_service.avro",
             "schema.keyfield": "payment_id"
           }'
@@ -145,7 +145,7 @@ services:
             "connector.class": "io.confluent.kafka.connect.datagen.DatagenConnector",
             "key.converter": "org.apache.kafka.connect.storage.StringConverter",
             "kafka.topic": "Payment_Instruction",
-            "msgRate": 3,
+            "max.interval": 1000,
             "schema.filename": "/datagen/payment_service.avro",
             "schema.keyfield": "payment_id"
           }'
