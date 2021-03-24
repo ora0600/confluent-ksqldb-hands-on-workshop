@@ -149,6 +149,7 @@ change data in DB and check how is update changing Kafka:
 ```bash
 docker exec -it workshop-mysql mysql -uroot -pconfluent
 mysql> use demo;
+mysql> select * from CUSTOMERS where id = 1;
 mysql> update CUSTOMERS set first_name = 'Carsten', last_name='Muetzlitz', gender='Male' where id = 1;
 mysql> exit;
 ```
