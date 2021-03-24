@@ -16,7 +16,7 @@ customers=# INSERT INTO customers (id, name, age) VALUES ('2', 'bill', 51);
 customers=# exit
 exit
 ```
-Configure MongoDB for Debezium and insert data for orders and shipments:
+Prepare the data in MongoDB and insert data into orders and shipments:
 ```bash
 docker exec -it mongo /bin/bash
 mongo -u $MONGO_INITDB_ROOT_USERNAME -p mongo-pw admin
