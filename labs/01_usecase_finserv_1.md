@@ -225,7 +225,6 @@ ksql> set 'auto.offset.reset'='earliest';
 ksql> select * from payments_final where payment_id=1207;
 ksql> exit;
 ```
-toDo: Do one multi-Join.
 
 13. Query by REST Call
 ```bash
