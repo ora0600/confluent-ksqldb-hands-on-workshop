@@ -1,6 +1,8 @@
 # Finacial services case: Payment Status check
 Data for this use case is loaded via 3 Connectors. Please check.
-We will create a CDC Connector and doing event stream processing, enrichment and more...
+
+End Result should look like this:
+![Financial Services Use cases as flow](img/Financial_datapipe.png)
 
 1. Start implementing: Login to ksqlDB-cli
 ```bash
