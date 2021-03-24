@@ -282,10 +282,10 @@ docker exec -it workshop-kafka  kafka-topics --create --topic custcustomers --bo
 docker exec -it workshop-kafka  kafka-topics --create --topic custorders --bootstrap-server localhost:9092
 docker exec -it workshop-kafka  kafka-topics --create --topic custitems --bootstrap-server localhost:9092
 ```
-Will will execute all command in Control Center. Please open [Confluent Control Center](http://localhost:9021)
+We will execute all commands in Confluent Control Center. Please open [Confluent Control Center](http://localhost:9021)
 
 ```bash
-docker exec -it workshop-ksqldb-cli ksql http://ksqldb-server:8088
+# docker exec -it workshop-ksqldb-cli ksql http://ksqldb-server:8088
 ksql> SET 'auto.offset.reset' = 'earliest';
 ksql> CREATE TABLE custcustomers (customerid STRING PRIMARY KEY, customername STRING) WITH (KAFKA_TOPIC='custcustomers', VALUE_FORMAT='json'); 
 ksql> describe custcustomers;
