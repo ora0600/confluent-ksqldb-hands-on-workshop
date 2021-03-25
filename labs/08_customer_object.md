@@ -341,7 +341,7 @@ ksql> select * from customers_orders_report emit changes;
 ```
 You can compare both ways. 
 ATTENTION: Modify the sequence number below "_53", "_55", "_57" with your own sequence number.  
-You will get the correct query-id from describe extended <stream>;`or via Control Center in ksqlDB Editor under running queries.
+You will get the correct query-id from `describe extended <stream>;`or via Control Center in ksqlDB Editor under running queries.
 
 ```bash
 ksql> explain CSAS_CUSTOMERS_ORDERS_REPORT_57;
