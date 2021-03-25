@@ -60,7 +60,7 @@ my-replica-set:PRIMARY> use logistics
 my-replica-set:PRIMARY> db.createCollection("orders")
 my-replica-set:PRIMARY> db.createCollection("shipments")
 my-replica-set:PRIMARY> db.orders.insert({"customer_id": "2", "order_id": "13", "price": 50.50, "currency": "usd", "ts": "2021-03-23T11:20:00"})
-my-replica-set:PRIMARY> db.orders.insert({"customer_id": "2", "order_id": "13", "price": 50.50, "currency": "usd", "ts": "2021-03-23T11:20:00"})
+my-replica-set:PRIMARY> db.orders.insert({"customer_id": "2", "order_id": "13", "price": 50.50, "currency": "usd", "ts": "2021-03-23T11:22:00"})
 my-replica-set:PRIMARY> db.orders.insert({"customer_id": "5", "order_id": "15", "price": 13.75, "currency": "usd", "ts": "2021-03-23T02:55:00"})
 my-replica-set:PRIMARY> db.orders.insert({"customer_id": "7", "order_id": "22", "price": 29.71, "currency": "aud", "ts": "2021-03-23T00:12:00"})
 my-replica-set:PRIMARY> db.shipments.insert({"order_id": "17", "shipment_id": "75", "origin": "texas", "ts": "2021-03-23T19:20:00"})
