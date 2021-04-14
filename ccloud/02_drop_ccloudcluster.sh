@@ -34,6 +34,9 @@ rm -rf to_be_deleted_users.txt
 rm -rf clusterid
 rm -rf ksqldbid
 rm -rf principal
+rm -rf apikey1
+rm -rf srinfos
+rm -rf srkey
 rm *.properties
 
 # Finish
