@@ -65,20 +65,20 @@ We will ask you before the workshop, if you would like to run on your own enviro
     * RECAP ksqlDB - short presentation by presenter (10 minutes)
     * What is the structure for today? (20 minutes)
 2. Labs Financial service - Lab 1 - 4
-    * [Payment Status Check](labs/01_usecase_finserv_1.md)
-    * [Stock price calculation with User defined functions](labs/02_usecase_finserv_2.md)
-    * [Create Stocktrade data](labs/03_usecase_finserv_3.md)
-    * [Transaction cache](/labs/04_usecase_finserv_4.md)
+    * local machine: [Payment Status Check](labs/01_usecase_finserv_1.md)   ; Confluent Cloud: [Payment Status Check](labs/01_usecase_finserv_1-ccloud.md)
+    * local machine: [Stock price calculation with User defined functions](labs/02_usecase_finserv_2.md); No Confluent Cloud lab
+    * local machine: [Create Stocktrade data](labs/03_usecase_finserv_3.md) ; Confluent Cloud: [Create Stocktrade data](labs/03_usecase_finserv_3-ccloud.md)
+    * local machine: [Transaction cache](/labs/04_usecase_finserv_4.md)     ; Confluent Cloud: [Transaction cache](/labs/04_usecase_finserv_4-ccloud.md)
 3. Labs Retail/Logistics - Lab 5 -7
-    * [Real-Time Inventory](labs/05_usecase_realtime_inventory.md)
-    * [Track & Trace / Shipments](labs/06_usecase_track-and-trace.md)
-    * [Distance calculation](labs/07_usecase_distance.md)
+    * local machine: [Real-Time Inventory](labs/05_usecase_realtime_inventory.md) ; Confluent Cloud: [Real-Time Inventory](labs/05_usecase_realtime_inventory-ccloud.md)
+    * local machine: [Track & Trace / Shipments](labs/06_usecase_track-and-trace.md)  ; Confluent Cloud: [Track & Trace / Shipments](labs/06_usecase_track-and-trace-ccloud.md)
+    * local machine: [Distance calculation](labs/07_usecase_distance.md)  ; Confluent Cloud: [Distance calculation](labs/07_usecase_distance-ccloud.md)
 4. Lab Customer Object - Lab 8
-    * [De-Normalize a customer object sourced from a simluated DB](labs/08_customer_object.md)
+    * local machine: [De-Normalize a customer object sourced from a simluated DB](labs/08_customer_object.md); Confluent Cloud: [De-Normalize a customer object sourced from a simluated DB](labs/08_customer_object-ccloud.md)
 5. Lab Geo Fencing - Lab 9
-    * [Doing GEO Fencing with ksqlDB](labs/09_geofencing.md)
+    * local machine: [Doing GEO Fencing with ksqlDB](labs/09_geofencing.md); No Confluent Cloud lab
 6. Labs Operations - Lab 10
-    * [Add a ksqlDB App into your environment](labs/10_ksqldb_operations.md)
+    * local machine: [Add a ksqlDB App into your environment](labs/10_ksqldb_operations.md); No Confluent Cloud Lab
 
 We will have a LUNCH Break for 60 Minutes (around 12am) and the workshop will finish around 3pm.
 
