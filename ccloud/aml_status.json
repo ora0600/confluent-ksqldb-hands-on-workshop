@@ -1,0 +1,20 @@
+{
+  "title": "aml_status-value",
+  "description": "Schema for Topic aml_status.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "payment_id": {
+      "type": "integer",
+      "description": "Payment ID"
+    },
+    "bank": {
+      "type": "string",
+      "description": "Name of the bank"
+    },
+    "status": {
+      "type": "string",
+      "description": "Status of AML."
+    }
+  }
+}

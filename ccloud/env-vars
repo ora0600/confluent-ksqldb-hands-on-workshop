@@ -1,0 +1,10 @@
+#!/bin/bash
+export XX_CCLOUD_ENV=ksqldb-workshop
+export XX_CCLOUD_EMAIL=
+export XX_CCLOUD_PASSWORD=
+export XX_CCLOUD_CLUSTERNAME=ksqldb
+export XX_CCLOUD_ATTENDEES=./attendees.txt
+export XX_CLOUD_PROVIDER=gap
+export XX_CLOUD_REGION=europe-west1
+export XX_CLOUD_TYPE=basic
+export XX_CLOUD_RBAC=1

@@ -1,0 +1,28 @@
+{
+  "title": "customer_flat-value",
+  "description": "schema of topic customer_flat",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "FIRST_NAME": {
+      "type": "string",
+      "description": "FIRST_NAME"
+    },
+    "LAST_NAME": {
+      "type": "string",
+      "description": "LAST_NAME"
+    },
+    "EMAIL": {
+      "type": "string",
+      "description": "EMAIL"
+    },
+    "GENDER": {
+      "type": "string",
+      "description": "GENDER"
+    },
+    "STATUS360": {
+      "type": "string",
+      "description": "STATUS360"
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "title": "Payment_Instructions-value",
+  "description": "schema of topic payment_instaructions",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "payment_id": {
+      "type": "integer",
+      "description": "Payment ID"
+    },
+    "custid": {
+      "type": "integer",
+      "description": "Customer ID"
+    },
+    "accountid": {
+      "type": "integer",
+      "description": "Account ID"
+    },
+    "amount": {
+      "type": "integer",
+      "description": "Amount of Money"
+    },
+    "bank": {
+      "type": "string",
+      "description": "Name of Bank"
+    }
+  }
+}

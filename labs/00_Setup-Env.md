@@ -1,5 +1,8 @@
 # Set up the environment for ksqlDB Hands-on Workshop
-on your local machine:
+
+The Confluent Cloud environment is prepared for you. You got the access credentials via Email.
+
+On your local machine:
 ```bash
 git clone https://github.com/ora0600/confluent-ksqldb-hands-on-workshop.git
 cd confluent-ksqldb-hands-on-workshop/docker/
@@ -35,7 +38,11 @@ You should see in Control Center
 * one running ksqlDB cluster
 * three topics AML_Status, Funds_Status, Payment_Instruction are created and some internal topics.
 
-# Create additional topics
+# Confluent Cloud
+Go to [Confluent.cloud](https://login.confluent.io/login) and login. You should have access to own cluster with a running ksqlDB instance.
+All topics are created.
+
+# Create additional topics (not for Confluent Cloud)
 Open your terminal app (cloud setup to be first login via ssh) and create additional topics, we use them later in workshop:
 ```bash
 docker exec -it workshop-kafka  kafka-topics --create --topic orders --bootstrap-server localhost:9092
@@ -45,7 +52,7 @@ docker exec -it workshop-kafka  kafka-topics --create --topic shipment_status --
 docker exec -it workshop-kafka  kafka-topics --create --topic transactions --bootstrap-server localhost:9092
 ```
 
-# Load data
+# Load data (Local machine docker env)
 For some topics we prepared some data files to be load into Confluent Platform Kafka cluster. These files are used to produce data into topics. Later we will also use connectors and `INSERT Statements`.
 Note: Windows users must use Windows PowerShell to run these commands.
 ```bash
@@ -58,6 +65,8 @@ docker exec -it workshop-kafka bash -c 'cat /produce-data/shipment_status.json |
 # produce data transactions
 docker exec -it workshop-kafka bash -c 'cat /produce-data/transactions.json | kafka-console-producer --topic transactions --broker-list localhost:9092  --property "parse.key=true" --property "key.separator=:"'
 ```
+# Load data (Confluent Cloud)
+If you running Confluent Cloud environment, we will insert data later in labs.
 
 [go back to Agenda](https://github.com/ora0600/confluent-ksqldb-hands-on-workshop/blob/master/README.md#hands-on-agenda-and-labs)
 
