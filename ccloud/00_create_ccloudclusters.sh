@@ -94,8 +94,16 @@ while read line; do
     ccloud schema-registry schema create --subject Funds_Status-value --schema funds_status.json --type JSON --api-key $CCLOUD_SRKEY --api-secret $CCLOUD_SRSECRET --environment $CCLOUD_ENV
     ccloud kafka topic create CUSTOMERS_FLAT --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID --config cleanup.policy=compact
     ccloud schema-registry schema create --subject CUSTOMERS_FLAT-value --schema customers.json --type JSON --api-key $CCLOUD_SRKEY --api-secret $CCLOUD_SRSECRET --environment $CCLOUD_ENV
+    # lab 8 topics
+    ccloud kafka topic create custcustomers --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID
+    ccloud kafka topic create custorders --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID
+    ccloud kafka topic create custitems --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID
+    # lab7
+    ccloud kafka topic create atm_locations --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID
     # Print Mapping
     echo "email: $line | principal: $PRINCIPAL  |  cluster: $CCLOUD_CLUSTERNAME  | clusterid: $CCLOUD_CLUSTERID  | bootstrap: $CCLOUD_CLUSTERID_BOOTSTRAP  | cluster-key: $CCLOUD_KEY  | cluster-secret: $CCLOUD_KEY  | ksqlDBID: $CCLOUD_KSQLDB_ID   | ksqlDBREST: $CCLOUD_KSQLDB_REST  | SR-URL: $CCLOUD_SRURL  | SR-APIKEY: $CCLOUD_SRKEY  | SR-SECRET: $CCLOUD_SRSECRET" >> attendees_cluster.txt
+    # add ksqlDB Editor URL https://confluent.cloud/environments/env-d8owz/clusters/lkc-g7omv/ksql/lksqlc-jgpkq/editor
+
     echo "ssl.endpoint.identification.algorithm=https
           sasl.mechanism=PLAIN
           request.timeout.ms=20000

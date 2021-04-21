@@ -1,7 +1,7 @@
 # Calculate the distance in ksqlDB
 This use case is useful for fleet management. Typically you will calculate EAT (expected arrival time) and for this you need to calculate the distnace between two locations.
 
-## Load data forst
+## Load data first
 ```bash
 # create topic
 docker exec -it workshop-kafka  kafka-topics --create --topic atm_locations --bootstrap-server localhost:9092
