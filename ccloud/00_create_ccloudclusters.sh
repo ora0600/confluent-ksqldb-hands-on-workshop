@@ -9,10 +9,9 @@ sr=0
 # Register to CCloud Org
 echo "login to CCloud"
 ccloud login
-# Create cloud environment
-echo "Create CCloud environment and use it"
-ccloud environment create $XX_CCLOUD_ENV -o yaml > environment
-export CCLOUD_ENV=$(awk '/id:/{print $NF}' environment)
+# USE cloud environment
+echo "Use CCloud environment"
+export CCLOUD_ENV=$XX_CCLOUD_ENV
 ccloud environment use $CCLOUD_ENV
 # save context
 ccloud login --save
@@ -32,8 +31,6 @@ fi
 # ******************************************************
 # ***     CREATE Cluster for each attendee from File
 # ******************************************************
-echo "Attendee cluster Association:" > attendees_cluster.txt
-echo "=============================" >> attendees_cluster.txt
 while read line; do
 # reading each line
     echo "Attendee-$n is : $line"
@@ -50,8 +47,8 @@ while read line; do
     if [ $sr  -eq 0 ]
     then
       #enable schema registry
-      echo "Enable Schema Registry"
-      ccloud schema-registry cluster enable --cloud $XX_CLOUD_PROVIDER --geo eu --environment $CCLOUD_ENV
+      echo "Enable Schema Registry in $XX_CLOUD_PROVIDER for $XX_CLOUD_SRREGION"
+      ccloud schema-registry cluster enable --cloud $XX_CLOUD_PROVIDER --geo $XX_CLOUD_SRREGION --environment $CCLOUD_ENV
       ccloud schema-registry cluster describe -o yaml > srinfos
       export CCLOUD_SRID=$(awk '/cluster_id/{print $NF}'  srinfos)
       export CCLOUD_SRURL=$(awk '/endpoint_url/{print $NF}'  srinfos) 
@@ -76,8 +73,8 @@ while read line; do
     echo $PRINCIPAL >> to_be_deleted_users.txt
     echo "do role binding for $line principal $PRINCIPAL cluster $CCLOUD_CLUSTERID"
     XX_CCLOUD_RBAC=1 ccloud iam rolebinding create --principal User:$PRINCIPAL --role CloudClusterAdmin --environment $CCLOUD_ENV --cloud-cluster $CCLOUD_CLUSTERID
-    echo "Give the cluster a minute ..."
-    sleep 60
+    echo "Give the cluster two minutes ..."
+    sleep 120
     # Create topics
     # Normal Topics
     ccloud kafka topic create orders --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID
@@ -101,9 +98,12 @@ while read line; do
     # lab7
     ccloud kafka topic create atm_locations --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID
     # Print Mapping
-    echo "email: $line | principal: $PRINCIPAL  |  cluster: $CCLOUD_CLUSTERNAME  | clusterid: $CCLOUD_CLUSTERID  | bootstrap: $CCLOUD_CLUSTERID_BOOTSTRAP  | cluster-key: $CCLOUD_KEY  | cluster-secret: $CCLOUD_KEY  | ksqlDBID: $CCLOUD_KSQLDB_ID   | ksqlDBREST: $CCLOUD_KSQLDB_REST  | SR-URL: $CCLOUD_SRURL  | SR-APIKEY: $CCLOUD_SRKEY  | SR-SECRET: $CCLOUD_SRSECRET" >> attendees_cluster.txt
-    # add ksqlDB Editor URL https://confluent.cloud/environments/env-d8owz/clusters/lkc-g7omv/ksql/lksqlc-jgpkq/editor
-
+    if [ $n  -eq 0 ]
+    then
+          echo "email:$line  principal:$PRINCIPAL  cluster:$CCLOUD_CLUSTERNAME  clusterid:$CCLOUD_CLUSTERID  bootstrap:$CCLOUD_CLUSTERID_BOOTSTRAP  cluster-key:$CCLOUD_KEY  cluster-secret:$CCLOUD_SECRET  ksqlDBID:$CCLOUD_KSQLDB_ID   ksqlDBREST:$CCLOUD_KSQLDB_REST  ksqDB-URL:https://confluent.cloud/environments/$CCLOUD_ENV/clusters/$CCLOUD_CLUSTERID/ksql/$CCLOUD_KSQLDB_ID/editor  SR-URL:$CCLOUD_SRURL  SR-APIKEY:$CCLOUD_SRKEY  SR-SECRET:$CCLOUD_SRSECRET " > attendees_cluster.txt
+    else
+          echo "email:$line  principal:$PRINCIPAL  cluster:$CCLOUD_CLUSTERNAME  clusterid:$CCLOUD_CLUSTERID  bootstrap:$CCLOUD_CLUSTERID_BOOTSTRAP  cluster-key:$CCLOUD_KEY  cluster-secret:$CCLOUD_SECRET  ksqlDBID:$CCLOUD_KSQLDB_ID   ksqlDBREST:$CCLOUD_KSQLDB_REST  ksqDB-URL:https://confluent.cloud/environments/$CCLOUD_ENV/clusters/$CCLOUD_CLUSTERID/ksql/$CCLOUD_KSQLDB_ID/editor  SR-URL:$CCLOUD_SRURL  SR-APIKEY:$CCLOUD_SRKEY  SR-SECRET:$CCLOUD_SRSECRET " >> attendees_cluster.txt
+    fi
     echo "ssl.endpoint.identification.algorithm=https
           sasl.mechanism=PLAIN
           request.timeout.ms=20000
@@ -121,4 +121,4 @@ while read line; do
     n=$((n+1))
 done < $XX_CCLOUD_ATTENDEES
 
-echo "ksqlDB-Workshop Environment created"
+echo "ksqlDB-Workshop Environment filled with all clusters for attendee"

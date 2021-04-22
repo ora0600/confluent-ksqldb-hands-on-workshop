@@ -1,0 +1,11 @@
+#!/bin/bash
+export XX_CCLOUD_ENV=env-ID
+export XX_CCLOUD_EMAIL=your email
+export XX_CCLOUD_PASSWORD= your password
+export XX_CCLOUD_CLUSTERNAME=ksqldb
+export XX_CCLOUD_ATTENDEES=./attendees.txt
+export XX_CLOUD_PROVIDER=aws
+export XX_CLOUD_REGION=us-east-2
+export XX_CLOUD_SRREGION=us
+export XX_CLOUD_TYPE=basic
+export XX_CLOUD_RBAC=1
