@@ -91,6 +91,16 @@ while read line; do
     ccloud schema-registry schema create --subject Funds_Status-value --schema funds_status.json --type JSON --api-key $CCLOUD_SRKEY --api-secret $CCLOUD_SRSECRET --environment $CCLOUD_ENV
     ccloud kafka topic create CUSTOMERS_FLAT --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID --config cleanup.policy=compact
     ccloud schema-registry schema create --subject CUSTOMERS_FLAT-value --schema customers.json --type JSON --api-key $CCLOUD_SRKEY --api-secret $CCLOUD_SRSECRET --environment $CCLOUD_ENV
+    # lab 3
+    # coming soon
+    # lab 4
+    # coming soon
+    # lab 5
+    # coming soon
+    # lab 6
+    # coming soon
+    # lab 7
+    # coming soon
     # lab 8 topics
     ccloud kafka topic create custcustomers --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID
     ccloud kafka topic create custorders --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID

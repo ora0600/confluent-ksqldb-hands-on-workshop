@@ -1,4 +1,4 @@
-# Confluent Platform 6.1.0 ksqlDB Hands-on Workshop
+# Confluent Platform 6.1.0 and/or Confluent Cloud ksqlDB Hands-on Workshop
 This github project describes a Hands-on Workshop around Confluent ksqlDB. The structure of the Hands-on is as followed
   * Explaining and Introduce ksqlDB
   * Labs: Get to know the environment
@@ -13,15 +13,15 @@ In general, the hands-on will take 4 hours.
   * Finish at 3pm
 
 # Environment for Hands-on Workshop Labs
-The Hands-on environment can be deployed in three ways
+The Hands-on environment can be deployed in four ways
 
   1. run Docker-Compose on your own hardware/laptop use docker-locally
   2. create the demo environment in Cloud Provider infrastructure, deploy cloud environment (AWS is prepared here)
   3. Confluent will deploy a cloud infrastructure environment for you, and will send you during the workshop all credentials
-  4. Run the workshop in Confluent Cloud, register yourself, start the cluster creation script (coming soon)
+  4. Run the workshop in Confluent Cloud, register yourself, start the cluster creation script. If Confluent Solution Engineering is running the hands-on then we are able to offer 20 Confluent Cloud clusters prepared for customer. So no need register yourself in Confluent Cloud.
 
-# Prerequisites for running environment in Cloud
-For an environment in cloud you need to run following components on your machine:
+## Prerequisites for running environment in Cloud infrastructure
+For an environment in cloud infrastructure you need to run following components on your machine:
 
   * Browser with internet access
   * if you want to deploy in our own environment
@@ -30,7 +30,7 @@ For an environment in cloud you need to run following components on your machine
      * Terraform will install everything you need to execute during the workshop on cloud compute instance
   * Having internet access and Ports 8088, 22, 9021 have to be open
 
-# Prerequisites for running environment on own hardware
+## Prerequisites for running environment on own hardware
 For an environment on your hardware (Macos):
   * Docker Desktop installed, give Docker 8GB of your RAM
   * curl installed
@@ -43,23 +43,29 @@ For Windows Users
   * don't use jq (do not know if this available on Windows)
 
 In general we will work mostly on the prompt, with ksqlDB cli. But you can also use Confluent Control Center ksqlDB GUI is most cases.
-
+## Prerequisites for running environment in Confluent Cloud
+For an environment in Confluent Cloud you need
+  * an active Confluent Cloud registration
+  * [ccloud cli](https://docs.confluent.io/ccloud-cli/current/install.html) installed
+  * (optional) kafka tools, so install confluent platform locally on your desktop
 # Hands-on Workshop
 Before the workshop you will get informed by Confluent with additional information: Access, Webconference dial-in, etc.
 
   * Please prepare yourself
      * Please check the documentation and get an rough overview: [ksqldb](https://www.confluent.io/product/ksql/)
      * your hardware should be able to run docker-compose. Docker needs at least 8GB of your RAM
-     * or if you are using AWs infrastructure, your hardware should allow ssh access to aws compute.
+     * or if you are using AWs infrastructure, your hardware should allow ssh access to aws compute
+     * or if you are using Confluent Cloud no special hardware is important.
+     * Use Chrome as the browser for the hands-on
 
 Note:
-We will ask you before the workshop, if you would like to run on your own environment or if you would like to have an environment provisioned by Confluent in the cloud.
+We will ask you before the workshop, if you would like to run on your own environment or if you would like to have an environment provisioned by Confluent in cloud infrastructure and/or Confluent Cloud.
 
 # Hands-on Agenda and Labs:
 0. We will start first with an environment check:
     * Attendees with an environment provisioned by Confluent should all have an email with credentials etc.
     * Is everything up and running: local, cloud or environment giving by confluent.
-    * [Setup the environment](labs/00_Setup-Env.md)
+    * [Setup the environment](labs/00_Setup-Env.md)  ; Confluent Cloud: [Setup the environment](labs/00_Setup-ccloud.md)
     * We expect a 20 MIN time-slot for this exercise
 1. Intro ksqlDB (PPT) - 30 Min
     * RECAP ksqlDB - short presentation by presenter (10 minutes)
