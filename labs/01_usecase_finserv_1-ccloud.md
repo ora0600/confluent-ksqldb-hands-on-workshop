@@ -1,4 +1,4 @@
-# Finacial services case: Payment Status check
+# Finacial services case: Payment Status check (need to be rewrite for Confluent Cloud)
 
 We are going to build data pipeline which should look like this:
 ![Financial Services Use cases as flow](img/Financial_datapipe.png)

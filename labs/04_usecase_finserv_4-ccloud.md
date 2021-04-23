@@ -1,4 +1,4 @@
-# Financial services use case: Transaction cache
+# Financial services use case: Transaction cache (need to be rewrite for Confluent Cloud)
 In this lab we will create a transaction case. A typical activity on a bankaccount for a specific period.
 If not prepared already in setup, please create topic and load data:
 ```bash

@@ -1,4 +1,4 @@
-# Use case: Real-time Inventory
+# Use case: Real-time Inventory (need to be rewrite for Confluent Cloud)
 
 Produce Inventory Data into Kafka
 ```bash

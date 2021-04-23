@@ -1,4 +1,4 @@
-# Use case TRACK & TRACE
+# Use case TRACK & TRACE (need to be rewrite for Confluent Cloud)
 In retail you will send your orders to your customer, right? For this a shipment have be created and you should able to follow the shipment (and of course the logistic service partner and your customers too).
 
 

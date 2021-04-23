@@ -1,4 +1,4 @@
-# De-normalize a customer object with ksqlDB
+# De-normalize a customer object with ksqlDB (ready for Confluent Cloud)
 We prepared two demos where we de-normalized so to say database tables into Confluent Platform kafka. The use case behind this is to do preprocessing events directly in the Kafka cluster and not in the target system. Jay kreps named this architecture pattern Kappa-Architecture.
 
 ## Demo 1: de-normalize customer tables in Confluent Kafka cluster

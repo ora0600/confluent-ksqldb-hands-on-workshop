@@ -1,4 +1,4 @@
-# Calculate the distance in ksqlDB
+# Calculate the distance in ksqlDB (Ready for Confluent Cloud)
 This use case is useful for fleet management. Typically you will calculate EAT (expected arrival time) and for this you need to calculate the distnace between two locations.
 
 ## Load data first

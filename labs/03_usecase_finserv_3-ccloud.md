@@ -1,4 +1,4 @@
-# Create datagen connector for Stocktrades data
+# Create datagen connector for Stocktrades data (need to be rewrite for Confluent Cloud)
 We have an avro schema describtion in datagen/ for stocks. In this lab we will create datagen connector which should generate stcoktrade data. You can use datagen connector to generate your own data, whatever you need.
 
 Check the schema script first
