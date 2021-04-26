@@ -111,8 +111,12 @@ while read line; do
     if [ $n  -eq 0 ]
     then
           echo "email:$line  principal:$PRINCIPAL  cluster:$CCLOUD_CLUSTERNAME  clusterid:$CCLOUD_CLUSTERID  bootstrap:$CCLOUD_CLUSTERID_BOOTSTRAP  cluster-key:$CCLOUD_KEY  cluster-secret:$CCLOUD_SECRET  ksqlDBID:$CCLOUD_KSQLDB_ID   ksqlDBREST:$CCLOUD_KSQLDB_REST  ksqDB-URL:https://confluent.cloud/environments/$CCLOUD_ENV/clusters/$CCLOUD_CLUSTERID/ksql/$CCLOUD_KSQLDB_ID/editor  SR-URL:$CCLOUD_SRURL  SR-APIKEY:$CCLOUD_SRKEY  SR-SECRET:$CCLOUD_SRSECRET " > attendees_cluster.txt
+          # for google sheet
+          echo "SPLIT(\"$line , $PRINCIPAL , $CCLOUD_CLUSTERNAME , $CCLOUD_CLUSTERID , $CCLOUD_CLUSTERID_BOOTSTRAP , $CCLOUD_KEY  $CCLOUD_SECRET  , $CCLOUD_KSQLDB_ID  ,$CCLOUD_KSQLDB_REST  ,https://confluent.cloud/environments/$CCLOUD_ENV/clusters/$CCLOUD_CLUSTERID/ksql/$CCLOUD_KSQLDB_ID/editor  ,$CCLOUD_SRURL  ,$CCLOUD_SRKEY  ,$CCLOUD_SRSECRET\",\",\")\" " > attendees_cluster_googlesheet.txt
     else
           echo "email:$line  principal:$PRINCIPAL  cluster:$CCLOUD_CLUSTERNAME  clusterid:$CCLOUD_CLUSTERID  bootstrap:$CCLOUD_CLUSTERID_BOOTSTRAP  cluster-key:$CCLOUD_KEY  cluster-secret:$CCLOUD_SECRET  ksqlDBID:$CCLOUD_KSQLDB_ID   ksqlDBREST:$CCLOUD_KSQLDB_REST  ksqDB-URL:https://confluent.cloud/environments/$CCLOUD_ENV/clusters/$CCLOUD_CLUSTERID/ksql/$CCLOUD_KSQLDB_ID/editor  SR-URL:$CCLOUD_SRURL  SR-APIKEY:$CCLOUD_SRKEY  SR-SECRET:$CCLOUD_SRSECRET " >> attendees_cluster.txt
+          # for google sheet
+          echo "SPLIT(\"$line , $PRINCIPAL , $CCLOUD_CLUSTERNAME , $CCLOUD_CLUSTERID , $CCLOUD_CLUSTERID_BOOTSTRAP , $CCLOUD_KEY  $CCLOUD_SECRET  , $CCLOUD_KSQLDB_ID  ,$CCLOUD_KSQLDB_REST  ,https://confluent.cloud/environments/$CCLOUD_ENV/clusters/$CCLOUD_CLUSTERID/ksql/$CCLOUD_KSQLDB_ID/editor  ,$CCLOUD_SRURL  ,$CCLOUD_SRKEY  ,$CCLOUD_SRSECRET\",\",\")\" " >> attendees_cluster_googlesheet.txt
     fi
     echo "ssl.endpoint.identification.algorithm=https
           sasl.mechanism=PLAIN

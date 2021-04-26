@@ -20,13 +20,12 @@ This script create cluster with ksqlDB Apps based on the attendees.txt file. Eac
 
 ## Create Clusters
 Create for each attendee in `attendees.txt` a cluster in Confluent Cloud. Max 20 clusters can be created. We have a limit of 20 ksqlDB Apps per environment. If you need more, contact the Confluent Support.
-A good `attendee.txt` setup would look like this, e.g. for 4 users (an empty row at the end):
+A good `attendee.txt` setup would look like this, e.g. for 4 users:
 ```bash
 mustermann+rabc001@mustermann.io
 mustermann+rbac002@mustermann.io
 mustermann+rbac003@mustermann.io
 mustermann+rbac004@mustermann.io
-
 ```
 
 Then start the cluster executions:

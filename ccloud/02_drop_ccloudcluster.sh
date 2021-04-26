@@ -78,6 +78,7 @@ rm -rf principal
 rm -rf apikey1
 rm -rf srinfos
 rm -rf srkey
+rm -rf attendees_cluster_googlesheet.txt
 rm *.properties
 
 # Finish
