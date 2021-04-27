@@ -3,7 +3,8 @@
 We are going to build data pipeline which should look like this:
 ![Financial Services Use cases as flow](img/Financial_datapipe.png)
 
-1. Login to Confluent Cloud. Select Org "ksqldb-workshop" and then select your Cluster. From the left panel select "ksqlDB" to display all apps. Select your ksqlDB App to display the ksqlDB Editor. 
+## 1. First Steps
+Login to Confluent Cloud. Select Org "ksqldb-workshop" and then select your Cluster. From the left panel select "ksqlDB" to display all apps. Select your ksqlDB App to display the ksqlDB Editor. 
 
 ![Start Screen](img/payments_start.png)
 
@@ -16,7 +17,7 @@ Check the properties set for ksqlDB.
 ```
 show properties;
 ```
-2. Create Streams.
+## 2. Create Streams
 ```
 create stream payments(PAYMENT_ID INTEGER KEY, CUSTID INTEGER, ACCOUNTID INTEGER, AMOUNT INTEGER, BANK VARCHAR) with(kafka_topic='Payment_Instruction', value_format='json');
 ```
@@ -43,10 +44,10 @@ create table customers (
 
 list tables;        
 ```
-3. Load Data:
-In the ksqlDB Editor add some data to your streams;
+## 3. Load Data
+In the ksqlDB Editor add some data to your streams.
 
-3.1 Customer Data:
+Customer Data:
 ```
 INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (10,'Brena','Tollerton','btollerton9@furl.net','Female','silver');
 INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (9,'Even','Tinham','etinham8@facebook.com','Male','silver');
@@ -59,7 +60,7 @@ INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) valu
 INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (2,'Ruthie','Brockherst','rbrockherst1@ow.ly','Female','platinum');
 INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (1,'Rica','Blaisdell','rblaisdell0@rambler.ru','Female','bronze');
 ```
-3.2 Payment Instruction Data
+Payment Instruction Data
 ```
 insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (1,1,1234000,100,'DBS');
 insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (3,2,1234100,200,'Barclays Bank');
@@ -72,7 +73,7 @@ insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (15,8,
 insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (17,9,1234800,900,'DBS');
 insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (19,10,1234900,1000,'United Overseas Bank');
 ```
-3.2 ALM Status Data
+ALM Status Data
 ```
 insert into aml_status(PAYMENT_ID,BANK,STATUS) values (1,'Wells Fargo','OK');
 insert into aml_status(PAYMENT_ID,BANK,STATUS) values (3,'Commonwealth Bank of Australia','OK');
@@ -85,7 +86,7 @@ insert into aml_status(PAYMENT_ID,BANK,STATUS) values (15,'Barclays Bank','OK');
 insert into aml_status(PAYMENT_ID,BANK,STATUS) values (17,'United Overseas Bank','OK');
 insert into aml_status(PAYMENT_ID,BANK,STATUS) values (19,'Royal Bank of Canada','OK');
 ```
-3.2 Funds Status Data
+Funds Status Data
 ```
 insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (1,'00','OK');
 insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (3,'99','OK');
@@ -98,7 +99,7 @@ insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (15,'00','OK');
 insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (17,'10','OK');
 insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (19,'10','OK');
 ```
-4. Play with data
+## 4. Play with data
 
 Please set the following query properties 
 * 'auto.offset.reset' to 'earliest'
@@ -119,7 +120,7 @@ select * from aml_status emit changes;
 select * from funds_status emit changes;
 
 ```
-5. Enriching Payments with Customer details
+## 5. Enriching Payments with Customer details
 ```
 create stream enriched_payments as select
 p.payment_id as payment_id,
@@ -143,7 +144,7 @@ Now check in Confluent Cloud UI:
 
 ![Persistent Queries](img/payments_pq.png)
 
-6. Combining the status streams
+## 6. Combining the status streams
 ```
 CREATE STREAM payment_statuses AS SELECT payment_id, status, 'AML' as source_system FROM aml_status;
 
@@ -174,7 +175,7 @@ select * from payments_with_status emit changes;
 
 select * from payments_with_status emit changes limit 10;
 ```
-7. Check in the ksqldb area the ksqldb flow to follow the expansion easier
+## 7. Check in the ksqldb area the ksqldb flow to follow the expansion easier
 
 Aggregate into consolidated records
 ```
@@ -198,7 +199,7 @@ Pull queries, check value for a specific payment (snapshot lookup). Pull Query i
 select * from payments_final where payment_id=1;
 ```
 
-8. Query by REST Call
+## 8. Query by REST Call
 Get the REST Endpoint from the Settings menu and execute query with your credentials copies from properties File
 
 ![ksqlDB App Settings](img/payments_settings.png)
