@@ -148,8 +148,8 @@ insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (51,'10','NOT OK'
 4. Play with data
 
 Please set following the query properties 
-  *'auto.offset.reset' to 'earliest'
-  *'commit.interval.ms' to '1000'
+* 'auto.offset.reset' to 'earliest'
+* 'commit.interval.ms' to '1000'
 to query your streams and table
 ```
 select * from customers emit changes;
@@ -182,20 +182,22 @@ describe ENRICHED_PAYMENTS;
 select * from enriched_payments emit changes;
 ```
 Now check in Confluent Cloud UI:
-1) check in ksqlDB APP - the running queries. Take a look in the details (SINK: and SOURCE:) of the running queries.
-2) check in ksqlDB APP the flow to follow the expansion easier. If it is not visible refresh the webpage in browser.
+1. check in ksqlDB App - the persistent queries. Take a look in the details (SINK: and SOURCE:) of the running queries.
+1. check in ksqlDB App the flow to follow the expansion easier. If it is not visible refresh the webpage in browser.
 
 6. Combining the status streams
 ```
-ksql> CREATE STREAM payment_statuses AS SELECT payment_id, status, 'AML' as source_system FROM aml_status;
-ksql> INSERT INTO payment_statuses SELECT payment_id, status, 'FUNDS' as source_system FROM funds_status;
-ksql> describe payment_statuses;
-ksql> set 'auto.offset.reset'='latest';
-ksql> select * from payment_statuses emit changes;
+CREATE STREAM payment_statuses AS SELECT payment_id, status, 'AML' as source_system FROM aml_status;
+
+INSERT INTO payment_statuses SELECT payment_id, status, 'FUNDS' as source_system FROM funds_status;
+
+describe payment_statuses;
+
+select * from payment_statuses emit changes;
 ```
 Combine payment and status events in 1 hour window. Why we need a timing window for stream-stream join?
 ```
-ksql> CREATE STREAM payments_with_status AS SELECT
+CREATE STREAM payments_with_status AS SELECT
   ep.payment_id as payment_id,
   ep.accountid,
   ep.amount,
@@ -207,28 +209,32 @@ ksql> CREATE STREAM payments_with_status AS SELECT
   ps.status,
   ps.source_system
   FROM enriched_payments ep LEFT JOIN payment_statuses ps WITHIN 1 HOUR ON ep.payment_id = ps.payment_id ;
-ksql> describe payments_with_status;
-ksql> select * from payments_with_status emit changes;
-ksql> select * from payments_with_status emit changes limit 10;
+
+describe payments_with_status;
+
+select * from payments_with_status emit changes;
+
+select * from payments_with_status emit changes limit 10;
 ```
 7. Check in the ksqldb area the ksqldb flow to follow the expansion easier
 
 Aggregate into consolidated records
 ```
-ksql> CREATE TABLE payments_final AS SELECT
+CREATE TABLE payments_final AS SELECT
   payment_id,
   histogram(status) as status_counts,
   collect_list('{ "system" : "' + source_system + '", "status" : "' + STATUS + '"}') as service_status_list
   from payments_with_status
   where status is not null
   group by payment_id;
-ksql> describe PAYMENTS_FINAL ;
-ksql> select * from payments_final emit changes limit 1;
+
+describe PAYMENTS_FINAL ;
+
+select * from payments_final emit changes limit 1;
 ```
 Pull queries, check value for a specific payment (snapshot lookup). Pull Query is a Preview feature.
 ```
-ksql> set 'auto.offset.reset'='earliest';
-ksql> select * from payments_final where payment_id=1;
+select * from payments_final where payment_id=1;
 ```
 
 8. Query by REST Call
