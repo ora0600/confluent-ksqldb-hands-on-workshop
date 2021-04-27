@@ -1,20 +1,39 @@
 # Use case TRACK & TRACE (need to be rewrite for Confluent Cloud)
 In retail you will send your orders to your customer, right? For this a shipment have be created and you should able to follow the shipment (and of course the logistic service partner and your customers too).
 
-
-
-run ksqlDB and create DDL for order and later for shipments:
+## Create a stream (DDL for Orders)
 ```bash
-docker exec -it workshop-ksqldb-cli ksql http://ksqldb-server:8088
-ksql> CREATE STREAM orders_stream ( orderid VARCHAR key, order_ts VARCHAR, shop VARCHAR, product VARCHAR, order_placed VARCHAR, total_amount DOUBLE, customer_name VARCHAR)
-      WITH (KAFKA_TOPIC='orders',
-          VALUE_FORMAT='JSON',
-          TIMESTAMP='order_ts',
-          TIMESTAMP_FORMAT='yyyy-MM-dd''T''HH:mm:ssX');
+ksql> CREATE STREAM orders_stream (
+			orderid VARCHAR key,
+			order_ts VARCHAR,
+			shop VARCHAR,
+			product VARCHAR,
+			order_placed VARCHAR,
+			total_amount DOUBLE,
+			customer_name VARCHAR)
+		with (KAFKA_TOPIC='orders',
+		      VALUE_FORMAT='JSON',
+		      TIMESTAMP='order_ts',
+		      TIMESTAMP_FORMAT='yyyy-MM-dd''T''HH:mm:ssX');
+```
+
+## Add some demo data
+```bash
+kqsql> insert into orders_stream (orderid, order_ts, shop, product, order_placed, total_amount, customer_name) values ('1', '2021-03-22T11:58:25Z', 'Otto', 'iPhoneX', 'BERLIN', 462.11, 'Carsten Muetzlitz');
+insert into orders_stream (orderid, order_ts, shop, product, order_placed, total_amount, customer_name) values ('2', '2021-03-22T12:58:25Z', 'Apple', 'MacBookPro13', 'BERLIN', 3462.11, 'Carsten Muetzlitz');
+insert into orders_stream (orderid, order_ts, shop, product, order_placed, total_amount, customer_name) values ('3', '2021-03-22T13:58:25Z', 'Amazon', 'Apple Pencil', 'BERLIN', 62.11, 'Carsten Muetzlitz');
+```
+
+## Check topic and stream data
+```bash
+ksql> print 'orders' from beginning;
 ksql> SET 'auto.offset.reset' = 'earliest';
 ksql> select * from orders_stream emit changes;
 ksql> describe orders_stream;
 ```
+
+## TODO: CONTINUE TO REWORK FROM HERE...
+
 do the same for Shipments
 ```bash
 ksql> CREATE STREAM shipments_stream (shipmentid varchar key, shipment_id VARCHAR, shipment_ts VARCHAR, order_id VARCHAR, delivery VARCHAR)
