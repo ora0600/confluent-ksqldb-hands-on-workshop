@@ -5,6 +5,8 @@ We are going to build data pipeline which should look like this:
 
 1. Login to Confluent Cloud. Select Org "ksqldb-workshop" and then select your Cluster. From the left panel select "ksqlDB" to display all apps. Select your ksqlDB App to display the ksqlDB Editor. 
 
+![Start Screen](img/payments_start.png)
+
 Enter following commands (click button "Run query" for each command):
 ```
 show topics;
@@ -14,7 +16,7 @@ Check the properties set for ksqlDB.
 ```
 show properties;
 ```
-2. Create Streams and convert it automatically to AVRO.
+2. Create Streams.
 ```
 create stream payments(PAYMENT_ID INTEGER KEY, CUSTID INTEGER, ACCOUNTID INTEGER, AMOUNT INTEGER, BANK VARCHAR) with(kafka_topic='Payment_Instruction', value_format='json');
 ```
@@ -102,6 +104,9 @@ Please set the following query properties
 * 'auto.offset.reset' to 'earliest'
 * 'commit.interval.ms' to '1000'
 to query your streams and table
+
+![Needed Properties](img/payments_properties.png)
+
 ```
 select * from customers emit changes;
 
@@ -135,6 +140,8 @@ select * from enriched_payments emit changes;
 Now check in Confluent Cloud UI:
 * check in ksqlDB App - the persistent queries. Take a look in the details (SINK: and SOURCE:) of the running queries.
 * check in ksqlDB App the flow to follow the expansion easier. If it is not visible refresh the webpage in browser.
+
+![Persistent Queries](img/payments_pq.png)
 
 6. Combining the status streams
 ```
@@ -183,13 +190,19 @@ describe PAYMENTS_FINAL ;
 
 select * from payments_final emit changes limit 1;
 ```
+
+![Payments Final Table](img/payments_final_result.png)
+
 Pull queries, check value for a specific payment (snapshot lookup). Pull Query is a Preview feature.
 ```
 select * from payments_final where payment_id=1;
 ```
 
 8. Query by REST Call
-Get the REST Endpoint from `ccloud ksql app list` and execute query with your credentials copies from properties File
+Get the REST Endpoint from the Settings menu and execute query with your credentials copies from properties File
+
+![ksqlDB App Settings](img/payments_settings.png)
+
 ```
 curl -X "POST" "https://yourserver.europe-west1.gcp.confluent.cloud:443/query" \
      -u KEY:SECRET \
