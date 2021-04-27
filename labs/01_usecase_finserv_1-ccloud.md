@@ -182,8 +182,8 @@ describe ENRICHED_PAYMENTS;
 select * from enriched_payments emit changes;
 ```
 Now check in Confluent Cloud UI:
-1. check in ksqlDB App - the persistent queries. Take a look in the details (SINK: and SOURCE:) of the running queries.
-1. check in ksqlDB App the flow to follow the expansion easier. If it is not visible refresh the webpage in browser.
+* check in ksqlDB App - the persistent queries. Take a look in the details (SINK: and SOURCE:) of the running queries.
+* check in ksqlDB App the flow to follow the expansion easier. If it is not visible refresh the webpage in browser.
 
 6. Combining the status streams
 ```
