@@ -25,9 +25,12 @@ describe payments;
 Create the other streams
 ```
 create stream aml_status(PAYMENT_ID INTEGER, BANK VARCHAR, STATUS VARCHAR) with(kafka_topic='AML_Status', value_format='json');
+
 create stream funds_status (PAYMENT_ID INTEGER, REASON_CODE VARCHAR, STATUS VARCHAR) with(kafka_topic='Funds_Status', value_format='json');
+
 list streams;
-CREATE TABLE customers (
+
+create table customers (
           ID INTEGER PRIMARY KEY, 
           FIRST_NAME VARCHAR, 
           LAST_NAME VARCHAR, 
@@ -35,14 +38,15 @@ CREATE TABLE customers (
           GENDER VARCHAR, 
           STATUS360 VARCHAR) 
           WITH(kafka_topic='CUSTOMERS_FLAT', value_format='JSON');
+
 list tables;        
 ```
 3. Load Data:
-go to ksqlDB Editor and copy and paste data
+In the ksqlDB Editor add some data to your streams;
 
 3.1 Customer Data:
 ```
-ksql> INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (20,'Anselma','Rook','arookj@europa.eu','Female','gold');
+INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (20,'Anselma','Rook','arookj@europa.eu','Female','gold');
 INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (19,'Josiah','Brockett','jbrocketti@com.com','Male','gold');
 INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (18,'Waldon','Keddey','wkeddeyh@weather.com','Male','gold');
 INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (17,'Brianna','Paradise','bparadiseg@nifty.com','Female','bronze');
@@ -50,7 +54,7 @@ INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) valu
 INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (15,'Rodrique','Silverton','rsilvertone@umn.edu','Male','gold');
 INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (14,'Isabelita','Talboy','italboyd@imageshack.us','Female','gold');
 INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (13,'Laney','Toopin','ltoopinc@icio.us','Female','platinum');
-ksql> INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (12,'Sheryl','Hackwell','shackwellb@paginegialle.it','Female','gold');
+INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (12,'Sheryl','Hackwell','shackwellb@paginegialle.it','Female','gold');
 INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (11,'Alexandro','Peeke-Vout','apeekevouta@freewebs.com','Male','gold');
 INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (10,'Brena','Tollerton','btollerton9@furl.net','Female','silver');
 INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (9,'Even','Tinham','etinham8@facebook.com','Male','silver');
@@ -62,11 +66,12 @@ INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) valu
 INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (3,'Mariejeanne','Cocci','mcocci2@techcrunch.com','Female','bronze');
 INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (2,'Ruthie','Brockherst','rbrockherst1@ow.ly','Female','platinum');
 INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (1,'Rica','Blaisdell','rblaisdell0@rambler.ru','Female','bronze');
-ksql> select * from customers emit changes;
+
+select * from customers emit changes;
 ```
 3.2 Payment Instruction Data
 ```
-ksql> insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (1,1,1234000,100,'DBS');
+insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (1,1,1234000,100,'DBS');
 insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (3,2,1234100,200,'Barclays Bank');
 insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (5,3,1234200,300,'BNP Paribas');
 insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (7,4,1234300,400,'Wells Fargo');
@@ -76,7 +81,7 @@ insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (13,7,
 insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (15,8,1234700,800,'DBS');
 insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (17,9,1234800,900,'DBS');
 insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (19,10,1234900,1000,'United Overseas Bank');
-ksql> insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (21,11,1234000,1100,'Royal Bank of Canada');
+insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (21,11,1234000,1100,'Royal Bank of Canada');
 insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (23,12,1234100,1200,'BNP Paribas');
 insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (25,13,1234200,1300,'Wells Fargo');
 insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (27,14,1234300,1400,'Commonwealth Bank of Australia');
@@ -92,11 +97,12 @@ insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (45,23
 insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (47,24,1234300,2400,'Deutsche Bank');
 insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (49,1,1234400,2500,'Deutsche Bank');
 insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (51,2,1234500,2600,'Royal Bank of Canada');
-ksql> select * from payments emit changes;
+
+select * from payments emit changes;
 ```
 3.2 ALM Status Data
 ```
-ksql> insert into aml_status(PAYMENT_ID,BANK,STATUS) values (1,'Wells Fargo','OK');
+insert into aml_status(PAYMENT_ID,BANK,STATUS) values (1,'Wells Fargo','OK');
 insert into aml_status(PAYMENT_ID,BANK,STATUS) values (3,'Commonwealth Bank of Australia','OK');
 insert into aml_status(PAYMENT_ID,BANK,STATUS) values (5,'Deutsche Bank','OK');
 insert into aml_status(PAYMENT_ID,BANK,STATUS) values (7,'DBS','OK');
@@ -105,7 +111,7 @@ insert into aml_status(PAYMENT_ID,BANK,STATUS) values (11,'Citi','OK');
 insert into aml_status(PAYMENT_ID,BANK,STATUS) values (13,'Commonwealth Bank of Australia','OK');
 insert into aml_status(PAYMENT_ID,BANK,STATUS) values (15,'Barclays Bank','OK');
 insert into aml_status(PAYMENT_ID,BANK,STATUS) values (17,'United Overseas Bank','OK');
-ksql> insert into aml_status(PAYMENT_ID,BANK,STATUS) values (19,'Royal Bank of Canada','OK');
+insert into aml_status(PAYMENT_ID,BANK,STATUS) values (19,'Royal Bank of Canada','OK');
 insert into aml_status(PAYMENT_ID,BANK,STATUS) values (21,'Commonwealth Bank of Australia','OK');
 insert into aml_status(PAYMENT_ID,BANK,STATUS) values (23,'Deutsche Bank','OK');
 insert into aml_status(PAYMENT_ID,BANK,STATUS) values (25,'DBS','OK');
@@ -122,11 +128,12 @@ insert into aml_status(PAYMENT_ID,BANK,STATUS) values (45,'DBS','FAIL');
 insert into aml_status(PAYMENT_ID,BANK,STATUS) values (47,'DBS','OK');
 insert into aml_status(PAYMENT_ID,BANK,STATUS) values (49,'Citi','OK');
 insert into aml_status(PAYMENT_ID,BANK,STATUS) values (51,'Barclays Bank','FAIL');
-ksql> select * from aml_status emit changes;
+
+select * from aml_status emit changes;
 ```
 3.2 Funds Status Data
 ```
-ksql> insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (1,'00','OK');
+insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (1,'00','OK');
 insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (3,'99','OK');
 insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (5,'30','OK');
 insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (7,'00','OK');
@@ -139,7 +146,7 @@ insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (19,'10','OK');
 insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (21,'30','OK');
 insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (23,'10','OK');
 insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (25,'99','OK');
-ksql> insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (27,'10','OK');
+insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (27,'10','OK');
 insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (29,'20','NOT OK');
 insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (31,'99','OK');
 insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (33,'00','OK');
@@ -152,19 +159,22 @@ insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (45,'99','OK');
 insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (47,'10','OK');
 insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (49,'10','OK');
 insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (51,'10','NOT OK');
-ksql> select * from funds_status emit changes;
+
+select * from funds_status emit changes;
 ```
 4. Play with data
 Select new table with push query:
+Make sure the query property 'auto.offset.reset' is 'earliest'
 ```
-ksql> set 'auto.offset.reset'='earliest';
-ksql> select * from payments emit changes;
-ksql> select * from customers emit changes;
-ksql> select * from customers where id=1 emit changes;
+select * from payments emit changes;
+
+select * from customers emit changes;
+
+select * from customers where id=1 emit changes;
 ```
 5. Enriching Payments with Customer details
 ```
-ksql> create stream enriched_payments as select
+create stream enriched_payments as select
 p.payment_id as payment_id,
 p.custid as customer_id,
 p.accountid,
@@ -175,8 +185,10 @@ c.last_name,
 c.email,
 c.status360
 from payments p left join customers c on p.custid = c.id;
-ksql> describe ENRICHED_PAYMENTS;
-ksql> select * from enriched_payments emit changes;
+
+describe ENRICHED_PAYMENTS;
+
+select * from enriched_payments emit changes;
 ```
 Now check in Confluent Cloud UI:
 1) check in ksqlDB APP - the running queries. Take a look in the details (SINK: and SOURCE:) of the running queries.
