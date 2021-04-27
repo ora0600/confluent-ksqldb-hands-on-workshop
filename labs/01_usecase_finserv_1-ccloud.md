@@ -17,7 +17,7 @@ Check the properties set for ksqlDB.
 ```
 show properties;
 ```
-## 2. Create Streams
+## 2. Create Streams and Table
 ```
 create stream payments(PAYMENT_ID INTEGER KEY, CUSTID INTEGER, ACCOUNTID INTEGER, AMOUNT INTEGER, BANK VARCHAR) with(kafka_topic='Payment_Instruction', value_format='json');
 ```
@@ -44,7 +44,7 @@ create table customers (
 
 list tables;        
 ```
-## 3. Load Data
+## 3. Load Data to Streams and Table
 In the ksqlDB Editor add some data to your streams.
 
 Customer Data:
@@ -99,7 +99,7 @@ insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (15,'00','OK');
 insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (17,'10','OK');
 insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (19,'10','OK');
 ```
-## 4. Play with data
+## 4. Verify the entered data
 
 Please set the following query properties 
 * 'auto.offset.reset' to 'earliest'
@@ -120,7 +120,7 @@ select * from aml_status emit changes;
 select * from funds_status emit changes;
 
 ```
-## 5. Enriching Payments with Customer details
+## 5. Enrich Payments stream with Customers table
 ```
 create stream enriched_payments as select
 p.payment_id as payment_id,
@@ -144,7 +144,7 @@ Now check in Confluent Cloud UI:
 
 ![Persistent Queries](img/payments_pq.png)
 
-## 6. Combining the status streams
+## 6. Combine the status streams
 ```
 CREATE STREAM payment_statuses AS SELECT payment_id, status, 'AML' as source_system FROM aml_status;
 
@@ -175,7 +175,7 @@ select * from payments_with_status emit changes;
 
 select * from payments_with_status emit changes limit 10;
 ```
-## 7. Check in the ksqldb area the ksqldb flow to follow the expansion easier
+## 7. Aggregate data to the final table
 
 Aggregate into consolidated records
 ```
