@@ -1,6 +1,6 @@
 # Fiancial services case: Stocktrades data (steps for Confluent Cloud)
 
-In this lab we will create Stocktrades data snd summarize it grouped by the user. 
+In this lab we will create Stocktrades data and summarize it grouped by the user. 
 
 ## Create a stream
 In the Confluent Cloud environment, the required topic is already created.
