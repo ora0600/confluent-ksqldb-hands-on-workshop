@@ -3,29 +3,31 @@
 We are going to build data pipeline which should look like this:
 ![Financial Services Use cases as flow](img/Financial_datapipe.png)
 
-1. Login to Confluent Cloud ksqlDB APP of your cluster and edit in ksqlDB Editor
-```bash
-ksql> show topics;
-ksql> show streams;
+1. Login to Confluent Cloud. Select Org "ksqldb-workshop" and then select your Cluster. From the left panel select "ksqlDB" to display all apps. Select your ksqlDB App to display the ksqlDB Editor. 
+
+Enter following commands (click button "Run query" for each command):
+```
+show topics;
+show streams;
 ```
 Check the properties set for ksqlDB.
-```bash
-ksql> show properties;
+```
+show properties;
 ```
 2. Create Streams and convert it automatically to AVRO.
-```bash
-ksql> create stream payments(PAYMENT_ID INTEGER KEY, CUSTID INTEGER, ACCOUNTID INTEGER, AMOUNT INTEGER, BANK VARCHAR) with(kafka_topic='Payment_Instruction', value_format='json');
+```
+create stream payments(PAYMENT_ID INTEGER KEY, CUSTID INTEGER, ACCOUNTID INTEGER, AMOUNT INTEGER, BANK VARCHAR) with(kafka_topic='Payment_Instruction', value_format='json');
 ```
 Check your creation with describe and select. You can also use Confluent Control Center for this inspection.
-```bash
-ksql> describe payments;
+```
+describe payments;
 ```
 Create the other streams
-```bash
-ksql> create stream aml_status(PAYMENT_ID INTEGER, BANK VARCHAR, STATUS VARCHAR) with(kafka_topic='AML_Status', value_format='json');
-ksql> create stream funds_status (PAYMENT_ID INTEGER, REASON_CODE VARCHAR, STATUS VARCHAR) with(kafka_topic='Funds_Status', value_format='json');
-ksql> list streams;
-ksql> CREATE TABLE customers (
+```
+create stream aml_status(PAYMENT_ID INTEGER, BANK VARCHAR, STATUS VARCHAR) with(kafka_topic='AML_Status', value_format='json');
+create stream funds_status (PAYMENT_ID INTEGER, REASON_CODE VARCHAR, STATUS VARCHAR) with(kafka_topic='Funds_Status', value_format='json');
+list streams;
+CREATE TABLE customers (
           ID INTEGER PRIMARY KEY, 
           FIRST_NAME VARCHAR, 
           LAST_NAME VARCHAR, 
@@ -33,7 +35,7 @@ ksql> CREATE TABLE customers (
           GENDER VARCHAR, 
           STATUS360 VARCHAR) 
           WITH(kafka_topic='CUSTOMERS_FLAT', value_format='JSON');
-ksql> list tables;        
+list tables;        
 ```
 3. Load Data:
 go to ksqlDB Editor and copy and paste data
