@@ -69,22 +69,6 @@ insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (13,7,
 insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (15,8,1234700,800,'DBS');
 insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (17,9,1234800,900,'DBS');
 insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (19,10,1234900,1000,'United Overseas Bank');
-insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (21,11,1234000,1100,'Royal Bank of Canada');
-insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (23,12,1234100,1200,'BNP Paribas');
-insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (25,13,1234200,1300,'Wells Fargo');
-insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (27,14,1234300,1400,'Commonwealth Bank of Australia');
-insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (29,15,1234400,1500,'DBS');
-insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (31,16,1234500,1600,'Commonwealth Bank of Australia');
-insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (33,17,1234600,1700,'Royal Bank of Canada');
-insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (35,18,1234700,1800,'DBS');
-insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (37,19,1234800,1900,'Royal Bank of Canada');
-insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (39,20,1234900,2000,'Barclays Bank');
-insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (41,21,1234000,2100,'Citi');
-insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (43,22,1234100,2200,'Barclays Bank');
-insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (45,23,1234200,2300,'Citi');
-insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (47,24,1234300,2400,'Deutsche Bank');
-insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (49,1,1234400,2500,'Deutsche Bank');
-insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (51,2,1234500,2600,'Royal Bank of Canada');
 ```
 3.2 ALM Status Data
 ```
@@ -98,22 +82,6 @@ insert into aml_status(PAYMENT_ID,BANK,STATUS) values (13,'Commonwealth Bank of 
 insert into aml_status(PAYMENT_ID,BANK,STATUS) values (15,'Barclays Bank','OK');
 insert into aml_status(PAYMENT_ID,BANK,STATUS) values (17,'United Overseas Bank','OK');
 insert into aml_status(PAYMENT_ID,BANK,STATUS) values (19,'Royal Bank of Canada','OK');
-insert into aml_status(PAYMENT_ID,BANK,STATUS) values (21,'Commonwealth Bank of Australia','OK');
-insert into aml_status(PAYMENT_ID,BANK,STATUS) values (23,'Deutsche Bank','OK');
-insert into aml_status(PAYMENT_ID,BANK,STATUS) values (25,'DBS','OK');
-insert into aml_status(PAYMENT_ID,BANK,STATUS) values (27,'Wells Fargo','OK');
-insert into aml_status(PAYMENT_ID,BANK,STATUS) values (29,'Wells Fargo','OK');
-insert into aml_status(PAYMENT_ID,BANK,STATUS) values (31,'Barclays Bank','OK');
-insert into aml_status(PAYMENT_ID,BANK,STATUS) values (33,'Bank of Spain','FAIL');
-insert into aml_status(PAYMENT_ID,BANK,STATUS) values (35,'Citi','OK');
-insert into aml_status(PAYMENT_ID,BANK,STATUS) values (37,'Royal Bank of Canada','OK');
-insert into aml_status(PAYMENT_ID,BANK,STATUS) values (39,'United Overseas Bank','OK');
-insert into aml_status(PAYMENT_ID,BANK,STATUS) values (41,'Royal Bank of Canada','OK');
-insert into aml_status(PAYMENT_ID,BANK,STATUS) values (43,'Barclays Bank','OK');
-insert into aml_status(PAYMENT_ID,BANK,STATUS) values (45,'DBS','FAIL');
-insert into aml_status(PAYMENT_ID,BANK,STATUS) values (47,'DBS','OK');
-insert into aml_status(PAYMENT_ID,BANK,STATUS) values (49,'Citi','OK');
-insert into aml_status(PAYMENT_ID,BANK,STATUS) values (51,'Barclays Bank','FAIL');
 ```
 3.2 Funds Status Data
 ```
@@ -127,23 +95,6 @@ insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (13,'30','OK');
 insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (15,'00','OK');
 insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (17,'10','OK');
 insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (19,'10','OK');
-insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (21,'30','OK');
-insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (23,'10','OK');
-insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (25,'99','OK');
-insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (27,'10','OK');
-insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (29,'20','NOT OK');
-insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (31,'99','OK');
-insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (33,'00','OK');
-insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (35,'20','OK');
-insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (37,'00','OK');
-insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (39,'20','OK');
-insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (41,'30','OK');
-insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (43,'00','OK');
-insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (45,'99','OK');
-insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (47,'10','OK');
-insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (49,'10','OK');
-insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (51,'10','NOT OK');
-
 ```
 4. Play with data
 
