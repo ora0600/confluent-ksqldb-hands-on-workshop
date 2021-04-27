@@ -188,7 +188,7 @@ CREATE TABLE payments_final AS SELECT
 
 describe PAYMENTS_FINAL ;
 
-select * from payments_final emit changes limit 1;
+select * from payments_final emit changes;
 ```
 
 ![Payments Final Table](img/payments_final_result.png)
