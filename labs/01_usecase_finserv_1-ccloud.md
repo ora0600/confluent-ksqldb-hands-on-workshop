@@ -172,8 +172,6 @@ CREATE STREAM payments_with_status AS SELECT
 describe payments_with_status;
 
 select * from payments_with_status emit changes;
-
-select * from payments_with_status emit changes limit 10;
 ```
 ## 7. Aggregate data to the final table
 
