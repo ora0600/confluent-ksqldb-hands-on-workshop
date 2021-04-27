@@ -147,7 +147,7 @@ insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (51,'10','NOT OK'
 ```
 4. Play with data
 
-Please set following the query properties 
+Please set the following query properties 
 * 'auto.offset.reset' to 'earliest'
 * 'commit.interval.ms' to '1000'
 to query your streams and table
