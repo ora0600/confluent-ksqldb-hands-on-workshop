@@ -1,30 +1,53 @@
-# Use case: Real-time Inventory (need to be rewrite for Confluent Cloud)
+# Use case: Real-time Inventory (Ready for Confluent Cloud)
 
-Produce Inventory Data into Kafka
+This use case is useful for inventory management. It demonstrates how to create a ksqlDB stream based on a Kafka topic, then aggregate the item quantity and group the inventory by product item.
+
+## Create a stream
+In the Confluent Cloud environment, the required topic is already created.
+Now, create a stream on the topic and load some demo data in the ksqlDB Editor.
+
 ```bash
-docker exec -it workshop-kafka bash -c 'cat /produce-data/Inventory.json | kafka-console-producer --topic inventory --broker-list localhost:9092  --property "parse.key=true" --property "key.separator=:"'
+ksql> CREATE STREAM inventory_stream (
+			id STRING key,
+			cid STRING,
+			item STRING,
+			qty INTEGER,
+			price DOUBLE,
+			balance INTEGER)
+		with (VALUE_FORMAT='json',
+		      KAFKA_TOPIC='inventory');
 ```
-consume from inventory
+
+## Add some demo data
 ```bash
-docker exec -it workshop-kafka kafka-console-consumer --topic inventory --bootstrap-server localhost:9092 --from-beginning
+kqsql> insert into inventory_stream (id, cid,item,qty,price) values ('1', '1', 'Apple Magic Mouse 2', 10, 99);
+insert into inventory_stream (id, cid,item,qty,price) values ('2', '2', 'iPhoneX', 25, 999);
+insert into inventory_stream (id, cid,item,qty,price) values ('3', '3', 'MacBookPro13', 100, 1799);
+insert into inventory_stream (id, cid,item,qty,price) values ('4', '4', 'iPad4', 20, 340);
+insert into inventory_stream (id, cid,item,qty,price) values ('5', '5', 'Apple Pencil', 10, 79);
+insert into inventory_stream (id, cid,item,qty,price) values ('5', '2', 'PhoneX', 10, 899);
+insert into inventory_stream (id, cid,item,qty,price) values ('4', '4', 'iPad4', -20, 399);
+insert into inventory_stream (id, cid,item,qty,price) values ('3', '3', 'MacBookPro13', 10, 1899);
+insert into inventory_stream (id, cid,item,qty,price) values ('4', '4', 'iPad4', 20, 399);
 ```
-Now, data from all Inventories are online, go to ksqlDB and create a centralized view:
+
+## Check topic and stream data
 ```bash
-docker exec -it workshop-ksqldb-cli ksql http://ksqldb-server:8088
-ksql> CREATE STREAM inventory_stream (cid STRING, item STRING, qty INTEGER, price DOUBLE, balance INTEGER) with (VALUE_FORMAT='json',  KAFKA_TOPIC='inventory');
-ksql> SET 'auto.offset.reset' = 'earliest';
+ksql> print 'inventory' from beginning;
+ksql> SET 'auto.offset.reset'='earliest';
 ksql> select * from inventory_stream emit changes;
 ```
-Make the most up2date information via stateful table
+
+## Make the most up2date information via stateful table
 ```bash
 ksql> CREATE TABLE inventory_stream_table AS SELECT item, SUM(qty) AS item_qty FROM inventory_stream GROUP BY item emit changes;
 ksql> describe inventory_stream_table;
 ```
-output of our inventory via push query
+## Output of our inventory via push query
 ```bash
 ksql> select * from inventory_stream_table emit changes;
 ```
-output of our inventory via pull query
+## Output of our inventory via pull query
 ```bash
 ksql> select * from inventory_stream_table where item='iPad4';
 ksql> select * from inventory_stream_table where item='iPhoneX';
