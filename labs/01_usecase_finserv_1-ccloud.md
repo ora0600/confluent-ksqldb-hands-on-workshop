@@ -46,16 +46,6 @@ In the ksqlDB Editor add some data to your streams;
 
 3.1 Customer Data:
 ```
-INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (20,'Anselma','Rook','arookj@europa.eu','Female','gold');
-INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (19,'Josiah','Brockett','jbrocketti@com.com','Male','gold');
-INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (18,'Waldon','Keddey','wkeddeyh@weather.com','Male','gold');
-INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (17,'Brianna','Paradise','bparadiseg@nifty.com','Female','bronze');
-INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (16,'Clair','Vardy','cvardyf@reverbnation.com','Male','bronze');
-INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (15,'Rodrique','Silverton','rsilvertone@umn.edu','Male','gold');
-INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (14,'Isabelita','Talboy','italboyd@imageshack.us','Female','gold');
-INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (13,'Laney','Toopin','ltoopinc@icio.us','Female','platinum');
-INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (12,'Sheryl','Hackwell','shackwellb@paginegialle.it','Female','gold');
-INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (11,'Alexandro','Peeke-Vout','apeekevouta@freewebs.com','Male','gold');
 INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (10,'Brena','Tollerton','btollerton9@furl.net','Female','silver');
 INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (9,'Even','Tinham','etinham8@facebook.com','Male','silver');
 INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (8,'Patti','Rosten','prosten7@ihg.com','Female','silver');
@@ -66,8 +56,6 @@ INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) valu
 INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (3,'Mariejeanne','Cocci','mcocci2@techcrunch.com','Female','bronze');
 INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (2,'Ruthie','Brockherst','rbrockherst1@ow.ly','Female','platinum');
 INSERT INTO customers (id, FIRST_NAME, LAST_NAME, EMAIL, GENDER, STATUS360) values (1,'Rica','Blaisdell','rblaisdell0@rambler.ru','Female','bronze');
-
-select * from customers emit changes;
 ```
 3.2 Payment Instruction Data
 ```
@@ -97,8 +85,6 @@ insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (45,23
 insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (47,24,1234300,2400,'Deutsche Bank');
 insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (49,1,1234400,2500,'Deutsche Bank');
 insert into payments (PAYMENT_ID, CUSTID, ACCOUNTID, AMOUNT, BANK) values (51,2,1234500,2600,'Royal Bank of Canada');
-
-select * from payments emit changes;
 ```
 3.2 ALM Status Data
 ```
@@ -128,8 +114,6 @@ insert into aml_status(PAYMENT_ID,BANK,STATUS) values (45,'DBS','FAIL');
 insert into aml_status(PAYMENT_ID,BANK,STATUS) values (47,'DBS','OK');
 insert into aml_status(PAYMENT_ID,BANK,STATUS) values (49,'Citi','OK');
 insert into aml_status(PAYMENT_ID,BANK,STATUS) values (51,'Barclays Bank','FAIL');
-
-select * from aml_status emit changes;
 ```
 3.2 Funds Status Data
 ```
@@ -160,17 +144,24 @@ insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (47,'10','OK');
 insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (49,'10','OK');
 insert into funds_status(PAYMENT_ID,REASON_CODE,STATUS) values (51,'10','NOT OK');
 
-select * from funds_status emit changes;
 ```
 4. Play with data
-Select new table with push query:
-Make sure the query property 'auto.offset.reset' is 'earliest'
-```
-select * from payments emit changes;
 
+Please set following the query properties 
+  *'auto.offset.reset' to 'earliest'
+  *'commit.interval.ms' to '1000'
+to query your streams and table
+```
 select * from customers emit changes;
 
 select * from customers where id=1 emit changes;
+
+select * from payments emit changes;
+
+select * from aml_status emit changes;
+
+select * from funds_status emit changes;
+
 ```
 5. Enriching Payments with Customer details
 ```
