@@ -1,4 +1,4 @@
-# Finacial services case: Payment Status check (need to be rewrite for Confluent Cloud)
+# Finacial services case: Payment Status check (steps for Confluent Cloud)
 
 We are going to build data pipeline which should look like this:
 ![Financial Services Use cases as flow](img/Financial_datapipe.png)
@@ -152,7 +152,6 @@ ksql> set 'auto.offset.reset'='earliest';
 ksql> select * from payments emit changes;
 ksql> select * from customers emit changes;
 ksql> select * from customers where id=1 emit changes;
-ksql> exit;
 ```
 5. Enriching Payments with Customer details
 ```bash
@@ -175,7 +174,7 @@ Now check in Confluent Cloud UI:
 2) check in ksqlDB APP the flow to follow the expansion easier. If it is not visible refresh the webpage in browser.
 
 6. Combining the status streams
-```bash
+```
 ksql> CREATE STREAM payment_statuses AS SELECT payment_id, status, 'AML' as source_system FROM aml_status;
 ksql> INSERT INTO payment_statuses SELECT payment_id, status, 'FUNDS' as source_system FROM funds_status;
 ksql> describe payment_statuses;
@@ -183,7 +182,7 @@ ksql> set 'auto.offset.reset'='latest';
 ksql> select * from payment_statuses emit changes;
 ```
 Combine payment and status events in 1 hour window. Why we need a timing window for stream-stream join?
-```bash
+```
 ksql> CREATE STREAM payments_with_status AS SELECT
   ep.payment_id as payment_id,
   ep.accountid,
@@ -203,7 +202,7 @@ ksql> select * from payments_with_status emit changes limit 10;
 7. Check in the ksqldb area the ksqldb flow to follow the expansion easier
 
 Aggregate into consolidated records
-```bash
+```
 ksql> CREATE TABLE payments_final AS SELECT
   payment_id,
   histogram(status) as status_counts,
@@ -215,22 +214,21 @@ ksql> describe PAYMENTS_FINAL ;
 ksql> select * from payments_final emit changes limit 1;
 ```
 Pull queries, check value for a specific payment (snapshot lookup). Pull Query is a Preview feature.
-```bash
+```
 ksql> set 'auto.offset.reset'='earliest';
 ksql> select * from payments_final where payment_id=1;
-ksql> exit;
 ```
 
 8. Query by REST Call
 Get the REST Endpoint from `ccloud ksql app list` and execute query with your credentials copies from properties File
-```bash
+```
 curl -X "POST" "https://yourserver.europe-west1.gcp.confluent.cloud:443/query" \
      -u KEY:SECRET \
      -H "Content-Type: application/vnd.ksql.v1+json; charset=utf-8" \
      -d $'{"ksql": "select * from payments_final where payment_id=1;","streamsProperties": {}}' | jq
 ```
 list streams via curl
-```bash
+```
 curl -X "POST" "https://yourserver.europe-west1.gcp.confluent.cloud:443/ksql" \
      -u KEY:SECRET \
      -H "Content-Type: application/vnd.ksql.v1+json; charset=utf-8" \
