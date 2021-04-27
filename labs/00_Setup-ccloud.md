@@ -69,6 +69,28 @@ That's all. Now you can play around in Confluent Cloud
 Open URL in Browser on your local machine and go to [Confluent Cloud](https://confluent.cloud) and login
 You can use our [Quick-Start Guide](https://docs.confluent.io/cloud/current/get-started/index.html) for the first play-around session.
 
+# Play with ksqlDB cli 
+Get your information about your ksqlDB cluster in Confluent Cloud:
+```bash
+ccloud ksql app list -o json
+# write down the endpoint
+```
+Use your existing API Key of the cluster or create a new one for your ksqlDB App:
+```bash
+ccloud api-key create --resource $KSQL_CLUSTER_ID
+```
+Now, you can use the ksqldb cli to work against Confluent Cloud ksqlDB:
+```bash
+docker run -it confluentinc/ksqldb-cli:0.17.0 ksql \
+       -u $KSQL_API_KEY \
+       -p $KSQL_API_SECRET \
+       "$KSQL_ENDPOINT
+ksql> show properties;
+ksql> list topics;
+ksql> list streams;
+ksql> list tables;
+```
+
 # Load data (Confluent Cloud)
 If you running Confluent Cloud environment, we will insert data later in the labs.
 
