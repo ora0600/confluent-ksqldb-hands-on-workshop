@@ -37,13 +37,13 @@ cd ccloud/
     # lab 6
     # coming soon
     # lab 7
+    ccloud kafka topic create atm_locations --partitions 1 --environment your-environment-id --cluster ID-from-Created-Cluster
     # coming soon
     # lab 8 topics
     ccloud kafka topic create custcustomers --partitions 1 --environment your-environment-id --cluster ID-from-Created-Cluster
     ccloud kafka topic create custorders --partitions 1 --environment your-environment-id --cluster ID-from-Created-Cluster
     ccloud kafka topic create custitems --partitions 1 --environment your-environment-id --cluster ID-from-Created-Cluster
-    # lab7
-    ccloud kafka topic create atm_locations --partitions 1 --environment your-environment-id --cluster ID-from-Created-Cluster
+    
 ```
 Of course you could also use the kafka tools to create topics.
 For this you would like to create a properties file. Replace the variables with your own entries 
