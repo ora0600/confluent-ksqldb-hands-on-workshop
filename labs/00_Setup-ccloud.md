@@ -52,7 +52,7 @@ echo "ssl.endpoint.identification.algorithm=https
           schema.registry.url=$CCLOUD_SRURL
           # Enable Avro serializer with Schema Registry (optional)
           key.serializer=io.confluent.kafka.serializers.KafkaAvroSerializer
-          value.serializer=io.confluent.kafka.serializers.KafkaAvroSerializer" > ccloud_$line.properties
+          value.serializer=io.confluent.kafka.serializers.KafkaAvroSerializer" > ccloud.properties
 ```
 That's all. Now you can play around in Confluent Cloud
 
