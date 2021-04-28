@@ -96,10 +96,17 @@ ksql> CREATE STREAM shipment_statuses_stream (
 		      VALUE_FORMAT='JSON');
 ```
 
+## Add some demo data for shipments
+```bash
+kqsql> insert into shipment_statuses_stream (shipment_id, status, warehouse) values ('ship-kr47454', 'in delivery', 'FRANKFURT');
+insert into shipment_statuses_stream (shipment_id, status, warehouse) values ('ship-kr47454', 'in delivery', 'BERLIN');
+insert into shipment_statuses_stream (shipment_id, status, warehouse) values ('ship-kr47454', 'delivered', '@customer');
+```
+
 ## TODO Continue here...
 ```bash
+ksql> describe shipment_statuses_stream;
 ksql> select * from shipment_statuses_stream emit changes;
-ksql> describe shipment_statuses_stream ;      
 ```
 
 You can also try to insert data via 'insert statements'
