@@ -77,7 +77,7 @@ ksql> CREATE STREAM shipped_orders AS
 	WITHIN
 		30 DAYS
 	ON
-		o.orderid = '"'+s.order_id+'"';
+		o.orderid = s.order_id;
 ```
 
 ## Check the shipped orders stream
@@ -86,15 +86,23 @@ ksql> describe shipped_orders;
 ksql> select * from shipped_orders emit changes;
 ```
 
+## Create a new stream for shipped statuses
+```bash
+ksql> CREATE STREAM shipment_statuses_stream (
+			shipment_id VARCHAR,
+			status VARCHAR,
+			warehouse VARCHAR)
+		WITH (KAFKA_TOPIC='shipment_status',
+		      VALUE_FORMAT='JSON');
+```
+
 ## TODO Continue here...
 ```bash
-ksql> CREATE STREAM shipment_statuses_stream (shipment_id VARCHAR, status VARCHAR, warehouse VARCHAR)
-    WITH (KAFKA_TOPIC='shipment_status',
-          VALUE_FORMAT='JSON');
-ksql>  select * from shipment_statuses_stream emit changes; 
+ksql> select * from shipment_statuses_stream emit changes;
 ksql> describe shipment_statuses_stream ;      
 ```
-You can also try to insert data via `insert statements`
+
+You can also try to insert data via 'insert statements'
 ```bash
 ksql> INSERT INTO orders_stream (orderid, order_ts, shop, product, order_placed, total_amount, customer_name) VALUES ('"10"', '2019-03-29T06:01:18Z', 'Otto', 'iPhoneX','Berlin', 133548.84, 'Mark Mustermann');
 ksql> INSERT INTO shipments_stream (shipmentid, shipment_id, shipment_ts, order_id, delivery) VALUES ('"ship-ch83360"','ship-ch83360', '2019-03-31T18:13:39Z', '10', 'UPS');
