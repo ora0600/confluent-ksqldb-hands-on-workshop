@@ -103,40 +103,48 @@ insert into shipment_statuses_stream (shipment_id, status, warehouse) values ('s
 insert into shipment_statuses_stream (shipment_id, status, warehouse) values ('ship-kr47454', 'delivered', '@customer');
 ```
 
-## TODO Continue here...
+## Check, if the shipment statuses stream works properly
 ```bash
 ksql> describe shipment_statuses_stream;
 ksql> select * from shipment_statuses_stream emit changes;
 ```
 
-You can also try to insert data via 'insert statements'
+## You can also try to insert new data via 'insert statements' and then check the stream again
 ```bash
 ksql> INSERT INTO orders_stream (orderid, order_ts, shop, product, order_placed, total_amount, customer_name) VALUES ('"10"', '2019-03-29T06:01:18Z', 'Otto', 'iPhoneX','Berlin', 133548.84, 'Mark Mustermann');
-ksql> INSERT INTO shipments_stream (shipmentid, shipment_id, shipment_ts, order_id, delivery) VALUES ('"ship-ch83360"','ship-ch83360', '2019-03-31T18:13:39Z', '10', 'UPS');
-ksql> INSERT INTO shipment_statuses_stream (shipment_id, status, warehouse) VALUES ('ship-ch83360', 'in delivery', 'BERLIN');
-ksql> INSERT INTO shipment_statuses_stream (shipment_id, status, warehouse) VALUES ('ship-ch83360', 'in delivery', 'FRANKFURT');
-ksql> INSERT INTO shipment_statuses_stream (shipment_id, status, warehouse) VALUES ('ship-ch83360', 'delivered', '@customer');
+INSERT INTO shipments_stream (shipmentid, shipment_id, shipment_ts, order_id, delivery) VALUES ('"ship-ch83360"','ship-ch83360', '2019-03-31T18:13:39Z', '10', 'UPS');
+INSERT INTO shipment_statuses_stream (shipment_id, status, warehouse) VALUES ('ship-ch83360', 'in delivery', 'BERLIN');
+INSERT INTO shipment_statuses_stream (shipment_id, status, warehouse) VALUES ('ship-ch83360', 'in delivery', 'FRANKFURT');
+INSERT INTO shipment_statuses_stream (shipment_id, status, warehouse) VALUES ('ship-ch83360', 'delivered', '@customer');
 ksql> select * from shipment_statuses_stream emit changes;
 ```
-symmetric update to table (topic behind is compacted unlimited retention)
+
+Symmetric update to table (topic behind is compacted unlimited retention)
 ```bash
-ksql> CREATE TABLE shipment_statuses_table AS SELECT
-  shipment_id,
-  histogram(status) as status_counts,
-  collect_list('{ "status" : "' + status + '"}') as status_list,
-  histogram(warehouse) as warehouse_counts,
-  collect_list('{ "warehouse" : "' + warehouse + '"}') as warehouse_list
-  from shipment_statuses_stream
-  where status is not null
-  group by shipment_id;
+ksql> CREATE TABLE shipment_statuses_table AS
+	SELECT
+		shipment_id,
+		histogram(status) as status_counts,
+		collect_list('{ "status" : "' + status + '"}') as status_list,
+		histogram(warehouse) as warehouse_counts,
+		collect_list('{ "warehouse" : "' + warehouse + '"}') as warehouse_list
+	FROM
+		shipment_statuses_stream
+	WHERE
+		status is not null
+	GROUP BY
+		shipment_id;
+
 ksql> describe shipment_statuses_table;
 ksql> select * from shipment_statuses_table emit changes;
 ```
-pull query to shipment
+
+Pull query to shipment
 ```bash
 ksql> select * from shipment_statuses_table where SHIPMENT_ID='ship-ch83360';
 ```
-asymmetric join
+
+Asymmetric join
 ```bash
 ksql> CREATE STREAM shipments_with_status_stream AS SELECT
   ep.shipment_id as shipment_id,
@@ -149,6 +157,7 @@ ksql> CREATE STREAM shipments_with_status_stream AS SELECT
 ksql> describe shipments_with_status_stream;
 ksql> select * from shipments_with_status_stream emit changes;
 ```
+
 Result seems to be same, but add a new status to shipment ship-ch83360 and you will see stream is not changed
 ```bash
 ksql> INSERT INTO shipment_statuses_stream (shipment_id, status, warehouse) VALUES ('ship-ch83360', 'post-update', '@attendee');
