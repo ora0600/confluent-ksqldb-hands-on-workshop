@@ -19,15 +19,11 @@ cd ccloud/
     ccloud kafka topic create inventory --partitions 1 --environment your-environment-id --cluster ID-from-Created-Cluster
     ccloud kafka topic create shipment_status --partitions 1 --environment your-environment-id --cluster ID-from-Created-Cluster
     ccloud kafka topic create transactions --partitions 1 --environment your-environment-id --cluster ID-from-Created-Cluster
-    # Lab1 with Schema
-    ccloud kafka topic create Payment_Instruction --partitions 1 --environment your-environment-id --cluster ID-from-Created-Cluster
-    ccloud schema-registry schema create --subject Payment_Instruction-value --schema payment_instructions.json --type JSON --api-key CCLOUD_SRKEY --api-secret CCLOUD_SRSECRET --environment your-environment-id
-    ccloud kafka topic create AML_Status --partitions 1 --environment your-environment-id --cluster ID-from-Created-Cluster
-    ccloud schema-registry schema create --subject AML_Status-value --schema aml_status.json --type JSON --api-key CCLOUD_SRKEY --api-secret CCLOUD_SRSECRET --environment your-environment-id
-    ccloud kafka topic create Funds_Status --partitions 1 --environment your-environment-id --cluster ID-from-Created-Cluster
-    ccloud schema-registry schema create --subject Funds_Status-value --schema funds_status.json --type JSON --api-key CCLOUD_SRKEY --api-secret CCLOUD_SRSECRET --environment your-environment-id
-    ccloud kafka topic create CUSTOMERS_FLAT --partitions 1 --environment your-environment-id --cluster ID-from-Created-Cluster --config cleanup.policy=compact
-    ccloud schema-registry schema create --subject CUSTOMERS_FLAT-value --schema customers.json --type JSON --api-key CCLOUD_SRKEY --api-secret CCLOUD_SRSECRET --environment your-environment-id
+    # Lab1
+    ccloud kafka topic create Payment_Instruction --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID
+    ccloud kafka topic create AML_Status --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID
+    ccloud kafka topic create Funds_Status --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID
+    ccloud kafka topic create CUSTOMERS_FLAT --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID --config cleanup.policy=compact
     # lab 3
     # coming soon
     # lab 4
