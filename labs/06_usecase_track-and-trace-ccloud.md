@@ -3,25 +3,25 @@ In retail you will send your orders to your customer, right? For this a shipment
 
 ## Create a stream (DDL for Orders)
 ```bash
-ksql> CREATE STREAM orders_stream (
-			orderid VARCHAR key,
-			order_ts VARCHAR,
-			shop VARCHAR,
-			product VARCHAR,
-			order_placed VARCHAR,
-			total_amount DOUBLE,
-			customer_name VARCHAR)
-		with (KAFKA_TOPIC='orders',
-		      VALUE_FORMAT='JSON',
-		      TIMESTAMP='order_ts',
-		      TIMESTAMP_FORMAT='yyyy-MM-dd''T''HH:mm:ssX');
+	ksql> CREATE STREAM orders_stream (
+				orderid VARCHAR key,
+				order_ts VARCHAR,
+				shop VARCHAR,
+				product VARCHAR,
+				order_placed VARCHAR,
+				total_amount DOUBLE,
+				customer_name VARCHAR)
+			with (KAFKA_TOPIC='orders',
+			      VALUE_FORMAT='JSON',
+			      TIMESTAMP='order_ts',
+			      TIMESTAMP_FORMAT='yyyy-MM-dd''T''HH:mm:ssX');
 ```
 
-## Add some demo data
+## Add some demo data for orders
 ```bash
-kqsql> insert into orders_stream (orderid, order_ts, shop, product, order_placed, total_amount, customer_name) values ('1', '2021-03-22T11:58:25Z', 'Otto', 'iPhoneX', 'BERLIN', 462.11, 'Carsten Muetzlitz');
-insert into orders_stream (orderid, order_ts, shop, product, order_placed, total_amount, customer_name) values ('2', '2021-03-22T12:58:25Z', 'Apple', 'MacBookPro13', 'BERLIN', 3462.11, 'Carsten Muetzlitz');
-insert into orders_stream (orderid, order_ts, shop, product, order_placed, total_amount, customer_name) values ('3', '2021-03-22T13:58:25Z', 'Amazon', 'Apple Pencil', 'BERLIN', 62.11, 'Carsten Muetzlitz');
+kqsql> insert into orders_stream (orderid, order_ts, shop, product, order_placed, total_amount, customer_name) values ('1', '2021-04-22T11:58:25Z', 'Otto', 'iPhoneX', 'BERLIN', 462.11, 'Carsten Muetzlitz');
+insert into orders_stream (orderid, order_ts, shop, product, order_placed, total_amount, customer_name) values ('2', '2021-04-22T12:58:25Z', 'Apple', 'MacBookPro13', 'BERLIN', 3462.11, 'Carsten Muetzlitz');
+insert into orders_stream (orderid, order_ts, shop, product, order_placed, total_amount, customer_name) values ('3', '2021-04-22T13:58:25Z', 'Amazon', 'Apple Pencil', 'BERLIN', 62.11, 'Carsten Muetzlitz');
 ```
 
 ## Check topic and stream data
@@ -32,31 +32,62 @@ ksql> select * from orders_stream emit changes;
 ksql> describe orders_stream;
 ```
 
-## TODO: CONTINUE TO REWORK FROM HERE...
-
-do the same for Shipments
+## Create a stream (DDL for Shipments)
 ```bash
-ksql> CREATE STREAM shipments_stream (shipmentid varchar key, shipment_id VARCHAR, shipment_ts VARCHAR, order_id VARCHAR, delivery VARCHAR)
-    WITH (KAFKA_TOPIC='shipments',
-          VALUE_FORMAT='JSON',
-          TIMESTAMP='shipment_ts',
-          TIMESTAMP_FORMAT='yyyy-MM-dd''T''HH:mm:ssX');  
+ksql> CREATE STREAM shipments_stream (
+				shipmentid varchar key,
+				shipment_id VARCHAR,
+				shipment_ts VARCHAR,
+				order_id VARCHAR,
+				delivery VARCHAR)
+			with (KAFKA_TOPIC='shipments',
+			     VALUE_FORMAT='JSON',
+			     TIMESTAMP='shipment_ts',
+			     TIMESTAMP_FORMAT='yyyy-MM-dd''T''HH:mm:ssX');
+```
+
+## Add some demo data for shipments
+```bash
+kqsql> insert into shipments_stream (shipmentid, shipment_id, shipment_ts, order_id, delivery) values ('ship-ch83360', 'ship-ch83360', '2021-04-22T12:13:39Z', '1', 'UPS');
+insert into shipments_stream (shipmentid, shipment_id, shipment_ts, order_id, delivery) values ('ship-xf72808', 'ship-xf72808', '2021-04-22T13:04:13Z', '2', 'DHL');
+insert into shipments_stream (shipmentid, shipment_id, shipment_ts, order_id, delivery) values ('ship-kr47454', 'ship-kr47454', '2021-04-22T14:13:39Z', '3', 'HERMES');
+```
+
+## Check topic and stream data
+```bash
+ksql> print 'shipments' from beginning;
 ksql> select * from shipments_stream emit changes;
 ksql> describe shipments_stream;
+```
+
+## Create a new stream for shipped orders
+```bash
 ksql> CREATE STREAM shipped_orders AS
-    SELECT o.orderid AS order_id,
-           TIMESTAMPTOSTRING(o.rowtime, 'yyyy-MM-dd HH:mm:ss') AS order_ts,
-           o.total_amount,
-           o.customer_name,
-           s.shipment_id,
-           TIMESTAMPTOSTRING(s.rowtime, 'yyyy-MM-dd HH:mm:ss') AS shipment_ts,
-           s.delivery, 
-           (s.rowtime - o.rowtime) / 1000 / 60 AS ship_time
-    FROM orders_stream o INNER JOIN shipments_stream s
-    WITHIN 30 DAYS
-    ON o.orderid = '"'+s.order_id+'"';
+	SELECT
+		o.orderid AS order_id,
+		TIMESTAMPTOSTRING(o.rowtime, 'yyyy-MM-dd HH:mm:ss') AS order_ts,
+		o.total_amount,
+		o.customer_name,
+		s.shipment_id,
+		TIMESTAMPTOSTRING(s.rowtime, 'yyyy-MM-dd HH:mm:ss') AS shipment_ts,
+		s.delivery, 
+		(s.rowtime - o.rowtime) / 1000 / 60 AS ship_time
+	FROM
+		orders_stream o INNER JOIN shipments_stream s
+	WITHIN
+		30 DAYS
+	ON
+		o.orderid = '"'+s.order_id+'"';
+```
+
+## Check the shipped orders stream
+```bash
 ksql> describe shipped_orders;
 ksql> select * from shipped_orders emit changes;
+```
+
+## TODO Continue here...
+```bash
 ksql> CREATE STREAM shipment_statuses_stream (shipment_id VARCHAR, status VARCHAR, warehouse VARCHAR)
     WITH (KAFKA_TOPIC='shipment_status',
           VALUE_FORMAT='JSON');
