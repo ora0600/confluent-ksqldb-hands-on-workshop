@@ -33,9 +33,9 @@ cd ccloud/
     # lab 4
     # coming soon
     # lab 5
-    # coming soon
+    # this lab uses the created topic 'inventory'
     # lab 6
-    # coming soon
+    # this lab uses the created topics 'orders', 'shipments' and 'shipment_status'
     # lab 7
     ccloud kafka topic create atm_locations --partitions 1 --environment your-environment-id --cluster ID-from-Created-Cluster
     # coming soon
