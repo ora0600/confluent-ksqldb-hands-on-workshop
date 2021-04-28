@@ -35,14 +35,27 @@ insert into inventory_stream (id, cid,item,qty,price) values ('4', '4', 'iPad4',
 ```bash
 ksql> print 'inventory' from beginning;
 ksql> SET 'auto.offset.reset'='earliest';
+ksql> SET 'commit.interval.ms' = '1000'
 ksql> select * from inventory_stream emit changes;
 ```
 
 ## Make the most up2date information via stateful table
 ```bash
-ksql> CREATE TABLE inventory_stream_table AS SELECT item, SUM(qty) AS item_qty FROM inventory_stream GROUP BY item emit changes;
+ksql> CREATE TABLE inventory_stream_table
+	WITH (kafka_topic='inventory_table') AS
+	SELECT
+		item,
+		SUM(qty) AS item_qty
+	FROM
+		inventory_stream
+	GROUP BY
+		item emit changes;
+
 ksql> describe inventory_stream_table;
 ```
+The group by clause 're-keys' the message in the newly created topic. Check the Cloud UI to see what has been done.
+What do you think, is the 'cleanup.policy' of this topic?
+
 ## Output of our inventory via push query
 ```bash
 ksql> select * from inventory_stream_table emit changes;
@@ -52,6 +65,15 @@ ksql> select * from inventory_stream_table emit changes;
 ksql> select * from inventory_stream_table where item='iPad4';
 ksql> select * from inventory_stream_table where item='iPhoneX';
 ```
+
+## Add some more data and 
+```bash
+kqsql> insert into inventory_stream (id, cid,item,qty,price) values ('11', '11', 'Apple Magic Mouse 2', 15, 90);
+insert into inventory_stream (id, cid,item,qty,price) values ('12', '12', 'iPhoneX', 10, 900);
+```
+
+Keep an eye on the existing push query against table 'INVENTORY_STREAM_TABLE' while inserting new data.
+
 Where is topic INVENTORY_STREAM_TABLE and what it is?
 ```bash
 ksql> list tables;
