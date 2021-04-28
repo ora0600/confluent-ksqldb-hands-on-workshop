@@ -30,7 +30,6 @@ cd ccloud/
     ccloud kafka topic create shipment_status --partitions 1 --environment your-environment-id --cluster ID-from-Created-Cluster
     # lab 7
     ccloud kafka topic create atm_locations --partitions 1 --environment your-environment-id --cluster ID-from-Created-Cluster
-    # coming soon
     # lab 8 topics
     ccloud kafka topic create custcustomers --partitions 1 --environment your-environment-id --cluster ID-from-Created-Cluster
     ccloud kafka topic create custorders --partitions 1 --environment your-environment-id --cluster ID-from-Created-Cluster
