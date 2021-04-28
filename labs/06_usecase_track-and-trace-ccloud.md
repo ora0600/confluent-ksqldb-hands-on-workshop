@@ -3,7 +3,7 @@ In retail you will send your orders to your customer, right? For this a shipment
 
 In the end the following data flow is implemented using ksqlDB
 
-![image](https://user-images.githubusercontent.com/73937355/116419389-4b9d3f00-a83d-11eb-91e2-fec868d32424.png)
+![image](https://user-images.githubusercontent.com/73937355/116419604-830beb80-a83d-11eb-8d6b-fd05ca8f5845.png)
 
 
 ## Create a stream (DDL for Orders)
