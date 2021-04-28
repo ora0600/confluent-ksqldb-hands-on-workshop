@@ -13,25 +13,21 @@ Now, if want to create everything manually you have to create the topics for the
 ```bash
 cd ccloud/
     # Create topics
-    # Normal Topics
+    # Lab1
+    ccloud kafka topic create Payment_Instruction --partitions 1 --environment your-environment-id --cluster ID-from-Created-Cluster
+    ccloud kafka topic create AML_Status --partitions 1 --environment your-environment-id --cluster ID-from-Created-Cluster
+    ccloud kafka topic create Funds_Status --partitions 1 --environment your-environment-id --cluster ID-from-Created-Cluster
+    ccloud kafka topic create CUSTOMERS_FLAT --partitions 1 --environment your-environment-id --cluster ID-from-Created-Cluster --config cleanup.policy=compact
+    # lab 3
+    ccloud kafka topic create stocktrades --partitions 1 --environment your-environment-id --cluster ID-from-Created-Cluster    
+    # lab 4
+    ccloud kafka topic create transactions --partitions 1 --environment your-environment-id --cluster ID-from-Created-Cluster
+    # lab 5
+    ccloud kafka topic create inventory --partitions 1 --environment your-environment-id --cluster ID-from-Created-Cluster
+    # lab 6
     ccloud kafka topic create orders --partitions 1 --environment your-environment-id --cluster ID-from-Created-Cluster
     ccloud kafka topic create shipments --partitions 1 --environment your-environment-id --cluster ID-from-Created-Cluster
-    ccloud kafka topic create inventory --partitions 1 --environment your-environment-id --cluster ID-from-Created-Cluster
     ccloud kafka topic create shipment_status --partitions 1 --environment your-environment-id --cluster ID-from-Created-Cluster
-    ccloud kafka topic create transactions --partitions 1 --environment your-environment-id --cluster ID-from-Created-Cluster
-    # Lab1
-    ccloud kafka topic create Payment_Instruction --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID
-    ccloud kafka topic create AML_Status --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID
-    ccloud kafka topic create Funds_Status --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID
-    ccloud kafka topic create CUSTOMERS_FLAT --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID --config cleanup.policy=compact
-    # lab 3
-    # coming soon
-    # lab 4
-    # coming soon
-    # lab 5
-    # this lab uses the created topic 'inventory'
-    # lab 6
-    # this lab uses the created topics 'orders', 'shipments' and 'shipment_status'
     # lab 7
     ccloud kafka topic create atm_locations --partitions 1 --environment your-environment-id --cluster ID-from-Created-Cluster
     # coming soon
@@ -39,7 +35,6 @@ cd ccloud/
     ccloud kafka topic create custcustomers --partitions 1 --environment your-environment-id --cluster ID-from-Created-Cluster
     ccloud kafka topic create custorders --partitions 1 --environment your-environment-id --cluster ID-from-Created-Cluster
     ccloud kafka topic create custitems --partitions 1 --environment your-environment-id --cluster ID-from-Created-Cluster
-    
 ```
 Of course you could also use the kafka tools to create topics.
 For this you would like to create a properties file. Replace the variables with your own entries 
