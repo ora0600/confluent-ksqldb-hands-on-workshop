@@ -6,9 +6,12 @@ Additional you can have max 3 ksqlDB Apps per cluster.
 
 You can not scale a 4 CSU ksqlDB App to 8 CSU. This is not possible. Instead provision a new ksqlDB App and migrate ksqldb scripts to the new app.
 
-But let us check what is the difference of a 4 CSU ksqlDB App and a 8 ksqlDB App
+## Definition
+* Application - A CCloud ksqlDB cluster, an isolated group of nodes working together to run a ksqlDB workload.
+* CSU - Confluent Streaming Unit, the pricing/capacity unit for CCloud ksqlDB. Users pay for however many CSUs they have provisioned, regardless of application throughput and/or hardware resource utilization.
 
 ## ksqDB Editor in Confluent Cloud
+But let us check what is the difference of a 4 CSU ksqlDB App and a 8 ksqlDB App
 ```bash
 ksql> show properties;
 # Output:
