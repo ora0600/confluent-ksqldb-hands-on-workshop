@@ -1,6 +1,9 @@
 # Use case TRACK & TRACE (Ready for Confluent Cloud)
 In retail you will send your orders to your customer, right? For this a shipment have be created and you should able to follow the shipment (and of course the logistic service partner and your customers too).
 
+![image](https://user-images.githubusercontent.com/73937355/116419389-4b9d3f00-a83d-11eb-91e2-fec868d32424.png)
+
+
 ## Create a stream (DDL for Orders)
 ```bash
 ksql> CREATE STREAM orders_stream (
