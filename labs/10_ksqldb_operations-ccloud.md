@@ -1021,10 +1021,11 @@ ksql> show properties;
   "warnings": []
 }
 ```
-With a 8 CSU ksqlDB App you have still a limit of 20 persistant queries and no HA setup.
+With a 8 CSU ksqlDB App you have still a limit of 20 persistant queries and HA is enabled.
 The difference is:
 * 8 CSU with standby replicas: ksql.streams.num.standby.replicas = 1
-+ 8 CSU can handle ~double throughput of 4 CSU ksqlDB Apps
+* 8 CSU can handle ~double throughput of 4 CSU ksqlDB Apps
+* (12 CSU would serve tripple throughput of 4 CSU )
 
 ## Sizing guideline
 Based on your setup, please monitor persistent queries. You do that by switching to consumer monitoroning and watch consumer lag, this is main driver to activate sclaing.
