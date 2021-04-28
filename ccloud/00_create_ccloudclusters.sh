@@ -76,33 +76,26 @@ while read line; do
     echo "Give the cluster two minutes ..."
     sleep 120
     # Create topics
-    # Normal Topics
-    ccloud kafka topic create orders --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID
-    ccloud kafka topic create shipments --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID
-    ccloud kafka topic create inventory --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID
-    ccloud kafka topic create shipment_status --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID
-    ccloud kafka topic create transactions --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID
     # Lab1 with Schema
     ccloud kafka topic create Payment_Instruction --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID
     ccloud kafka topic create AML_Status --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID
     ccloud kafka topic create Funds_Status --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID
-    ccloud kafka topic create CUSTOMERS_FLAT --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID --config cleanup.policy=compact
+    ccloud kafka topic create CUSTOMERS_FLAT --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID --config cleanup.policy=compact   
     # lab 3
-    # coming soon
-    # lab 4
-    # coming soon
-    # lab 5
-    # coming soon
-    # lab 6
-    # coming soon
-    # lab 7
-    # coming soon
+    ccloud kafka topic create stocktrades --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID
+    # Lab 6
+    ccloud kafka topic create orders --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID
+    ccloud kafka topic create shipments --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID
+    ccloud kafka topic create inventory --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID
+    ccloud kafka topic create shipment_status --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID
+    #lab 4
+    ccloud kafka topic create transactions --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID
+    # lab7
+    ccloud kafka topic create atm_locations --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID
     # lab 8 topics
     ccloud kafka topic create custcustomers --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID
     ccloud kafka topic create custorders --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID
     ccloud kafka topic create custitems --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID
-    # lab7
-    ccloud kafka topic create atm_locations --partitions 1 --environment $CCLOUD_ENV --cluster $CCLOUD_CLUSTERID
     # Print Mapping
     if [ $n  -eq 0 ]
     then
