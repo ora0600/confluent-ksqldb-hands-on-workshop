@@ -84,7 +84,7 @@ We will ask you before the workshop, if you would like to run on your own enviro
 5. Lab Geo Fencing - Lab 9
     * local machine: [Doing GEO Fencing with ksqlDB](labs/09_geofencing.md); No Confluent Cloud lab
 6. Lab Operations - Lab 10
-    * local machine: [Add a ksqlDB App into your environment](labs/10_ksqldb_operations.md); No Confluent Cloud lab
+    * local machine: [Add a ksqlDB App into your environment](labs/10_ksqldb_operations.md); Confluent Cloud [Compare CSU ksqlDB App](labs/10_ksqldb_operations-ccloud.md)
 7. Lab Fully-managed Connector - Lab 11
     * local machine: No local machine lab ; Confluent Cloud:  [Add a JDBC Connector to Oracle DB](labs/11_oracle_connect_ccloud.md)
 
