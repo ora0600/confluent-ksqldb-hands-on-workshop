@@ -85,6 +85,10 @@ ksql> CREATE STREAM shipped_orders AS
 		o.orderid = s.order_id;
 ```
 
+What does the 30 days limit actually mean?  
+Which time does this apply to?  
+Also, any idea where the properties o.rowtime and s.rowtime in the upper statement are coming from and what do you think about its values?  
+
 ## Check the shipped orders stream
 ```bash
 ksql> describe shipped_orders;
@@ -121,6 +125,7 @@ INSERT INTO shipments_stream (shipmentid, shipment_id, shipment_ts, order_id, de
 INSERT INTO shipment_statuses_stream (shipment_id, status, warehouse) VALUES ('ship-ch83360', 'in delivery', 'BERLIN');
 INSERT INTO shipment_statuses_stream (shipment_id, status, warehouse) VALUES ('ship-ch83360', 'in delivery', 'FRANKFURT');
 INSERT INTO shipment_statuses_stream (shipment_id, status, warehouse) VALUES ('ship-ch83360', 'delivered', '@customer');
+
 ksql> select * from shipment_statuses_stream emit changes;
 ```
 
@@ -144,6 +149,8 @@ ksql> CREATE TABLE shipment_statuses_table AS
 ksql> describe shipment_statuses_table;
 ksql> select * from shipment_statuses_table emit changes;
 ```
+
+Is there a topic for this table? What is the name of the topic?  
 
 Also go and create a pull query for a given shipment id.
 ```bash
