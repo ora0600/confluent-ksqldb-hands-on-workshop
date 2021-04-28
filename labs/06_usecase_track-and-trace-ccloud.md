@@ -1,4 +1,4 @@
-# Use case TRACK & TRACE (need to be rewrite for Confluent Cloud)
+# Use case TRACK & TRACE (Ready for Confluent Cloud)
 In retail you will send your orders to your customer, right? For this a shipment have be created and you should able to follow the shipment (and of course the logistic service partner and your customers too).
 
 ## Create a stream (DDL for Orders)
@@ -119,7 +119,8 @@ INSERT INTO shipment_statuses_stream (shipment_id, status, warehouse) VALUES ('s
 ksql> select * from shipment_statuses_stream emit changes;
 ```
 
-Symmetric update to table (topic behind is compacted unlimited retention)
+## Symmetric update to table
+The topic behind is compacted unlimited retention. Here some aggregation functions of ksqlDB are used.
 ```bash
 ksql> CREATE TABLE shipment_statuses_table AS
 	SELECT
@@ -139,34 +140,43 @@ ksql> describe shipment_statuses_table;
 ksql> select * from shipment_statuses_table emit changes;
 ```
 
-Pull query to shipment
+Also go and create a pull query for a given shipment id.
 ```bash
 ksql> select * from shipment_statuses_table where SHIPMENT_ID='ship-ch83360';
 ```
 
 Asymmetric join
 ```bash
-ksql> CREATE STREAM shipments_with_status_stream AS SELECT
-  ep.shipment_id as shipment_id,
-  ep.order_id as order_id,
-  ps.status_counts as status_counts,
-  ps.status_list as status_list,
-  ps.warehouse_counts as warehouse_counts,
-  ps.warehouse_list as warehouse_list
-  FROM shipments_stream ep LEFT JOIN shipment_statuses_table ps ON ep.shipment_id = ps.shipment_id ;
+ksql> CREATE STREAM shipments_with_status_stream AS
+	SELECT
+		ep.shipment_id as shipment_id,
+		ep.order_id as order_id,
+		ps.status_counts as status_counts,
+		ps.status_list as status_list,
+		ps.warehouse_counts as warehouse_counts,
+		ps.warehouse_list as warehouse_list
+	FROM
+		shipments_stream ep LEFT JOIN shipment_statuses_table ps
+	ON
+		ep.shipment_id = ps.shipment_id;
+
 ksql> describe shipments_with_status_stream;
 ksql> select * from shipments_with_status_stream emit changes;
 ```
 
-Result seems to be same, but add a new status to shipment ship-ch83360 and you will see stream is not changed
+Result seems to be same, but add a new status to shipment ship-ch83360 and you will see the stream is not changed
 ```bash
 ksql> INSERT INTO shipment_statuses_stream (shipment_id, status, warehouse) VALUES ('ship-ch83360', 'post-update', '@attendee');
+
 # No change
 ksql> select * from shipments_with_status_stream emit changes;
+
 # But in table status is seen
 ksql> select * from shipment_statuses_table where shipment_id='ship-ch83360';
-ksql> exit
+
+ksql> exit;
 ````
+
 End lab6
 
 [go back to Agenda](https://github.com/ora0600/confluent-ksqldb-hands-on-workshop/blob/master/README.md#hands-on-agenda-and-labs)
