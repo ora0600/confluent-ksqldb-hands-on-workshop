@@ -3,18 +3,18 @@ In retail you will send your orders to your customer, right? For this a shipment
 
 ## Create a stream (DDL for Orders)
 ```bash
-	ksql> CREATE STREAM orders_stream (
-				orderid VARCHAR key,
-				order_ts VARCHAR,
-				shop VARCHAR,
-				product VARCHAR,
-				order_placed VARCHAR,
-				total_amount DOUBLE,
-				customer_name VARCHAR)
-			with (KAFKA_TOPIC='orders',
-			      VALUE_FORMAT='JSON',
-			      TIMESTAMP='order_ts',
-			      TIMESTAMP_FORMAT='yyyy-MM-dd''T''HH:mm:ssX');
+ksql> CREATE STREAM orders_stream (
+			orderid VARCHAR key,
+			order_ts VARCHAR,
+			shop VARCHAR,
+			product VARCHAR,
+			order_placed VARCHAR,
+			total_amount DOUBLE,
+			customer_name VARCHAR)
+		with (KAFKA_TOPIC='orders',
+		      VALUE_FORMAT='JSON',
+		      TIMESTAMP='order_ts',
+		      TIMESTAMP_FORMAT='yyyy-MM-dd''T''HH:mm:ssX');
 ```
 
 ## Add some demo data for orders
