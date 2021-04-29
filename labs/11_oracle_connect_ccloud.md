@@ -35,7 +35,7 @@ The conenctor will be provisioned.
 After few minutes the status is then "Running"
 ![Connector Running](img/conn-running.png)
 
-Now, take a look into Topic list if you can see the new generated topic oracledb.kunden and if yes, go to tab messages and start from 0 offset and you should see the events are coming from Oracle DB.
+Now, take a look into Topic list if you can see the new generated topic oracledb.KUNDEN and if yes, go to tab messages and start from 0 offset and you should see the events are coming from Oracle DB.
 
 End lab11
 
