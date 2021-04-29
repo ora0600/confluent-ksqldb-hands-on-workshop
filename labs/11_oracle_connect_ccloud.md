@@ -41,7 +41,7 @@ To take this new Oracle DB data stream in our event processing we have to transf
 ```bash
 ksql> create stream kunden_streams with (kafka_topic='oracledb.KUNDEN', value_format='avro');
 ```                                    
-As you can see we do not to define columns here. This is because everyting is described within in the Schema of the topic.
+As you can see we do not to define columns here. This is because everything is described within the schema of the topic. The stream will take the data describtion from the schema.
 Now, set the offset to earlist and select your new stream:
 ![DB Stream Select ](img/db-stream-select.png)
 
