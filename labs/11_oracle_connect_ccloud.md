@@ -1,16 +1,41 @@
 # Connect Oracle DB 12.2 with fully-managed Connector (ready with Confluent Cloud)
 We prepared an a running DB 12.2 from Oracle with deployed data model including data.
-The task is know to create an fully-managed Connector and load data from Oracle DB.
+The task is know to create a fully-managed Connector and load data from Oracle DB into Kafka Cluster.
 
-We will use the fully-managed Oracle Source Connector in Confluent Cloud.
+![Using Oracle DB Source Connector](img/db-source-connector-flow.jpg)
+
+We will use the fully-managed Oracle DB Source Connector in Confluent Cloud.
 You can setup the connector with GUI or `ccloud cli`.
 In this case we will create connector with the GUI.
 The cli would looks like this: 
 ```bash
 ccloud connector create --cluster YOUR-cluster-id --config oracle.properties
 ```
+-----
+In the first step click on the left side on Connectors (see pic below)
 
-toDo
+![Choose Connector section](img/choose-conn.png)
+
+Type in the search field "oracle" and choose the "Oracle Database Source" Source Connector
+
+![Choose Connector](img/oracle-db-conn.png)
+
+Now type in the db connection details (see pic below). Please use exactly the same lower and upper case like in the pic.
+
+![Connection Details1](img/conn-prop-new.png)
+
+![Connection Details2](img/conn-prop2.png)
+
+Click on next and then on "Launch".
+
+
+The conenctor will be provisioned.
+![Connector Provisioning](img/conn-provisioning.png)
+
+After few minutes the status is then "Running"
+![Connector Running](img/conn-running.png)
+
+Now, take a look into Topic list if you can see the new generated topic oracledb.kunden and if yes, go to tab messages and start from 0 offset and you should see the events are coming from Oracle DB.
 
 End lab11
 
