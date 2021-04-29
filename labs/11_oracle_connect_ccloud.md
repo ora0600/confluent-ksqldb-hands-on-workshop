@@ -37,6 +37,14 @@ After few minutes the status is then "Running"
 
 Now, take a look into Topic list if you can see the new generated topic oracledb.KUNDEN and if yes, go to tab messages and start from 0 offset and you should see the events are coming from Oracle DB.
 
+To take this new Oracle DB data stream in our event processing we have to transform the topic into a real stream. Please go to ksqlDB Editor and create a topic:
+```bash
+ksql> create stream kunden_streams with (kafka_topic='oracledb.KUNDEN', value_format='avro');
+```                                    
+As you can see we do not to define columns here. This is because everyting is described within in the Schema of the topic.
+Now, set the offset to earlist and select your new stream:
+![DB Stream Select ](img/db-stream-select.png)
+
 End lab11
 
 [go back to Agenda](https://github.com/ora0600/confluent-ksqldb-hands-on-workshop/blob/master/README.md#hands-on-agenda-and-labs)
