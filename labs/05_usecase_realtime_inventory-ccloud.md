@@ -30,6 +30,8 @@ insert into inventory_stream (id, cid,item,qty,price) values ('4', '4', 'iPad4',
 insert into inventory_stream (id, cid,item,qty,price) values ('3', '3', 'MacBookPro13', 10, 1899);
 insert into inventory_stream (id, cid,item,qty,price) values ('4', '4', 'iPad4', 20, 399);
 ```
+Why do we have two id's? 
+Is this technically required? What could be a potential reason for that?
 
 ## Check topic and stream data
 ```bash
@@ -53,8 +55,8 @@ ksql> CREATE TABLE inventory_stream_table
 
 ksql> describe inventory_stream_table;
 ```
-The group by clause 're-keys' the message in the newly created topic. Check the Cloud UI to see what has been done.
-What do you think, is the 'cleanup.policy' of this topic?
+The group by clause 're-keys' the message in the newly created topic. Check also the Cloud UI topic viewer to see the results.
+What do you think, is the 'cleanup.policy' of this topic? Why?
 
 ## Output of our inventory via push query
 ```bash
