@@ -203,7 +203,7 @@ Get the REST Endpoint from the Settings menu and execute query with your credent
 ![ksqlDB App Settings](img/payments_settings.png)
 
 ```
-curl -X "POST" "https://yourserver.europe-west1.gcp.confluent.cloud:443/query" \
+curl -X "POST" "https://yourserver.europe-west1.gcp.confluent.cloud:443/query-stream" \
      -u KEY:SECRET \
      -H "Content-Type: application/vnd.ksql.v1+json; charset=utf-8" \
      -d $'{"ksql": "select * from payments_final where payment_id=1;","streamsProperties": {}}' | jq
