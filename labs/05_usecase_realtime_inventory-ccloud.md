@@ -25,7 +25,7 @@ insert into inventory_stream (id, cid,item,qty,price) values ('2', '2', 'iPhoneX
 insert into inventory_stream (id, cid,item,qty,price) values ('3', '3', 'MacBookPro13', 100, 1799);
 insert into inventory_stream (id, cid,item,qty,price) values ('4', '4', 'iPad4', 20, 340);
 insert into inventory_stream (id, cid,item,qty,price) values ('5', '5', 'Apple Pencil', 10, 79);
-insert into inventory_stream (id, cid,item,qty,price) values ('5', '2', 'PhoneX', 10, 899);
+insert into inventory_stream (id, cid,item,qty,price) values ('5', '5', 'PhoneX', 10, 899);
 insert into inventory_stream (id, cid,item,qty,price) values ('4', '4', 'iPad4', -20, 399);
 insert into inventory_stream (id, cid,item,qty,price) values ('3', '3', 'MacBookPro13', 10, 1899);
 insert into inventory_stream (id, cid,item,qty,price) values ('4', '4', 'iPad4', 20, 399);
