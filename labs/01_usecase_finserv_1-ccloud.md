@@ -219,7 +219,7 @@ Try Select query via REST API
 curl -X "POST" "https://yourserver.europe-west1.gcp.confluent.cloud:443/query-stream" \
      -u KEY:SECRET \
      -H "Content-Type: application/vnd.ksql.v1+json; charset=utf-8" \
-     -d $'{"ksql": "select * from payments_final where payment_id=1;","streamsProperties": {}}' | jq
+     -d $'{"sql": "select * from payments_final where payment_id=1;","streamsProperties": {}}' | jq
 ```
 END Lab 1 
 
