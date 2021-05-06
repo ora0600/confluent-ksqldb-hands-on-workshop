@@ -207,13 +207,6 @@ Test REST API access
 curl -u KEY:SECRET https://yourserver.gcp.confluent.cloud:443/info
 
 ```
-Try Select query via REST API
-```
-curl -X "POST" "https://yourserver.europe-west1.gcp.confluent.cloud:443/query-stream" \
-     -u KEY:SECRET \
-     -H "Content-Type: application/vnd.ksql.v1+json; charset=utf-8" \
-     -d $'{"ksql": "select * from payments_final where payment_id=1;","streamsProperties": {}}' | jq
-```
 List streams via curl
 ```
 curl -X "POST" "https://yourserver.europe-west1.gcp.confluent.cloud:443/ksql" \
@@ -221,7 +214,13 @@ curl -X "POST" "https://yourserver.europe-west1.gcp.confluent.cloud:443/ksql" \
      -H "Content-Type: application/vnd.ksql.v1+json; charset=utf-8" \
      -d $'{"ksql": "LIST STREAMS;","streamsProperties": {}}' | jq        
 ```
-
+Try Select query via REST API
+```
+curl -X "POST" "https://yourserver.europe-west1.gcp.confluent.cloud:443/query-stream" \
+     -u KEY:SECRET \
+     -H "Content-Type: application/vnd.ksql.v1+json; charset=utf-8" \
+     -d $'{"ksql": "select * from payments_final where payment_id=1;","streamsProperties": {}}' | jq
+```
 END Lab 1 
 
 Final table with payment statuses
