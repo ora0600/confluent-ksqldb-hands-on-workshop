@@ -1,5 +1,5 @@
 # Connect Oracle DB 12.2 with fully-managed Connector (ready with Confluent Cloud)
-We prepared an a running DB 12.2 from Oracle with deployed data model including data.
+We prepared a running DB 12.2 from Oracle with deployed data model including data.
 The task is know to create a fully-managed Connector and load data from Oracle DB into Kafka Cluster.
 
 ![Using Oracle DB Source Connector](img/db-source-connector-flow.jpg)
