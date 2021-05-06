@@ -202,6 +202,12 @@ Get the REST Endpoint from the Settings menu and execute query with your credent
 
 ![ksqlDB App Settings](img/payments_settings.png)
 
+Test REST API access
+```
+curl -u KEY:SECRET https://yourserver.gcp.confluent.cloud:443/info
+
+```
+try Select query via REST API
 ```
 curl -X "POST" "https://yourserver.europe-west1.gcp.confluent.cloud:443/query-stream" \
      -u KEY:SECRET \
