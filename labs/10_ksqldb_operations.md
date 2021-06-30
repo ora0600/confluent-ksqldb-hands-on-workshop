@@ -105,10 +105,74 @@ Please have a look [how to scale](https://docs.ksqldb.io/en/latest/operate-and-d
 
 ## run new docker-compose file
 We want to create two ksqlDB clusters:
-* cluster 1 is for the user case 1
+* cluster 1 is for the use case 1
 * cluster 2 is for the use case 2, which uses topics with 2 partitions that why we distribute cluster on two nodes.
 
 ![cluster setup](img/ksqldb_cluster.png)
+
+Please follow the below steps:
+```bash
+cd docker
+# start new cluster
+docker-compose -f docker-compose-scaking up -d
+# check primary cluster
+# primary
+curl --http1.1 -sX GET "http://localhost:8088/info" | jq '.'
+curl --http1.1 -sX GET "http://localhost:8088/healthcheck" | jq '.'
+curl --http1.1 -sX GET "http://localhost:8088/clusterStatus" | jq '.'
+# login to primary ksqldb cluster
+ksql http://localhost:8088
+
+# Install in additional ksqldb some content
+docker-compose exec ksqldb-cli bash -c 'echo -e "\n\n⏳ Waiting for KSQL to be available before launching CLI\n"; while [ $(curl -s -o /dev/null -w %{http_code} http://additional-ksqldb-server1:8090/) -eq 000 ] ; do echo -e $(date) "KSQL Server HTTP state: " $(curl -s -o /dev/null -w %{http_code} http://additional-ksqldb-server1:8090/) " (waiting for 200)" ; sleep 5 ; done; ksql http://additional-ksqldb-server1:8090'
+ksql> CREATE TABLE users (
+    userid VARCHAR PRIMARY KEY,
+    registertime BIGINT,
+    gender VARCHAR,
+    regionid VARCHAR
+  ) WITH (
+    KAFKA_TOPIC = 'users',
+    VALUE_FORMAT='JSON',
+    PARTITIONS=2,
+    REPLICAS=1
+  );
+ksql> INSERT INTO USERS values ('USER1', 1624973465, 'MALE','REGION_1');
+INSERT INTO USERS values ('USER2', 1624973465, 'FEMALE','REGION_2');
+INSERT INTO USERS values ('USER3', 1624973465, 'MALE','REGION_3');
+INSERT INTO USERS values ('USER4', 1624973465, 'MALE','REGION_3');
+ksql> select * from users emit changes;
+ksql> CREATE TABLE WORKSHOP_USERS_TBL AS
+SELECT userid, count(*) AS event_count
+FROM users
+GROUP BY userid;
+ksql> SELECT * FROM WORKSHOP_USERS_TBL WHERE userid = 'USER1';
+# now open second terminal and kill add server 2
+docker stop ksql_additional-ksqldb-server2_1
+docker-compose ps
+
+# Now check
+# run pull query again
+ksql> SELECT * FROM WORKSHOP_USERS_TBL WHERE userid = 'USER1';
+ksql> SELECT * FROM WORKSHOP_USERS_TBL WHERE userid = 'USER2';
+ksql> SELECT * FROM WORKSHOP_USERS_TBL WHERE userid = 'USER3';
+ksql> SELECT * FROM WORKSHOP_USERS_TBL WHERE userid = 'USER4';
+
+curl --http1.1 -sX GET "http://localhost:8090/clusterStatus" | jq '.'
+
+# Start again the second node
+docker start ksql_additional-ksqldb-server2_1
+curl --http1.1 -sX GET "http://localhost:8090/clusterStatus" | jq '.'
+
+# check stati of addtional server
+curl --http1.1 -sX GET "http://localhost:8090/info" | jq '.'
+curl --http1.1 -sX GET "http://localhost:8090/healthcheck" | jq '.'
+curl --http1.1 -sX GET "http://localhost:8090/clusterStatus" | jq '.'
+curl --http1.1 -sX GET "http://localhost:8091/info" | jq '.'
+curl --http1.1 -sX GET "http://localhost:8091/healthcheck" | jq '.'
+curl --http1.1 -sX GET "http://localhost:8091/clusterStatus" | jq '.'
+
+```
+This should show how to scale.
 
 End lab10
 
