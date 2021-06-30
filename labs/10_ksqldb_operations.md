@@ -103,6 +103,13 @@ Now, we run two real ksqldb cluster. Again this is the recommended way to on-boa
 
 Please have a look [how to scale](https://docs.ksqldb.io/en/latest/operate-and-deploy/capacity-planning/#scaling-ksqldb)
 
+## run new docker-compose file
+We want to create two ksqlDB clusters:
+* cluster 1 is for the user case 1
+* cluster 2 is for the use case 2, which uses topics with 2 partitions that why we distribute cluster on two nodes.
+
+![cluster setup](img/ksqldb_cluster.png)
+
 End lab10
 
 [go back to Agenda](https://github.com/ora0600/confluent-ksqldb-hands-on-workshop/blob/master/README.md#hands-on-agenda-and-labs)
